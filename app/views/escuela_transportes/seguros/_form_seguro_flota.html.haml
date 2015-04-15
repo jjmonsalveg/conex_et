@@ -1,0 +1,40 @@
+= form_for @seguro, url: { action: :create } do |f|
+  .row
+    .col-md-12.col-md-offset-0
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Seguro RCV
+        .ibox-content
+          .form-group
+            .row
+              .col-md-12.text-center
+                =label_tag :seguro_flota , class: 'radio-inline' do
+                  =radio_button_tag :seguro , 'flota', true, id:'radio-RCV-flota'
+                  %span Flota
+                =label_tag :seguro_individual , class: 'radio-inline' do
+                  =radio_button_tag :seguro ,'individual',false,
+                  id:'radio-RCV-individual'
+                  %span Individual por vehículo
+            %div.continuar-seguro-pregunta
+              .row
+                .col-md-12.text-center
+                  %br
+                  %br
+                  %p
+                    Haga click en continuar solo si está seguro que posee Seguro
+                    Individual por vehículo.
+                  %br
+        .ibox-content.caja-RCV-flota
+          = render 'shared/error_messages', object: f.object, model: 'RCV por flota'
+          = render 'campos_seguro', f: f
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .col-sm-4#colsm5_seguro_rcv{style: 'display: none;'}
+            .col-sm-9#colsm9_seguro_rcv
+            .col-sm-3
+              = f.submit 'Guardar y Continuar', class: 'btn btn-success btn-block',id: 'submit_form_seguro_rcv',
+                         data: { disable_with: "Guardar y Continuar" }

@@ -1,7 +1,7 @@
 class Seguro < ActiveRecord::Base
   belongs_to :aseguradora
   belongs_to :vehiculo_pre
-  has_one :solicitud
+  belongs_to :solicitud
 
   #DOCUMENTOS - NESTED ES OBLIGATORIO
   has_many :documentos,  dependent: :destroy, as: :modelo

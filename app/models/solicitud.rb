@@ -39,6 +39,7 @@ class Solicitud < ActiveRecord::Base
   has_many :traza_solicitud_funcionarios
 
   #modulos genericos J&J
+  has_one :seguro
 
   #config/includes
   include ModeloGeneral::ManageDocument
@@ -64,6 +65,15 @@ class Solicitud < ActiveRecord::Base
   def set_mask_status
     self.mask_grupo_requisitos = '0' * self.number_vistas_same_index
 
+  end
+
+  def seguro_vehiculo_update_or_create(attributes)
+    if self.seguro_vehiculo.present?
+      self.seguro_vehiculo.update(attributes) ? (return true, self.seguro_vehiculo) : (return false, self.seguro_vehiculo)
+    else
+      self.build_seguro_vehiculo(attributes)
+      self.seguro_vehiculo.save ? (return true, self.seguro_vehiculo) : (return false, self.seguro_vehiculo)
+    end
   end
 
 

@@ -173,6 +173,7 @@ Rails.application.routes.draw do
 
     # Seguro RCV
     resources :seguros
+    post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
   end
 end
 
