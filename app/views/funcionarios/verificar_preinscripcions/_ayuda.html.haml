@@ -1,0 +1,28 @@
+.row#ayuda_verificar_preinscripcion{style: 'display:none'}
+  .col-md-12
+    .panel.panel-success
+      .panel-heading
+        %i.fa.fa-info-circle
+        Ayuda
+        %button{type:'button', class:'close',id:'cerrar_ayuda_verificar_preinscripcion'}
+          %span{'aria-hidden'=>"true"}
+            &times;
+      .panel-body
+        %ul
+          %li.text-justify Para visualizar cada documento haga click en el documento que desea ver
+          %li.text-justify
+            Si están correctos los documentos y desea seguir en la verificación haga click en
+            %span{style:'color: #1A7BB9'}
+              %i.fa.fa-step-forward
+              continuar
+          %li.text-justify
+            Si no están correctos los documentos y desea rechazar el tramite  haga click en
+            %span{style:'color: #EC4758'}
+              %i.fa.fa-gavel
+              rechazar Solicitud
+          %li.text-justify
+            Si desea cancelar el proceso de verificación haga click en
+            %span{style:'color: #F8AC59'}
+              %i.fa.fa-history
+              cancelar verificación
+            (posteriormente podrá verificar este tramite)

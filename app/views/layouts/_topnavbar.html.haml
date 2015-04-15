@@ -1,0 +1,39 @@
+.row.clearfix.imagen-header.white-bg
+  = image_tag 'BANNER.svg'
+
+.row.clearfix.responsive-header-fix.white-bg
+
+%nav.navbar.navbar-static-top{:role => "navigation", :style => "margin-bottom: 0;background-color: #2B74B2;"}
+  .navbar-header
+    %a.navbar-minimalize.minimalize-styl-2.btn.btn-white{:href => "#"}
+      %i.fa.fa-bars
+    %ul.nav.navbar-top-links.navbar-left
+      %li
+        = link_to 'INICIO', root_url, class: 'navbar-minimalize.minimalize-styl-2', style: 'font-weight: 600;'
+      %li
+        = link_to 'INTT', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'GUÍA DE TRÁMITES', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'REQUISITOS', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'OFICINAS', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'ATENCIÓN AL USUARIO', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'SERVICIOS', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'NOTICIAS', root_url, style: 'font-weight: 600;'
+      %li
+        = link_to 'BIBLIOTECA', root_url, style: 'font-weight: 600;'
+  %ul.nav.navbar-top-links.navbar-right
+    - if signed_in?
+      %li
+        = link_to  "/#{usuario}s/sign_out", method: :delete, style: 'font-weight: 600;' do
+          %i.fa.fa-sign-out
+          CERRAR SESION
+    - else
+      %li
+        = link_to  'REGISTRO', new_registration_path(resource_name), style: 'font-weight: 600;'
+
+

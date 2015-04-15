@@ -1,0 +1,38 @@
+.row
+  .col-sm-12
+    .ibox.float-e-margins
+      .ibox-content
+        .row
+          .col-sm-2
+            = link_to  url_prev,
+            class: "btn btn-info" do
+              = icon_prev.html_safe
+              = text_prev
+          .col-sm-2.col-sm-offset-2
+            = link_to  diferir_preinscripcion_escuela_path,class: "btn btn-danger" do
+              %i.fa.fa-archive
+              Diferir Solicitud
+          .col-sm-2
+            = link_to  verificar_preinscripcions_path, class: "btn btn-warning" do
+              %i.fa.fa-history
+              Cancelar verificación
+          .col-sm-2.col-sm-offset-2
+            - if is_final_page
+              .row
+                = link_to  estudiar_preinscripcion_escuela_path,
+                class: "btn btn-success col-sm-12",
+                data:  { confirm:' ¿Esta seguro de enviar a estudio esta solicitud?',
+                disable_with: "Por favor  espere..."} do
+                  %i.fa.fa-user
+                  Hacer Estudio
+              .row
+                = link_to  inspeccionar_preinscripcion_escuela_path,
+                class: "btn btn-success col-sm-12",
+                data:  { confirm:' ¿Esta seguro de enviar a inspección esta solicitud?',
+                disable_with: "Por favor  espere..."}  do
+                  %i.fa.fa-eye
+                  Hacer Inspección
+            -else
+              = link_to  url_next, class: "btn btn-success" do
+                = text_next
+                = icon_next.html_safe

@@ -1,0 +1,15 @@
+/= image_tag 'http://s10.postimg.org/ndvlgx7ix/BANNER.png'
+%h2
+  Bienvenido al CONEX-ET:
+  = succeed "." do
+    %b= @resource.usuario_sput.nombre<< " "<< @resource.usuario_sput.apellido
+
+%p{:align => "justify"}
+  ="Has escogido #{@resource.email} como correo asociado a tu cuenta en CONEX-ET"
+%p{:align => "justify"}
+  ="Tu contraseña es: #{@resource.password}"
+
+%p{:align => "justify"}
+  Debes confirmar tu cuenta a través del siguiente link
+  = link_to 'Confirmar mi cuenta', confirmation_url(@resource, confirmation_token: @token)
+%strong Que tengas un buen día.

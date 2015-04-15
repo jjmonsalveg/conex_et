@@ -1,0 +1,55 @@
+= provide(:title, 'Actualizar RIF Escuela de Transporte')
+
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Actualizar RIF Escuela de Transporte -
+      = @escuela_transporte.razonSocial
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .row.col-sm-12
+              .row.col-sm-12
+                .form-group.col-sm-8
+                  = label_tag nil,class:'control-label col-sm-2' do
+                    Escuela de Transporte:
+                  .col-sm-10
+                    = text_field_tag :nombre_escuela ,
+                      @escuela_transporte.razonSocial,
+                      disabled: true,class:'form-control col-sm-4 small'
+                .form-group.col-sm-4
+                  = label_tag 'Rif:',nil,class:'control-label col-sm-2'
+                  .col-sm-10
+                    = text_field_tag :representante ,
+                      @escuela_transporte.rif_show,
+                      disabled: true,class:'form-control'
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Actualización de RIF
+        .ibox-content
+          .row
+            .col-md-12
+              = form_for @escuela_transporte, url:{action: :update}, html: {class:'form-horizontal t-m-td'} do |f|
+                .form-group
+                  = f.label :fecha_vencimiento_rif, class: 'col-sm-4 control-label' do
+                    Fecha Vencimiento del RIF:
+                    %span.fa.fa-asterisk.red
+                  .col-sm-8
+                    = f.date_select :fecha_vencimiento_rif,{ start_year: Date.current.year + 3, end_year: Date.current.year - 5,  include_blank: false}, { class: 'form-control date-select', style:'display:inline; width:auto;'}
+                -#.form-group
+                -#  = f.label :fecha_vencimiento_rif, class: 'col-sm-4 control-label' do
+                -#    RIF Actualizado:
+                -#    %span.fa.fa-asterisk.red
+                -#  .col-sm-8
+                =render 'shared/show_modelo_documentos_no_paginados', model: f
+                .form-group
+                  .col-sm-3.col-sm-offset-5
+                    = f.submit 'Actualizar RIF.', class: 'btn btn-success btn-block', data: { disable_with: "Actualizar Rif" }
+
+

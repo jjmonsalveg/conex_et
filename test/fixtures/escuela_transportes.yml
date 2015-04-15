@@ -1,0 +1,77 @@
+# == Schema Information
+#
+# Table name: escuela_transportes
+#
+#  id                     :integer          not null, primary key
+#  razonSocial            :string(50)       default(""), not null
+#  tipo_rif               :string(1)        default(""), not null
+#  rif                    :integer          not null
+#  digito_rif             :integer          not null
+#  email                  :string(50)       default(""), not null
+#  telefono               :string(10)       default(""), not null
+#  movil                  :string(10)       default("")
+#  avenida                :string(50)
+#  calle                  :string(30)
+#  urbanizacion           :string(50)
+#  edificio_cc            :string(20)
+#  local                  :string(20)
+#  codigoET               :string(10)
+#  url                    :string(150)
+#  piso                   :string(15)
+#  estado                 :integer          default(0), not null
+#  ciudad_id              :integer          not null
+#  parroquia_id           :integer          not null
+#  representante_legal_id :integer          not null
+#  tipo_escuela_id        :integer
+#  created_at             :datetime
+#  updated_at             :datetime
+#  nombre_comercial       :string(255)
+#  fecha_vencimiento_rif  :date
+#
+# Indexes
+#
+#  index_escuela_transportes_on_ciudad_id               (ciudad_id)
+#  index_escuela_transportes_on_codigoET                (codigoET) UNIQUE
+#  index_escuela_transportes_on_digito_rif              (digito_rif)
+#  index_escuela_transportes_on_email                   (email) UNIQUE
+#  index_escuela_transportes_on_movil                   (movil) UNIQUE
+#  index_escuela_transportes_on_parroquia_id            (parroquia_id)
+#  index_escuela_transportes_on_razonSocial             (razonSocial) UNIQUE
+#  index_escuela_transportes_on_representante_legal_id  (representante_legal_id)
+#  index_escuela_transportes_on_rif                     (rif)
+#  index_escuela_transportes_on_rif_and_digito_rif      (rif,digito_rif) UNIQUE
+#  index_escuela_transportes_on_telefono                (telefono) UNIQUE
+#  index_escuela_transportes_on_tipo_escuela_id         (tipo_escuela_id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  razonSocial: MyString
+  rif: MyString
+  email: MyString
+  telefono: MyString
+  movil: MyString
+  avenida: MyString
+  calle: MyString
+  urbanizacion: MyString
+  edificio_cc: MyString
+  local: MyString
+  piso: MyString
+  codigoET: MyString
+  url: MyString
+
+two:
+  razonSocial: MyString
+  rif: MyString
+  email: MyString
+  telefono: MyString
+  movil: MyString
+  avenida: MyString
+  calle: MyString
+  urbanizacion: MyString
+  edificio_cc: MyString
+  local: MyString
+  piso: MyString
+  codigoET: MyString
+  url: MyString

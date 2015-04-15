@@ -1,0 +1,8 @@
+= image_tag 'http://s10.postimg.org/ndvlgx7ix/BANNER.png'
+%h2
+  Bienvenido al CONEX-ET: #{@resource.email}
+%p Su cuenta ha sido bloqueada debido a un número excesivo de intentos de acceso sin éxito.
+%p Haga click en el enlace de abajo para desbloquear su cuenta:
+%p= link_to 'Desbloquear su cuenta', unlock_url(@resource, unlock_token: @token)
+%strong
+  Que tenga un buen día.

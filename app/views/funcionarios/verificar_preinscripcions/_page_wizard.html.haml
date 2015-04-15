@@ -1,0 +1,27 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-sm-12
+    .row
+      .col-sm-10
+        %h2
+          Verificación de Solicitud de Autorización Adecuación
+        %ol.breadcrumb
+          = render partial
+      .col-sm-2.col-sm-offset-10
+        = link_to  "#", class: "btn btn-info", id: 'help-verificar-preinscripcion' do
+          = 'ayuda'
+          %i.fa.fa-info-circle
+
+= render 'ayuda'
+
+.wrapper.wrapper-content
+  = render 'shared/servicio_intt_documentos', model: @solicitud.servicio_intt, nombre_tramite: nombre_tramite
+  = render 'buttons_wizard',
+            text_prev:text_prev,
+            icon_prev: icon_prev,
+            url_prev: url_prev,
+            text_next: text_next,
+            icon_next: icon_next,
+            url_next: url_next,
+            is_final_page: is_final_page
+
+  -#= render 'funcionarios/verificar_preinscripcions/show_modal_rechazar'

@@ -1,0 +1,177 @@
+= provide(:title, 'Registro Representante Legal')
+.row
+  .col-md-12.col-md-offset-0
+    %br
+    .text-center.text-navy
+      %strong Representante Legal:
+      %h5{color: 'black'}
+        Es la persona que esta autorizada
+        en el  acta constitutiva
+        o última acta de la asamblea de socios
+        mediante la figura de:
+        %br Coordinador, Gerente General, Director General, Presidente, etc.
+
+.row.gray-bg.dashboard-header
+  .col-md-6.col-md-offset-3
+    .text-center.animated.fadeInDown.loginscreen
+      %div
+        %h1.logo-name CONEX-ET
+        %div
+        %h3
+          Registro
+        = form_for(resource, as: resource_name, url: registration_path(resource_name),
+         html: {class:'form-horizontal m-t-md',id: 'registro-usuario-form',:multipart => true }) do |devise|
+          - if !devise_error_messages!.empty?
+            .alert.alert-danger
+              = devise_error_messages_modified!
+          =devise.fields_for :usuario_sput do |sput|
+            .form-group
+              = sput.label :nombre, 'Representante Legal:', class: 'control-label col-sm-5', id: 'representante'
+              .col-sm-7
+                = sput.text_field :nombre,
+                class: 'form-control',
+                disabled: :true
+            .form-group
+              .col-sm-7.col-sm-offset-5
+                = sput.text_field :apellido,
+                class: 'form-control',
+                disabled: :true
+            .form-group
+              = sput.label :numero_doc, class: 'control-label col-sm-5 'do
+                Rif:
+                %span.glyphicon-asterisk.red
+
+              .col-sm-7
+                .row
+                  .col-sm-3
+                    = sput.text_field :nacionalidad,
+                    class:'form-control',
+                    id: 'select-nacionalidad', disabled: :true
+                  .col-sm-6
+                    = sput.text_field :numero_doc,
+                    class: 'form-control',
+                    disabled: :true
+                  .col-sm-3
+                    = sput.fields_for :representante_legal do |representante_legal|
+                      = representante_legal.text_field :rif,
+                      class: 'form-control',
+                      :required => 'required',
+                      maxlength: 1
+          .form-group
+            = devise.label :email, class: 'control-label col-sm-5 text-left' do
+              Correo Electrónico:
+              %span.glyphicon-asterisk.red
+            .col-sm-7
+              = devise.text_field :email, placeholder: 'Correo electrónico',
+              class: 'form-control', autofocus: true,
+              :required => 'required', "data-toggle" => 'tooltip',
+               "data-placement" => 'right', :title => 'Ayuda'
+          .form-group
+            = devise.label :email_confirmation, class: 'control-label col-sm-5' do
+              Confirmar Correo:
+              %span.glyphicon-asterisk.red
+            .col-sm-7
+              = devise.text_field :email_confirmation,
+              :placeholder =>'Confirma el correo electrónico',
+              :class => 'form-control',
+              :required => 'required'
+
+          =devise.fields_for :usuario_sput do |sput|
+            .form-group
+              = sput.label :correo_alterno ,'Correo Alterno:',
+              class: 'control-label col-sm-5'
+              .col-sm-7
+                =sput.text_field :correo_alterno ,
+                :placeholder =>'Correo Alterno',
+                :class => 'form-control'
+            .form-group
+              =sput.label :pregunta_secreta, class: 'control-label col-sm-5' do
+                Pregunta Secreta:
+                %span.glyphicon-asterisk.red
+              .col-sm-7
+                =sput.text_field :pregunta_secreta,
+                :placeholder =>'Pregunta secreta',
+                :class => 'form-control',
+                id: 'campo-pregunta'
+                -#:required => 'required'
+            .form-group
+              =sput.label :respuesta, class: ' control-label col-sm-5' do
+                Respuesta Secreta:
+                %span.glyphicon-asterisk.red
+              .col-md-7
+                =sput.text_field :respuesta,
+                :placeholder =>'Respuesta secreta',
+                :class => 'form-control',
+                :required => 'required'
+            .form-group
+              = sput.label :telefono_local , class: ' control-label col-sm-5' do
+                Teléfono Local:
+              .col-sm-7
+                = sput.text_field :telefono_local ,
+                :placeholder =>'Teléfono Local',
+                :class => 'form-control'
+            .form-group
+              = sput.label :movil , class: ' control-label col-sm-5' do
+                Teléfono Móvil:
+                %span.glyphicon-asterisk.red
+              .col-sm-7
+                .row
+                  .col-sm-5
+                    = select_tag :operadora ,
+                    options_for_select(@lista_operadoras),
+                    class: 'form-control'
+                  .col-sm-7
+                    = sput.text_field :movil ,
+                    :placeholder =>'Teléfono móvil',
+                    :class => 'form-control',
+                    :required => 'required'
+            = sput.fields_for :representante_legal do |representante_legal|
+              .form-group
+                = representante_legal.label :direccion, class: ' control-label col-sm-5' do
+                  Dirección:
+                  %span.glyphicon-asterisk.red
+                .col-sm-7
+                  =representante_legal.text_area :direccion,
+                  :placeholder =>'Dirección del representante legal',
+                  :class => 'form-control', autocomplete:false, maxlength: 255
+              .form-group.doc-feedback
+                = representante_legal.label :doc_cedula, class: ' control-label col-sm-5' do
+                  Cédula de Identidad Digitalizada:
+                  %span.glyphicon-asterisk.red
+                .col-sm-7
+                  =render 'shared/file_upload_generic',f: representante_legal,
+                   field: :doc_cedula, name_file:nil# representante_legal.object.doc_cedula
+              .form-group.doc-feedback
+                = representante_legal.label :doc_rif , class: ' control-label col-sm-5' do
+                  Rif Digitalizado:
+                  %span.glyphicon-asterisk.red
+                .col-sm-7
+                  =render 'shared/file_upload_generic',f: representante_legal,
+                  field: :doc_rif, name_file: nil #representante_legal.object.doc_rif
+              .form-group
+                = representante_legal.label :doc_gaceta_naturalizacion ,
+                  class: ' control-label col-sm-5' do
+                  Gaceta de Naturalización Digitalizada:
+                .col-sm-7
+                  =render 'shared/file_upload_generic',f: representante_legal,
+                  field: :doc_gaceta_naturalizacion,
+                  name_file: nil # representante_legal.object.doc_gaceta_naturalizacion
+          .form-group
+            = devise.label 'Código de Verificación:', class: ' control-label col-sm-5' do
+              Código de Verificación:
+              %span.glyphicon-asterisk.red
+          .form-group
+            .col-sm-9.col-sm-offset-3
+              = recaptcha_tags :display => { :theme => "clean" }, :ajax => true,
+               :public_key => ENV['RECAPTCHA_PUBLIC_KEY']
+
+          = devise.submit "Registrarse", class:"btn btn-success btn-block",
+          data: { disable_with: "Por favor espere..." }
+          - if controller_name != 'sessions'
+            %br/
+            %br/
+            %p.text-muted.text-center
+              %small Ya eres un usuario registrado?
+            = link_to "Iniciar Sesión", new_session_path(resource_name), class: 'btn btn-default btn-block'
+          %br/
+

@@ -1,0 +1,30 @@
+# == Schema Information
+#
+# Table name: transiciones_work_flows
+#
+#  id                 :integer          not null, primary key
+#  estado_fuente_id   :integer          not null
+#  estado_destino_id  :integer          not null
+#  EventosWorkFlow_id :integer          not null
+#  created_at         :datetime
+#  updated_at         :datetime
+#
+# Indexes
+#
+#  index_matriz                                         (estado_fuente_id,estado_destino_id,EventosWorkFlow_id) UNIQUE
+#  index_transiciones_work_flows_on_EventosWorkFlow_id  (EventosWorkFlow_id)
+#  index_transiciones_work_flows_on_estado_destino_id   (estado_destino_id)
+#  index_transiciones_work_flows_on_estado_fuente_id    (estado_fuente_id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  estado_inicial_id: 1
+  estado_final_id: 1
+  TranscisionesWorkFlow_id: 
+
+two:
+  estado_inicial_id: 1
+  estado_final_id: 1
+  TranscisionesWorkFlow_id: 

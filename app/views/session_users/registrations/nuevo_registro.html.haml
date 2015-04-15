@@ -1,0 +1,48 @@
+=provide(:title, 'Registro')
+.row.gray-bg.dashboard-header
+  .col-md-6.col-md-offset-3
+    .text-center.animated.fadeInDown.loginscreen
+      %div
+        %div
+          %h1.logo-name CONEX-ET
+        %h3 Registro
+        = form_for :tciudadano, url: {action: 'new'},method: :get, html:  { class: 'form-horizontal m-t-md'}  do |f|
+          .form-group
+            = f.label :documento , 'Documento:', class:'control-label col-sm-5 'do
+              Documento:
+              %span.glyphicon-asterisk.red
+            .col-sm-7
+              .row
+                .col-sm-3
+                  = f.select :nacionalidad,  options_for_select(@lista, selected: 'V'),
+                   {id: 'select-documento'}, {class: 'form-control'}
+                .col-sm-4
+                  = f.text_field :documento, class: 'form-control',
+                   autofocus: true, :required => 'required', id: 'documento-saime',
+                   maxlength: 8
+            %br/
+            %br/
+          .form-inline
+            .form-group
+              = f.label :fecha_nacimiento, class:'col-sm-10 'do
+                Fecha Nacimiento:
+                %span.glyphicon-asterisk.red
+            .form-group
+              = f.date_select :fecha_nacimiento,
+              options = { start_year: Date.today.year - 98,
+                          end_year: Date.today.year-18,
+                          use_two_digit_numbers: true,
+                          selected:Date.today.year-18},
+              html_options = { required: 'required',
+                               class: 'form-control',
+                               format: :default}
+          %br/
+          %br/
+          .form-group
+            .col-lg-6
+              = link_to 'Cancelar',root_path, class: 'btn btn-sm btn-warning  m-t-md'
+            .col-lg-6
+              =f.submit 'Aceptar', class: 'btn btn-sm btn-success m-t-md', id:'boton-aceptar-registro'
+          %br/
+          %br/
+          %br/

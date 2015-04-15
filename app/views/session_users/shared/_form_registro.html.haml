@@ -1,0 +1,78 @@
+-if @ciudadano.nil?
+  %h4{class: 'cedula-fail'}
+    No se encontro nínguna persona con esa combinación de cédula y  fecha de nacimiento
+-else
+  %div
+    = form_for(resource, as: resource_name, url: registration_path(resource_name),
+     html: {class:'form-horizontal', id: 'registro-usuario-form'}) do |f|
+      - if !devise_error_messages!.empty?
+        .alert.alert-danger
+          = devise_error_messages!
+      .form-group
+        = f.label 'Correo electrónico:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = f.email_field :email, placeholder: 'Correo electrónico',
+          class: 'form-control', autofocus: true,
+          :required => 'required'
+      .form-group
+        = f.label 'Confirmar correo electrónico:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = text_field_tag :email_confirmation, nil,
+          :placeholder =>"Confirma el correo",:required => 'required', :class => 'form-control col-lg-10'
+      .form-group
+        = f.label :email_alterno,'Correo Alterno:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = text_field_tag :email_alterno, nil,:placeholder =>'Correo Alterno',:required => 'required', :class => 'form-control col-lg-10'
+      .form-group
+        = f.label :pregunta_secreta,'Pregunta Secreta:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = text_field_tag :pregunta_secreta, nil,
+          :placeholder =>'Pregunta secreta',:required => 'required',
+          :class => 'form-control col-lg-10'
+      .form-group
+        = f.label :respuesta_secreta,'Respuesta Secreta:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = text_field_tag :respuesta_secreta, nil,
+          :placeholder =>'Respuesta Secreta',:required => 'required',
+          :class => 'form-control col-lg-10'
+      .form-group
+        = f.label :cargo,'Cargo:*',
+        class: 'col-lg-6 control-label',style:'text-align: left'
+        .col-lg-6
+          = text_field_tag :cargo, nil,
+          :placeholder =>'Cargo',:required => 'required',
+          :class => 'form-control col-lg-10'
+      -#.form-group
+      -#  = f.label 'Contraseña:*', class: 'col-lg-6 control-label',
+      -#  style:'text-align: left'
+      -#  .col-lg-6
+      -#    = f.password_field :password, placeholder: 'Contraseña',class: 'form-control', autofocus: true, autocomplete: "off", required: 'required'
+      -#.form-group
+      -#  =f.label 'Confirmar Contraseña:*', class: 'col-lg-6 control-label',
+      -#  style:'text-align: left'
+      -#  .col-lg-6
+      -#    = f.password_field :password_confirmation, placeholder: 'Confirma tu Contraseña',class: 'form-control', autofocus: true, autocomplete: "off", required: 'required'
+      .form-group
+        = f.label 'Código de Verificación', class: ' control-label',
+        style:'text-align: left'
+        = recaptcha_tags :display => { :theme => "clean" }, :ajax => true, :public_key => ENV['RECAPTCHA_PUBLIC_KEY']
+      -#.form-group.col-md-offset-1
+      -#  .checkbox.i-checks
+      -#    = check_box_tag :terminos, class: 'icheck'
+      -#    Acepto los términos y condiciones
+
+      %br/
+      = f.submit "Registrate con Nosotros", class:"btn btn-success btn-block"
+      - if controller_name != 'sessions'
+        %br/
+        %br/
+        %p.text-muted.text-center
+          %small Ya eres un usuario registrado?
+        = link_to "Iniciar Sesión", new_session_path(resource_name), class: 'btn btn-default btn-block'
+      %br/
+      %br/

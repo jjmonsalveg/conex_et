@@ -1,0 +1,46 @@
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      - if @solicitud
+        .ibox-title
+          %h3
+            Solicitud
+        .ibox-content
+          %table.table.table-bordered.table-striped
+            %thead
+              %tr
+                %th
+                  Nro Trámite
+                %th
+                  Escuela de Transporte
+                %th
+                  RIF
+                %th
+                  Dirección
+                %th
+                  Fecha de la Solicitud
+                %th
+                  Estado
+                - if @solicitud.completa? or @solicitud.diferida?
+                  %th
+            %tbody
+              %tr
+                %td
+                  = @solicitud.id
+                %td
+                  = @solicitud.servicio_intt.razonSocial
+                %td
+                  = @solicitud.servicio_intt.rif_show
+                %td
+                  = @solicitud.servicio_intt.direccion
+                %td
+                  = @solicitud.created_at.strftime("%d/%m/%Y")
+                %td
+                  = @solicitud.status.humanize
+                - if @solicitud.completa? or @solicitud.diferida?
+                  %td.text-center
+                    = link_to 'Verificar Solicitud', verificar_informacion_general_path(@solicitud.id), class: 'btn btn-primary'
+      - else
+        .ibox-content
+          %p
+            No se encontro nínguna solicitud con ese número de trámite.

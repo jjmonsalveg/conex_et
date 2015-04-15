@@ -1,0 +1,58 @@
+= form_for @funcionario , html: {class: 'form-horizontal m-t-md'} do |f|
+  - if @funcionario.errors.any?
+    #error_explanation
+      %h3
+        = pluralize(@funcionario.errors.count, "Errores")
+        no se pudo guardar el usuario:
+      %ul
+        - @funcionario.errors.each do |name, message|
+          %li= message
+
+  .form-group
+    = f.hidden_field :cedula, value: @funcionario.cedula
+    = f.label :telefono_casa, 'Teléfono Local: ', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :telefono_casa, class: 'form-control'
+      %span.help-block (212) 999-9999
+  .form-group
+    = f.label :telefono_celular, 'Teléfono Celular: ', class: 'col-sm-2 control-label'
+    .col-sm-10
+      = f.text_field :telefono_celular, class: 'form-control'
+      %span.help-block (416) 999-9999
+  .form-group
+    = f.label :direccion, class: 'col-sm-2 control-label' do
+      Dirección:
+      %span.glyphicon-asterisk.red
+    .col-sm-10
+      = f.text_area :direccion, class: 'form-control', rows: 3
+  .form.group
+    .col-sm-3.col-sm-offset-9
+      = f.submit "Guardar", class: 'btn btn-success btn-block', data: {disable_with: "Guardar"}
+%script{:src => "/js/plugins/input-mask/jquery.inputmask.js" }
+%script{:src => "/js/plugins/bootstrapValidator/bootstrapValidator.js" }
+:javascript
+  jQuery(document).ready(function($) {
+    $('#funcionario_telefono_casa').inputmask("(999) 999-9999", {
+      clearIncomplete: true
+    });
+    return $("#funcionario_telefono_celular").inputmask("(999) 999-9999", {
+      clearIncomplete: true
+    });
+    return $('#new_funcionario').bootstrapValidator({
+      feedbackIcons: {
+        valid: 'fa fa-check ',
+        invalid: 'fa fa-times',
+        validating: 'fa fa-refresh'
+      },
+      live: 'enabled',
+      fields: {
+        "funcionario[direccion]": {
+          validators: {
+            notEmpty: {
+              message: 'Debe ingresar su dirección'
+            }
+          }
+        }
+      }
+    });
+  });

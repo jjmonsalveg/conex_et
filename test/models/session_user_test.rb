@@ -1,0 +1,39 @@
+# == Schema Information
+#
+# Table name: session_users
+#
+#  id                     :integer          not null, primary key
+#  email                  :string(50)       default(""), not null
+#  encrypted_password     :string(255)      default(""), not null
+#  reset_password_token   :string(255)
+#  reset_password_sent_at :datetime
+#  remember_created_at    :datetime
+#  sign_in_count          :integer          default(0), not null
+#  current_sign_in_at     :datetime
+#  last_sign_in_at        :datetime
+#  current_sign_in_ip     :inet
+#  last_sign_in_ip        :inet
+#  confirmation_token     :string(255)
+#  confirmed_at           :datetime
+#  confirmation_sent_at   :datetime
+#  unconfirmed_email      :string(255)
+#  unique_session_id      :string(20)
+#  created_at             :datetime
+#  updated_at             :datetime
+#  usuario_sput_id        :integer          not null
+#
+# Indexes
+#
+#  index_session_users_on_confirmation_token    (confirmation_token) UNIQUE
+#  index_session_users_on_email                 (email) UNIQUE
+#  index_session_users_on_reset_password_token  (reset_password_token) UNIQUE
+#  index_session_users_on_usuario_sput_id       (usuario_sput_id) UNIQUE
+#
+
+require 'test_helper'
+
+class SessionUserTest < ActiveSupport::TestCase
+  # test "the truth" do
+  #   assert true
+  # end
+end

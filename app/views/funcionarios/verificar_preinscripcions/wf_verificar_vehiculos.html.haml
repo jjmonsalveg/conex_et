@@ -1,0 +1,43 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-sm-12
+    .row
+      .col-sm-10
+        %h2
+          Verificación de Solicitud de Autorización Adecuación
+        %ol.breadcrumb
+          %li
+            = link_to 'Inicio', root_url
+          %li
+            = link_to 'Consultar otra Solicitud',verificar_preinscripcions_path
+          %li
+            = link_to 'Información General',verificar_informacion_general_path
+          %li
+            %strong
+              Vehículos Registrados
+      .col-sm-2.col-sm-offset-10
+        = link_to  "#", class: "btn btn-info", id: 'help-verificar-preinscripcion' do
+          = 'ayuda'
+          %i.fa.fa-info-circle
+
+= render 'ayuda'
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        - if @solicitud.nil?
+          .ibox-content
+            Error - No se ha encontrado la solicitud.
+        - else
+          =render 'funcionarios/vehiculo_pres/show_vehiculos'
+
+  = render 'shared/show_modal_pdf'
+
+  = render 'buttons_wizard',
+            text_prev:'Regresar',
+            icon_prev: '<i class="fa  fa-step-backward"></i>',
+            url_prev: verificar_informacion_general_path(@solicitud) ,
+            text_next: 'Continuar',
+            icon_next: '<i class="fa fa-step-forward"></i>',
+            url_next: verificar_planos_path(@solicitud),
+            is_final_page:false

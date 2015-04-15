@@ -1,0 +1,30 @@
+/*Registros */
+
+
+.info-darked{
+  background-color: #2b74b2 ;
+}
+
+.row.flashing_conex_et{
+  margin-left: -30px;
+  margin-right: -30px;
+}
+
+.fileinput-filename {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  /* new lines */
+  width: 80%;
+  position: absolute;
+  left: 0;
+  padding-left: 30px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.doc-feedback.has-feedback .form-control-feedback {
+  top: 0;
+  left: 200px;
+}
+

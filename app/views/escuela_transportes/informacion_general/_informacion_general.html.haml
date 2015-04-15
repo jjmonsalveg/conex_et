@@ -1,0 +1,189 @@
+= render 'shared/error_messages', object: @escuela_transporte, model: 'Información General'
+= render  'shared/show_modelo_modals_documentos_paginados',vista: :informacion_general,modelo: @solicitud
+-#.row
+-#  .col-md-12
+-#    .ibox.float-e-margins
+-#      .ibox-title
+-#        %h3
+-#          Poder Notariado que acredita al Representante Legal(Sólo en caso de no aparacer en actas de asamblea)
+-#          %small
+-#            \ -
+-#            Por páginas o documento completo.
+-#      .ibox-content
+-#        .row
+-#          .col-sm-3
+-#            %a.btn.btn-success.btn-block#poder_notariado_modal Subir Documento
+-#
+-#.row
+-#  .col-md-12
+-#    .ibox.float-e-margins
+-#      .ibox-title
+-#        %h3
+-#          Ultima Acta de la Asamblea
+-#          %span.fa.fa-asterisk.red
+-#          %small
+-#            \ -
+-#            Por páginas o documento completo.
+-#      .ibox-content
+-#        .row
+-#          .col-sm-3
+-#            %a.btn.btn-success.btn-block#ultima_acta_asamblea_modal Subir Documento
+-#.row
+-#  .col-md-12
+-#    .ibox.float-e-margins
+-#      .ibox-title
+-#        %h3
+-#          Comprobante de depósito bancario por concepto de proceso de registro
+-#          %span.fa.fa-asterisk.red
+-#          %small
+-#            \ -
+-#            Por páginas o documento completo.
+-#      .ibox-content
+-#        .row
+-#          .col-sm-3
+-#            %a.btn.btn-success.btn-block#deposito_bancario_modal Subir Documento
+-##poderNotariadoModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "poderNotariadoModalLabel", :role => "dialog", :tabindex => "-1"}
+-#  .modal-dialog
+-#    .modal-content
+-#      .modal-header.blue-bg
+-#        %button.close{"data-dismiss" => "modal", :type => "button"}
+-#          %span{"aria-hidden" => "true"} &times;
+-#        %h4.modal-title Poder Notariado que acredita al Representante Legal(Sólo en caso de no aparacer en actas de asamblea).
+-#      .modal-body
+-#        .row.form-horizontal
+-#          .col-sm-10.col-sm-offset-2
+-#            = form_for @solicitud.documentos.build, url:jquery_file_uploads_path(sol: @solicitud.id, doc: 'poder_notariado'), html: {multipart: true, id: 'fileupload1', enctype:"multipart/form-data"} do |f|
+-#              .row
+-#                .span16.fileupload-buttonbar
+-#                  .progressbar.fileupload-progressbar.nofade
+-#                    %div{:style => "width:0%;"}
+-#                  %span.btn.btn-success.fileinput-button
+-#                    %span
+-#                      Añadir Página
+-#                      %span.fa.fa-file-o
+-#                    = f.file_field :file, multiple: true
+-#                    = f.hidden_field :solicitud_id, value: @solicitud.id
+-#                    = f.hidden_field :documento_requisito_id, value: DocumentoRequisito.find_by_nombre('poder_notariado').id
+-#                  %button.btn.btn-primary.start{:type => "submit"}
+-#                    Iniciar Carga
+-#                    %span.fa.fa-upload
+-#                  %button.btn.btn-warning.cancel{:type => "reset"}
+-#                    Cancelar
+-#                    %span.fa.fa-times
+-#                  %button.btn.btn-danger.delete{:type => "button"}
+-#                    Borrar
+-#                    %span.fa.fa-trash
+-#                  %input.toggle{:type => "checkbox"}/
+-#                  %br/
+-#                  .row
+-#                    .span16
+-#                      %table.table.table-striped.zebra-striped
+-#                        %tbody.files
+-#                      #loading
+-#      .modal-footer
+-#        Al cargar el documento completo:
+-#        %a.btn{"data-dismiss" => "modal"}
+-#          Cerrar Ventana
+-#          %span{"aria-hidden" => "true"} &times;
+-##ultimaActaAsambleaModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "ultimaActaAsambleaModalLabel", :role => "dialog", :tabindex => "-1"}
+-#  .modal-dialog
+-#    .modal-content
+-#      .modal-header.blue-bg
+-#        %button.close{"data-dismiss" => "modal", :type => "button"}
+-#          %span{"aria-hidden" => "true"} &times;
+-#        %h4.modal-title Ultima Acta de la Asamblea
+-#      .modal-body
+-#        .row.form-horizontal
+-#          .col-sm-10.col-sm-offset-2
+-#            = form_for @solicitud.documentos.build, url:jquery_file_uploads_path(sol: @solicitud.id, doc: 'ultima_acta_asamblea'), html: {multipart: true, id: 'fileupload2', enctype:"multipart/form-data"} do |f|
+-#              .row
+-#                .span16.fileupload-buttonbar
+-#                  .progressbar.fileupload-progressbar.nofade
+-#                    %div{:style => "width:0%;"}
+-#                  %span.btn.btn-success.fileinput-button
+-#                    %span
+-#                      Añadir Página
+-#                      %span.fa.fa-file-o
+-#                    = f.file_field :file, multiple: true
+-#                    = f.hidden_field :solicitud_id, value: @solicitud.id
+-#                    = f.hidden_field :documento_requisito_id, value: DocumentoRequisito.find_by_nombre('ultima_acta_asamblea').id
+-#                  %button.btn.btn-primary.start{:type => "submit"}
+-#                    Iniciar Carga
+-#                    %span.fa.fa-upload
+-#                  %button.btn.btn-warning.cancel{:type => "reset"}
+-#                    Cancelar
+-#                    %span.fa.fa-times
+-#                  %button.btn.btn-danger.delete{:type => "button"}
+-#                    Borrar
+-#                    %span.fa.fa-trash
+-#                  %input.toggle{:type => "checkbox"}/
+-#                  %br/
+-#                  .row
+-#                    .span16
+-#                      %table.table.table-striped.zebra-striped
+-#                        %tbody.files
+-#                      #loading
+-#      .modal-footer
+-#        Al cargar el documento completo:
+-#        %a.btn{"data-dismiss" => "modal"}
+-#          Cerrar Ventana
+-#          %span{"aria-hidden" => "true"} &times;
+-##depositoBancarioModal.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "depositoBancarioModalLabel", :role => "dialog", :tabindex => "-1"}
+-#  .modal-dialog
+-#    .modal-content
+-#      .modal-header.blue-bg
+-#        %button.close{"data-dismiss" => "modal", :type => "button"}
+-#          %span{"aria-hidden" => "true"} &times;
+-#        %h4.modal-title Comprobante de depósito bancario por concepto de proceso de registro
+-#      .modal-body
+-#        .row.form-horizontal
+-#          .col-sm-10.col-sm-offset-2
+-#            = form_for @solicitud.documentos.build, url:jquery_file_uploads_path(sol: @solicitud.id, doc: 'deposito_bancario'), html: {multipart: true, id: 'fileupload3', enctype:"multipart/form-data"} do |f|
+-#              .row
+-#                .span16.fileupload-buttonbar
+-#                  .progressbar.fileupload-progressbar.nofade
+-#                    %div{:style => "width:0%;"}
+-#                  %span.btn.btn-success.fileinput-button
+-#                    %span
+-#                      Añadir Página
+-#                      %span.fa.fa-file-o
+-#                    = f.file_field :file, multiple: true
+-#                    = f.hidden_field :solicitud_id, value: @solicitud.id
+-#                    = f.hidden_field :documento_requisito_id, value: DocumentoRequisito.find_by_nombre('deposito_bancario').id
+-#                  %button.btn.btn-primary.start{:type => "submit"}
+-#                    Iniciar Carga
+-#                    %span.fa.fa-upload
+-#                  %button.btn.btn-warning.cancel{:type => "reset"}
+-#                    Cancelar
+-#                    %span.fa.fa-times
+-#                  %button.btn.btn-danger.delete{:type => "button"}
+-#                    Borrar
+-#                    %span.fa.fa-trash
+-#                  %input.toggle{:type => "checkbox"}/
+-#                  %br/
+-#                  .row
+-#                    .span16
+-#                      %table.table.table-striped.zebra-striped
+-#                        %tbody.files
+-#                      #loading
+-#      .modal-footer
+-#        Al cargar el documento completo:
+-#        %a.btn{"data-dismiss" => "modal"}
+-#          Cerrar Ventana
+-#          %span{"aria-hidden" => "true"} &times;
+-#= render 'shared/jquery_scripts'
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        = form_for @escuela_transporte,
+         url: escuela_transportes_informacion_general_path(@escuela_transporte),
+         html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general'} do |f|
+          .form-group
+          = render 'shared/solicitud_documents',f:f
+          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
+            text_prev:'Regresar',
+            clase_prev: '<i class="fa fa-folder-open-o"></i>',
+            url_prev:  escuela_transportes_informacion_general_index_path,
+            text_next: 'Guardar Información general',
+            clase_next: '<i class="fa fa-floppy-o"></i>'

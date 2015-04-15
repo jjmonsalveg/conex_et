@@ -1,0 +1,63 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-md-10
+    %h2
+      Editar Funcionario
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Buscar Funcionario', edit_funcionario_registration_path
+      %li
+        Editar Funcionario
+
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title.ibox-header-color
+          %h3
+            Datos del Funcionario
+        .ibox-content
+          .row
+            .col-md-4
+              %h4
+                %strong Login: &nbsp;
+                = @funcionario.login
+            .col-md-4
+              %h4
+                %strong
+                  Nombres y Apellidos: &nbsp;
+                = @funcionario.nombre + " "+ @funcionario.apellido
+            .col-md-3
+              %h4
+                %strong
+                  Cédula: &nbsp;
+                = @funcionario.nacionalidad+'-'
+                = @funcionario.cedula
+            .col-md-1
+              %h4
+                %strong
+                  Sexo: &nbsp;
+                = @funcionario.sexo
+          %br/
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Edición
+        .ibox-content
+          = form_for(@funcionario, url: funcionarios_update_funcionario_path(@funcionario), method: :post, html: {class: "form-horizontal m-t-md"}) do |f|
+            .form-group
+              = label_tag "Roles: ", "Roles: ", class: "col-sm-2 control-label"
+              .col-sm-10
+                %table
+                  %tbody
+                    = f.collection_check_boxes :rol_ids, Rol.all, :id, :nombre do |r|
+                      %tr
+                        %td= r.label
+                        %td= r.check_box
+            %br/
+            .form-group
+              .col-sm-2
+                = f.submit "Guardar", class: 'btn btn-success btn-block'

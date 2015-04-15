@@ -1,0 +1,153 @@
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        - if @interesado_cet
+          .ibox-title
+            %h3
+              Datos del Interesado
+          .ibox-content
+            .row
+              .col-md-4
+                %h4
+                  %strong Nombres: &nbsp;
+                  = @interesado_cet.nombre
+              .col-md-4
+                %h4
+                  %strong
+                    Apellidos: &nbsp;
+                  = @interesado_cet.apellido
+              .col-md-4
+                %h4
+                  %strong
+                    Número de Documento: &nbsp;
+                  = @interesado_cet.nacionalidad+'-'
+                  = @interesado_cet.cedula
+            = form_for @interesado_cet, html: {class: 'form-horizontal m-t-md'} do |f|
+              .form-group
+                = f.hidden_field :cedula, value: @interesado_cet.cedula
+                = f.label :telefono, class: 'col-sm-2 control-label' do
+                  Teléfono Contacto:
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  = f.text_field :telefono, class: 'form-control'
+              .form-group
+                = f.label :email, class: 'col-sm-2 control-label' do
+                  Correo de Contacto:
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  =f.email_field :email, class: 'form-control'
+              .form-group
+                = f.label 'Estado', class: 'col-sm-2 control-label' do
+                  Estado
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  = collection_select  :estado_id, :nombre, Estado.order_nombre, :id, :nombre, |
+                    {include_blank: 'Seleccione un Estado', selected: f.object.ciudad.present? ?  f.object.ciudad.estado.id : nil } ,                             |
+                    {  class: 'form-control combo-select'                                                             |
+                    }                                               |
+              .form-group
+                = f.label :ciudad_id, class: 'col-sm-2 control-label' do
+                  Ciudad:
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  = f.collection_select :ciudad_id, f.object.ciudad.present? ? Ciudad.where(estado_id: f.object.ciudad.estado_id) : Ciudad.where(estado_id: nil), :id, :nombre,  {include_blank: "Seleccione una Ciudad", selected:  f.object.ciudad.present? ? f.object.ciudad.id : :first}, {class: 'form-control', id: 'ciudad_interesado_form' }
+              .form-group
+                = f.label :municipio_id, class: 'col-sm-2 control-label' do
+                  Municipio:
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  = f.collection_select :municipio_id, f.object.ciudad.present? ? Municipio.where(estado_id: f.object.municipio.estado_id) : Municipio.where(estado_id: nil), :id, :nombre,  {include_blank: "Seleccione un Municipio", selected:  f.object.municipio.present? ? f.object.municipio.id : :first}, class: 'form-control'
+              .form-group
+                = f.label :tipo_escuela_id, class: 'col-sm-2 control-label' do
+                  Tipo de Escuela:
+                  %span.glyphicon-asterisk.red
+                .col-sm-10
+                  = f.collection_select :tipo_escuela_id, TipoEscuela.all, :id, :nombre,  {include_blank: "Seleccione un Tipo de Escuela", selected:  f.object.tipo_escuela.present? ? f.object.tipo_escuela.id : nil}, class: 'form-control'
+              .form-group
+                .col-sm-3.col-sm-offset-5
+                  = f.submit 'Registrar Interesado', class: 'btn btn-success btn-block', data: { disable_with: "Registrar Interesado" }
+        - else
+          .ibox-content
+            Cédula no existente.
+%script{:src => "/js/plugins/input-mask/jquery.inputmask.js" }
+%script{:src => "/js/plugins/bootstrapValidator/bootstrapValidator.js" }
+:javascript
+  jQuery(document).ready(function($) {
+    $('#interesado_cet_telefono').inputmask("(999) 999-9999", {
+      clearIncomplete: true
+    });
+    $('#new_interesado_cet').bootstrapValidator({
+      feedbackIcons: {
+        valid: 'fa fa-check ',
+        invalid: 'fa fa-times',
+        validating: 'fa fa-refresh'
+      },
+      live: 'enabled',
+      fields: {
+        "interesado_cet[telefono]": {
+          validators: {
+            notEmpty: {
+              message: 'Debe ingresar un teléfono de contacto'
+            }
+          }
+        },
+        "interesado_cet[email]": {
+          validators: {
+            notEmpty: {
+              message: 'Debe ingresar un Correo de Contacto'
+            },
+            emailAddress: {
+              message: 'Introduzca un Correo Válido'
+            }
+          }
+        },
+        "interesado_cet[ciudad_id]":{
+            validators: {
+              notEmpty: {
+                message: "Debe seleccionar una ciudad"
+              }
+            }
+         },
+        "interesado_cet[municipio_id]":{
+              validators: {
+                notEmpty: {
+                  message: "Debe de seleccionar un municipio"
+                }
+              }
+        },
+        "interesado_cet[tipo_escuela_id]": {
+          validators: {
+            notEmpty: {
+              message: "Debe de seleccionar un tipo de escuela"
+            }
+          }
+        }
+
+      }
+    });
+    $('#estado_id_nombre').change(function() {
+      return $.ajax({
+        type: "POST",
+        url: "/dynamic_select/ciudad_municipio",
+        dataType: "JSON",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: {
+          estado_id: $('#estado_id_nombre').val()
+        },
+        success: function(data) {
+          var html_ciudad_select, html_municipio_select;
+          html_ciudad_select = $('#ciudad_interesado_form');
+          html_municipio_select = $('#interesado_cet_municipio_id');
+          html_ciudad_select.empty();
+          html_municipio_select.empty();
+          $.each(data[1], function(i, data_each) {
+            return html_ciudad_select.append(new Option(data_each.label, data_each.id));
+          });
+          return $.each(data[0], function(i, data_each) {
+            return html_municipio_select.append(new Option(data_each.label, data_each.id));
+          });
+        }
+      });
+    });
+  });

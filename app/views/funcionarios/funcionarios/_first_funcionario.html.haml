@@ -1,0 +1,41 @@
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Termina tu registro para continuar
+        .ibox-content.text-center
+          - if current_funcionario.errors.any?
+            .alert.alert-danger
+              %h2
+                = pluralize(current_funcionario.errors.count, "error")
+              %ul
+                - current_funcionario.errors.full_messages.each do |message|
+                  %li= message
+          %p
+            Para continuar debes ingresar tu número de cédula y tu fecha de nacimiento.
+          .form-inline
+            .form-border
+              .form-group.cedula-register-fix
+                = label_tag :cedula, 'Cédula: '
+              .form-group.blank-space
+              .form-group
+                = select :prefijo, :prefijo, options_for_select(["V", "E"]),{ include_blank: false }, { class: 'form-control'}
+                = ' - '
+              .form-group
+                = text_field_tag :cedula,nil, maxlength: 9, class:'form-control', id: "text_cedula_funcionario"
+            %br/
+            %br/
+
+            .form-horizontal{id:'fecha-nacimiento-registro'}
+              .form-group
+                = label_tag :fecha_nacimiento, 'Fecha de Nacimiento: ', class: 'control-label col-sm-4'
+                .col-sm-8
+                  = date_select :fecha_nacimiento, :fecha_nacimiento,{ start_year: Date.current.year, end_year: 1840,  include_blank: false }, { class: 'form-control'}
+            %br/
+            .form-group
+              .col-sm-5
+              = button_tag "Continuar", class: "btn btn-success btn-block", style:"margin-top:5px;", id: "buscar_cedula_funcionario"
+  %div#funcionario_datos
+

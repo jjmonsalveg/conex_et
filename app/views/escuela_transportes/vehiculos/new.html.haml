@@ -1,0 +1,18 @@
+= provide(:title, 'Preinscripcion Escuela Transporte')
+
+= render 'escuela_transportes/shared/ficha_datos'
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %h2
+            Carga de Documentos de los Vehículos para Practicas
+          %ol.breadcrumb
+            %li
+              = link_to 'Carga de Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+            %li
+              = link_to 'Vehiculos Registrados', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+            %li
+              Carga de Documentos de Vehículos
+  = render partial: 'vehiculos'

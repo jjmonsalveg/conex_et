@@ -1,0 +1,31 @@
+.row.gray-bg.dashboard-header
+  .col-lg-9.col-lg-offset-3
+    .text-center.animated.fadeInDown.loginscreen.register-size
+      %div
+        %h1.logo-name
+          CONEX-ET
+        %h2
+          Correo de Confirmación
+        = form_for(resource, as: resource_name, url: confirmation_path(resource_name),
+        html: { method: :post }) do |f|
+          - if !devise_error_messages!.empty?
+            .alert.alert-danger
+              = devise_error_messages_modified!
+          .form-group
+            .col-lg-5
+              = f.label 'Correo electrónico:'
+              %br/
+            .col-lg-5
+              = f.email_field :email, autofocus: true
+          %br/
+          %br/
+          .form-group
+            .col-lg-5.col-lg-offset-5
+              = f.submit "Confirmación de Contraseña", class: "btn btn-success"
+              %br/
+          %br/
+          %br/
+        - render "session_users/shared/links"
+%br/
+%br/
+%br/

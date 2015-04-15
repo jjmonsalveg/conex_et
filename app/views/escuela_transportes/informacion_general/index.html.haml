@@ -1,0 +1,18 @@
+= provide(:title, 'Preinscripcion Escuela Transporte')
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Solicitud de la Autorización para la Construcción y Adecuación de la ET
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        Solicitud de la Autorización para la Construcción y Adecuación de la ET
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      - if current_session_user.escuelas_preinscritas.any?
+        = render partial: 'continuar_preins_escuela'
+
+      - if current_session_user.escuelas_nuevas.any?
+        = render partial: 'nueva_escuela_select'

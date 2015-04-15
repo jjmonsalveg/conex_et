@@ -1,0 +1,31 @@
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        .form-horizontal.m-t-md
+          .form-group
+            = label_tag :placa, class: 'control-label col-sm-4' do
+              Placa del Vehículo:
+              %span.glyphicon-asterisk.red
+            .col-sm-6
+              = text_field_tag :placa, nil, class: 'form-control', maxlength: 7, id: 'placa_vehiculo_pre'
+          .form-group
+            = label_tag :s_carroceria, class: 'control-label col-sm-4' do
+              Serial Carroceria:
+              %span.glyphicon-asterisk.red
+            .col-sm-6
+              = text_field_tag :s_carroceria, nil, class: 'form-control', id: 's_carroceria_vehiculo_pre'
+          .form-group
+            = label_tag :ano, class: 'control-label col-sm-4' do
+              Año:
+              %span.glyphicon-asterisk.red
+            .col-sm-6
+              = text_field_tag :ano, nil, class: 'form-control', id: 'ano_vehiculo_pre', maxlength: 4
+              = hidden_field_tag :id, @escuela_transporte.id, id: 'escuela_transporte_hidden'
+          .form-group
+            .col-sm-3.col-sm-offset-4
+              %button.btn.btn-success.btn-block#buscar_vehiculo_pre
+                Buscar Vehículo
+            .col-sm-3.col-sm-offset-2
+              = link_to 'Volver', escuela_transportes_vehiculos_path(id: @escuela_transporte)
+          .form-group#div_buscar_vehiculo_pre

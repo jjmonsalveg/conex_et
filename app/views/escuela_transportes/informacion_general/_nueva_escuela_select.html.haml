@@ -1,0 +1,19 @@
+.ibox.float-e-margins
+  .ibox-title
+    %h3
+      Preinscripción de Nueva Escuela.
+  .ibox-content
+    .row
+      .col-md-12
+        = form_for(:info, url: {action: 'new'}, html: {class: 'form-horizontal m-t-md', id: 'index_preinscripcion_form'}) do |f|
+          .form-group
+            = f.label :escuela, 'Escuela de Transporte: ', class: 'col-sm-2 control-label'
+            .col-sm-10
+              = f.collection_select :escuela, current_session_user.escuelas_nuevas, :id, :razonSocial, {include_blank: "Seleccione una Escuela de Transporte"}, {class: 'form-control'}
+          .form-group
+            = f.label :tipo_escuela, 'Clase de Escuela de Transporte: ', class: 'col-sm-2 control-label'
+            .col-sm-10
+              = f.collection_select :tipo_escuela,  TipoEscuela.all, :id, :nombre, {include_blank: "Seleccione una Clase de Escuela de Transporte"}, {class: 'form-control'}
+          .form-group
+            .col-sm-3.col-sm-offset-9
+              = f.submit "Solicitar", class: 'btn btn-success btn-block'

@@ -1,0 +1,36 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Interesado Conex-ET
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        Nuevo Interesado Conex-ET
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Número de Documento del Interesado
+        .ibox-content
+          .form-horizontal
+            .form-group
+              = label_tag :cedula, 'Cédula: ', class: 'control-label col-sm-2'
+              .col-sm-10
+                = text_field_tag :cedula, nil, maxlength: 9, class:'form-control', id: "query-buscar-interesado"
+            .form-group
+              .col-sm-5.col-sm-offset-3
+                = button_tag "Buscar", class: "btn btn-success btn-block", id: "buscar_cedula_interesado"
+  %div#interesado_datos
+    - if @interesado_cet.errors.any?
+      #error_explanation
+        %h2
+          = pluralize(@interesado_cet.errors.count, "error")
+          prohibited this interesado_cet from being saved:
+        %ul
+          - @interesado_cet.errors.full_messages.each do |message|
+            %li= message
+/= render 'form'
+/= link_to 'Back', interesado_cets_path

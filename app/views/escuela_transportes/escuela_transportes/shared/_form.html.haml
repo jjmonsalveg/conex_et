@@ -1,0 +1,23 @@
+= form_for([@representante_legal,@escuela_transporte],
+   url: url_submit,
+   html: {id: "escuela_transporte_form", class: 'form-horizontal m-t-md',
+   :multipart => true}) do |f|
+  -# DATOS
+  = render 'escuela_transportes/escuela_transportes/shared/datos_escuela_transporte', f:f
+  -#UBICACIÓN
+  = render 'escuela_transportes/escuela_transportes/shared/ubicacion_territorial',f:f
+  -#DIRECCIÓN
+  = render 'escuela_transportes/escuela_transportes/shared/direccion_escuela_transporte',f:f
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .col-sm-2
+              = link_to 'Ir a Listar Escuelas',
+              representante_legal_escuela_transportes_path(@representante_legal),
+              class: "btn btn-primary"
+            .col-sm-3.col-lg-offset-7
+              = f.submit 'Cargar Documentos',
+               class: 'btn btn-success btn-block',
+               data: { disable_with: 'Cargar Documentos' }

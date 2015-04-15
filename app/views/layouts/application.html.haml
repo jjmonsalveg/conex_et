@@ -1,0 +1,39 @@
+!!!
+%html
+  %head
+    %title= full_title(yield(:title))
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', media: 'all', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+    %meta{:charset => "utf-8"}/
+    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
+
+  - if signed_in?
+    %body.gray-bg
+      = render 'layouts/topnavbar'
+      - if current_usuario.respond_to?(:cedula) ? current_usuario.direccion_nombre_cedula_blank? : true
+        #wrapper.background-color-blue
+          = render 'layouts/sidenavbar'
+          #page-wrapper.gray-bg
+            = render 'layouts/flash_message'
+            = yield
+            = render 'layouts/footer'
+      - else
+        #wrapper.gray-bg.wrapper-width-fix
+          #page-wrapper-full
+            = render 'layouts/flash_message'
+            = render 'funcionarios/funcionarios/first_funcionario'
+            = render 'layouts/footer'
+
+  - else
+    %body.gray-bg
+      = render 'layouts/topnavbar_loggedout'
+      #wrapper.gray-bg.wrapper-width-fix
+        #page-wrapper-full
+          = render 'layouts/flash_message'
+          = yield
+          = render 'layouts/footer_login'
+
+
+

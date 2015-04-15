@@ -1,0 +1,71 @@
+.row.border-bottom.white-bg.dashboard-header
+  .col-lg-10.col-lg-offset-1
+    .row
+      .col-md-8
+        #myCarousel.carousel.slide
+          / Indicators
+          %ol.carousel-indicators
+            %li.active{"data-slide-to" => "0", "data-target" => "#myCarousel"}
+            %li{"data-slide-to" => "1", "data-target" => "#myCarousel"}
+            %li{"data-slide-to" => "2", "data-target" => "#myCarousel"}
+          / Wrapper for slides
+          .carousel-inner
+            #slide1.item.active
+              .carousel-caption
+            / end carousel-caption
+            / end item
+            #slide2.item
+              .carousel-caption
+            / end carousel-caption
+            / end item
+            #slide3.item
+              .carousel-caption
+          / end carousel-caption
+          / end item
+          / carousel-inner
+          / Controls
+          %a.left.carousel-control{"data-slide" => "prev", :href => "#myCarousel"}
+            %span.icon-prev
+          %a.right.carousel-control{"data-slide" => "next", :href => "#myCarousel"}
+            %span.icon-next
+      / end myCarousel
+      / end col-md-8
+      / login
+      .col-md-4
+        = render 'form'
+.row.graylight-bg
+  .col-lg-12
+    .wrapper
+      .row
+        .col-lg-10.col-lg-offset-1
+
+          .row
+            .col-lg-4
+              .well.well-lg.c4
+                .row
+                  .col-sm-4
+                    = link_to root_url, class: 'link_index' do
+                      = image_tag 'transporte.png', class: 'btn_img'
+                  .col-md-8
+                    %br/
+                    = link_to 'Requisitos', root_url, class: 'link_index'
+            / end well c4
+            .col-lg-4
+              .well.well-lg.c5
+                .row
+                  .col-sm-4
+                    = link_to root_url, class: 'link_index' do
+                      = image_tag 'servicios.png', class: 'btn_img'
+                  .col-md-8
+                    %br/
+                    = link_to 'Servicios', root_url, class: 'link_index'
+            / end well c5
+            .col-lg-4
+              .well.well-lg.c6
+                .row
+                  .col-sm-4
+                    = link_to root_url, class: 'link_index' do
+                      = image_tag 'noticias.png', class: 'btn_img'
+                  .col-md-8
+                    %br/
+                    = link_to 'Noticias', root_url, class: 'link_index'

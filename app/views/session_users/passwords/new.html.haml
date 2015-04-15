@@ -1,0 +1,30 @@
+.row.gray-bg.dashboard-header
+  .col-lg-9.col-lg-offset-3
+    .text-center.animated.fadeInDown.loginscreen.register-size
+      %h1{class: 'logo-name'}
+        CONEX-ET
+      %h2 ¿Olvidaste tu contraseña?
+      %br
+      %br
+
+      = form_for resource , as: resource_name, url: reestablecer_password_path,
+      html: { method: :post } do |f|
+
+        -unless devise_error_messages!.empty?
+          .alert.alert-danger
+            = devise_error_messages!
+        .form-group
+          .col-lg-5.control-label
+            = f.label 'Inserte su correo electrónico'
+          .col-lg-5
+            = f.email_field :email, autofocus: true, required:'required'
+        %br
+        %br
+        %br
+        .form-group
+          .col-lg-5.col-lg-offset-5
+            = f.submit 'Corroborar Correo',class: 'btn btn-success'
+        %br
+        %br
+        %br
+

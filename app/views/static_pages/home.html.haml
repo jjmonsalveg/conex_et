@@ -1,0 +1,6 @@
+- if session_user_signed_in?
+  = render partial: 'logued'
+- elsif funcionario_signed_in?
+  = render partial: 'funcionario_logued'
+- else
+  = render partial: 'not_logued'

@@ -1,0 +1,13 @@
+%tr{'id' => "planilla_#{planilla.id}" }
+  %td= planilla.nombre_documento
+  - if planilla.pdf?
+    %td= image_tag(planilla.doc.thumb)
+  - else
+    %td= link_to image_tag(planilla.doc.thumb), planilla.doc.url, rel: 'lightbox'
+  -#%td= image_tag planilla.doc.thumb
+  %td
+    = link_to  escuela_transportes_eliminar_planilla_path(id: @escuela_transporte,
+                                                          id_planilla:planilla) ,
+     method: :delete,
+     data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
+      %i.fa.fa-trash-o

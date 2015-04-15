@@ -1,0 +1,43 @@
+.row
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h3
+          Dirección
+      .ibox-content
+        .row
+          .row.col-sm-12
+            .form-group.col-sm-4.bug-dir
+              = f.label :avenida, class: 'col-sm-4 control-label' do
+                Avenida:
+                %span.fa.fa-asterisk.verde
+              .col-sm-8
+                = f.text_field :avenida,class: 'form-control direccion'
+            .form-group.col-sm-4.bug-dir
+              = f.label :calle, class: 'col-sm-4 control-label' do
+                Calle:
+                %span.fa.fa-asterisk.verde
+              .col-sm-8
+                = f.text_field :calle,class: 'form-control direccion'
+            .form-group.col-sm-4.bug-dir
+              = f.label :urbanizacion, class: 'col-sm-4 control-label' do
+                Sector-Urb:
+                %span.fa.fa-asterisk.verde
+              .col-sm-8
+                = f.text_field :urbanizacion,class: 'form-control direccion'
+          .row.col-sm-12
+            .form-group.col-sm-4
+              = f.label :edificio_cc, class: 'col-sm-4 control-label' do
+                Edificio/CC:
+              .col-sm-8
+                = f.text_field :edificio_cc,class: 'form-control', maxlength: 20
+            .form-group.col-sm-4
+              = f.label :local, class: 'col-sm-4 control-label' do
+                Local:
+              .col-sm-8
+                = f.text_field :local,class: 'form-control', maxlength: 20
+            .form-group.col-sm-4
+              = f.label :piso, class: 'col-sm-4 control-label' do
+                Piso:
+              .col-sm-8
+                = f.text_field :piso,class: 'form-control'

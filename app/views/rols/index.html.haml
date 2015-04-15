@@ -1,0 +1,44 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Roles
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        Roles
+
+.wrapper.wrapper-content.animated.fadeInRight
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        - if @rols.any?
+          .ibox-title
+            %h3
+              Roles Conex-ET
+          .ibox-content
+            .row
+              .col-md-12
+                %table.table.table-striped
+                  %thead
+                    %tr
+                      %th Nombre
+                      %th{:colspan => "3"}
+                  %tbody
+                  - @rols.each do |rol|
+                    %tr
+                      %td= link_to rol.nombre, rol
+                      %td
+                        - if can? :edit, Rol
+                          = link_to edit_rol_path(rol) do
+                            %i.fa.fa-edit
+                            Editar
+                      - if can? :delete, Rol
+                        %td
+                          = link_to  rol, method: :delete, data: { confirm: 'Are you sure?' } do
+                            %i.fa.fa-trash
+                            Eliminar
+            - if can? :new, Rol
+              .row
+                .col-sm-3.col-sm-offset-4
+                  = link_to 'Nuevo Rol', new_rol_path, class: 'btn btn-success btn-block'

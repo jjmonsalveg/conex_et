@@ -1,0 +1,25 @@
+.panel.panel-default
+  .panel-heading{:id => "heading-#{vehiculo_pre.id}", :role => "tab"}
+    %h4.panel-title
+      .row
+        %a{"aria-controls" => "collapse-#{vehiculo_pre.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{vehiculo_pre.id}"}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Placa:
+            #{vehiculo_pre.placa}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Serial carrocería:
+            #{vehiculo_pre.s_carroceria}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Año:
+            #{vehiculo_pre.ano}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Modelo:
+            #{vehiculo_pre.modelo}"
+  .panel-collapse.collapse{"aria-labelledby" => "heading-#{vehiculo_pre.id}", :id => "collapse-#{vehiculo_pre.id}", :role => "tabpanel"}
+    .panel-body
+      - vehiculo_pre.documentos.each_with_index do |documento, index|
+        - if index % 4 == 0
+          .row
+            .col-sm-12
+        =render 'shared/previsualizar_documento', documento: documento
+

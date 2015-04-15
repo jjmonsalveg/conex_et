@@ -1,0 +1,30 @@
+/ encoding: utf-8
+- if @funcionarios.any?
+  = paginate @funcionarios
+  %table.table.table-striped
+    %thead
+      %tr
+        %th Login
+        %th Nombre y Apellido
+        %th Cédula
+        %th Roles
+    %tbody
+      - @funcionarios.each do |funcionario|
+        %tr
+          %td
+            = link_to funcionario.login, funcionarios_editar_funcionario_path(funcionario.id)
+          %td
+            = funcionario.nombre+' '+funcionario.apellido#, directorios_info_medico_path(_mc: funcionario.id)
+          %td
+            = funcionario.nacionalidad + " - " + funcionario.cedula.to_s
+          %td
+            - funcionario.rols.each do |rol|
+              = rol.nombre + " - "
+  = paginate @funcionarios
+- else
+  %div.text-center
+    %h3.font-bold No se encontraron Funcionarios.
+    .error-desc
+      No se encontro ningún Funcionario que coincidiera con los términos introducidos.
+      %br/
+      Prueba a cambiar los términos de busqueda.

@@ -1,0 +1,27 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Verificar Solicitud de Autorización de Adecuación
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        %strong
+          Verificación de Preinscripción
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Número de Trámite
+        .ibox-content
+          .form-horizontal
+            .form-group
+              = label_tag :solicitud, 'Número de Trámite: ', class: 'control-label col-sm-2'
+              .col-sm-7
+                = text_field_tag :solicitud, nil, class:'form-control', id: "query_buscar_solicitud"
+              .col-sm-3
+                = button_tag "Buscar", class: "btn btn-success btn-block", id: "buscar_numero_solicitud"
+
+  %div#div_found_solicitud

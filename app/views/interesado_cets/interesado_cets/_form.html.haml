@@ -1,0 +1,43 @@
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Paciente
+        .ibox-content
+          = form_for(@interesado_cet) do |f|
+            - if @interesado_cet.errors.any?
+              #error_explanation
+                %h2
+                  = pluralize(@interesado_cet.errors.count, "error")
+                  prohibited this interesado_cet from being saved:
+                %ul
+                  - @interesado_cet.errors.full_messages.each do |message|
+                    %li= message
+            .field
+              = f.label :nombre
+              %br/
+              = f.text_field :nombre
+            .field
+              = f.label :apellido
+              %br/
+              = f.text_field :apellido
+            .field
+              = f.label :nacionalidad
+              %br/
+              = f.text_field :nacionalidad
+            .field
+              = f.label :numero_doc
+              %br/
+              = f.text_field :numero_doc
+            .field
+              = f.label :telefono
+              %br/
+              = f.text_field :telefono
+            .field
+              = f.label :email
+              %br/
+              = f.text_field :email
+            .actions
+              = f.submit

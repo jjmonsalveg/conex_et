@@ -1,0 +1,15 @@
+= form_for(@tipo_escuela) do |f|
+  - if @tipo_escuela.errors.any?
+    #error_explanation
+      %h2
+        = pluralize(@tipo_escuela.errors.count, "error")
+        prohibited this tipo_escuela from being saved:
+      %ul
+        - @tipo_escuela.errors.full_messages.each do |message|
+          %li= message
+  .field
+    = f.label :nombre
+    %br/
+    = f.text_field :nombre
+  .actions
+    = f.submit

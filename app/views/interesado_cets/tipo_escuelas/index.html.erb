@@ -1,0 +1,25 @@
+<h1>Listing tipo_escuelas</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @tipo_escuelas.each do |tipo_escuela| %>
+      <tr>
+        <td><%= tipo_escuela.nombre %></td>
+        <td><%= link_to 'Show', tipo_escuela %></td>
+        <td><%= link_to 'Edit', edit_tipo_escuela_path(tipo_escuela) %></td>
+        <td><%= link_to 'Destroy', tipo_escuela, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Tipo escuela', new_tipo_escuela_path %>

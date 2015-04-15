@@ -1,0 +1,75 @@
+= provide(:title, 'Listar Escuelas de Transporte')
+
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Escuelas de Transporte
+
+.wrapper.wrapper-content.animated.fadeInRight
+  - if @escuela_transportes.empty?
+    .row
+      .col-md-12.col-md-offset-0
+        %ul.text-muted.leyenda
+          %li.text-justify
+            Puede registrar una Escuela de Transporte haciendo click en
+            %strong Registrar Nueva Escuela de Transporte
+            en el menu principal o dando click en
+            %span.amarillo
+              Agregar Escuela Transporte
+    .ibox-content.text-center
+      %h3.font-bold No posee Escuelas De Transporte
+      =link_to  'Agregar Escuela Transporte',
+      new_representante_legal_escuela_transporte_path(current_session_user) ,
+      class: 'btn btn-warning pull-center'
+
+  - else
+    .row
+      .col-md-12.col-md-offset-0
+        .ibox.float-e-margins
+          .ibox-content
+            %br/
+            %table.table.table-striped.table-bordered.table-condensed
+              %thead
+                %tr
+                  %th Razón Social
+                  %th Rif
+                  %th Email
+                  %th Teléfono
+                  %th Móvil
+                  %th Dirección
+                  %th Url
+                  %th Codigoet
+                  %th{:colspan => '3'}
+                    Acciones
+
+              %tbody
+              - @escuela_transportes.each do |operadora_escuela_transporte|
+                %tr
+                  %td= operadora_escuela_transporte.razonSocial
+                  %td= operadora_escuela_transporte.rif_show
+                  %td= operadora_escuela_transporte.email
+                  %td= operadora_escuela_transporte.telefono
+                  %td= operadora_escuela_transporte.movil
+                  %td= operadora_escuela_transporte.direccion.to_s
+                  %td= operadora_escuela_transporte.url.blank? ? '---' : operadora_escuela_transporte.url
+                  %td= operadora_escuela_transporte.codigoET.blank? ? 'No asignado': peradora_escuela_transporte.codigoET
+                  %td.text-center
+                    - unless DocumentosRequisitosPorVista.vista_completa?(:registro_inicial,operadora_escuela_transporte)
+                      = link_to escuela_transportes_cargar_documentos_registro_path(id: operadora_escuela_transporte) do
+                        Terminar Registro
+                        %span.fa.fa-file-image-o
+                      = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
+                        data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
+                        %i.fa.fa-trash-o
+                    - else
+                      = link_to representante_legal_escuela_transporte_path(@representante_legal, operadora_escuela_transporte) do
+                        %i.fa.fa-search
+                      - if operadora_escuela_transporte.solicituds_lockeds.empty?
+                        = link_to edit_representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) do
+                          %i.fa.fa-pencil-square-o
+                        = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
+                        data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
+                          %i.fa.fa-trash-o
+                      - else
+                        = link_to edit_escuela_transportes_update_rif_path(id: operadora_escuela_transporte) do
+                          Actualizar RIF

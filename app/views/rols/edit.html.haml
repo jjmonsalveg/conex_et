@@ -1,0 +1,14 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Editar Rol
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Roles', rols_path
+      %li
+        = link_to @rol.nombre, @rol
+      %li
+        Editar Rol
+= render 'form'

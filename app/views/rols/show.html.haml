@@ -1,0 +1,52 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Rol
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Roles', rols_path
+      %li
+        Rol
+.wrapper.wrapper-content
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Rol
+        .ibox-content
+          %h2.text-center
+            = @rol.nombre
+          %br/
+          %table.table.table-striped
+            %thead
+              %tr
+                %th.text-center{colspan: 3}
+                  Funciones
+              %tr
+                %th Nombre
+                %th Acción
+                %th Controlador Asociado
+            %tbody
+            - @rol.funcion_sistemas.each do |f|
+              %tr
+                %td= f.nombre
+                %td= f.accion
+                %td= f.clase_controlador
+          %br/
+          %br/
+          .row
+            .col-sm-3.col-sm-offset-1
+              = link_to rols_path, class: "btn btn-primary btn-block" do
+                %i.fa.fa-arrow-left
+                Volver
+            - if can? :edit, Rol
+              .col-sm-3.col-sm-offset-4
+                = link_to edit_rol_path(@rol), class: "btn btn-success btn-block" do
+                  %i.fa.fa-edit
+                  Editar
+
+
+|

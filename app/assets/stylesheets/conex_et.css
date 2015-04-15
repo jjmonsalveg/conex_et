@@ -1,0 +1,394 @@
+ibox-title-fix {
+    background-color: #30A1E0;
+}
+
+
+.responsive-header-fix {
+    display:none;
+    background-color: white;
+}
+/*============================ carousel del index=======================================-*/
+
+
+#myCarousel {
+    margin-top: 5px;
+}
+
+.carousel-caption {
+    position: absolute;
+    z-index: 10;
+    padding-top: 10px;
+    text-align: center;
+    text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.6);
+}
+
+
+.carousel-indicators .active {
+    margin: 0px;
+    width: 12px;
+    height: 12px;
+    background-color: #FFFFFF !important;
+}
+.carousel-indicators li {
+    border: 1px solid #ffffff !important;
+
+}
+#myCarousel .item { height: 290px; }
+
+#slide1 {
+    background: url('slider1.png') top center no-repeat;
+}
+
+#slide2 {
+    background: url('slider2.png') top center no-repeat;
+}
+
+#slide3 {
+    background: url('slider3.png') top center no-repeat;
+}
+
+
+/*==================================INDEX=========================================*/
+.well{
+    margin-right: 0px;
+    margin-bottom: 10px;
+    margin-left: 5px;
+    margin-top: 10px;
+}
+.c1{
+    background: #6986D7 !important;
+}
+.c2{
+    background: #8E51CD !important;
+}
+.c3{
+    background: #AB9657 !important;
+}
+.c4{
+    background: #7EC292 !important;
+}
+.c5{
+    background: #6F9796 !important;
+}
+.c6{
+    background: #6986D7 !important;
+}
+
+.link_index{
+    color: #FFFFFF;
+    font-size: 15px;
+    text-align: justify;
+    font-weight: bold;
+}
+
+.link_index:hover{
+    text-decoration: none;
+    color: #FFFFFF;
+    font-weight: bold;
+
+}
+
+.link_index:hover{
+    box-shadow:0px #FFFFFF;
+}
+
+.btn_img{
+    width: 56px;
+    height: 69px;
+}
+
+/*============================ footer =======================================-*/
+
+
+#footer .nav > li > a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    color: #FFFFFF !important;
+    font-size: 14px;
+    background: transparent;
+}
+
+.firma{
+    font-size: 11pt;
+    text-align: center;
+    color: #676A6C;
+}
+.titulo_footer{
+    color: #b8b7b7;
+    font-size: 11pt;
+    line-height: 2;
+    text-align: justify;
+}
+
+.link_footer{
+    text-align: justify;
+    line-height: 1;
+    font-size: 10px;
+}
+
+.link_footer:hover{
+    background: transparent;
+}
+
+.verticaline {
+    border-right: 1px solid #b8b7b7;
+    height: 100%;
+}
+.divider-vertical {
+    margin: 9px 5px 5px 5px;
+    border: 1px;
+    padding-right: 16px;
+    padding-left: 16px;
+
+}
+.divider-vertical:after {
+    content: "|";
+    font-size: 30px;
+}
+
+
+/*================================REGISTRO==========================*/
+.form_usuario{
+    border: 0px;
+    margin-top: 20px;
+    width: 600px;
+}
+
+.height-registro {
+    height: 1200px;
+}
+
+
+.alerts-fix {
+    margin-bottom: 0px;
+}
+
+.form-border select, .form-border input[type="text"] {
+    border: 1px solid rgb(176, 178, 176);
+}
+
+.img-calendar{
+    background: transparent !important;
+    border: 0 transparent !important;
+}
+
+
+/*==========================================================================*/
+.azul {
+    background: #2B74B2;
+}
+.navbar-color-fix {
+    color: #e0e0e0;
+}
+
+.login-size {
+    height: 700px;
+    width: 300px;
+    top: 50%;
+    margin-left: 50px;
+}
+
+.register-size {
+    height: auto;
+    width: 500px;
+    top: 50%;
+    margin-left: 50px;
+}
+
+.recaptcha-fix {
+    margin-left: 40px;
+}
+
+.background-color-blue {
+    background-color: #245F93;
+}
+
+.wrapper-width-fix {
+    width: 100%;
+}
+
+.blank-space {
+    width: 10px;
+}
+
+.register-button-fix
+{
+    margin-left: 350px;
+}
+.cedula-register-fix {
+    margin-left: 60px;
+}
+
+.hide-div {
+    display: none;
+}
+
+.rif-contrato{
+    width: 145px !important;
+}
+.fecha-register{
+    width: 150px !important;
+
+}
+.field-duracion{
+    width: 150px !important;
+    margin-left: -15px !important;
+}
+.field-notaria{
+    width: 250px !important;
+    margin-left: -15px !important;
+}
+/*========================== alertas ============================*/
+
+.alert-notice {
+    color: #ffffff;
+    background-color: #8aca93;
+    border-color: #ebccd1
+}
+
+.alert-alert{
+    color: #f2ffe8 !important;
+    background-color: #a94442;
+    border-color: #ebccd1
+}
+
+/*========================== fieldset ============================*/
+
+.legend-parada{
+    border: 0px !important;
+    margin-bottom: 0px !important;
+}
+
+.fieldset-parada{
+    border: 1px solid #e5e5e5 !important;
+    padding: 20px !important;
+    margin: 15px !important;
+}
+
+/*========================== botones del subir archivo ============================*/
+
+.btn-file{
+    border-radius: 0px 6px 6px 0px !important;
+  }
+
+
+.btn-file{
+    background-color: #1c84c6 !important;
+    color: #fff !important;
+}
+.btn-file:hover{
+    background-color: #4e96c6 !important;
+    color: #fff !important;
+}
+
+
+/*========================== leyenda para el registro de los campos  ============================*/
+/*Este es el asterisco*/
+.red {
+    font-size: 8px !important;
+    color: red;
+}
+.yellow-warning {
+    color: orangered;
+}
+.verde {
+    font-size: 8px !important;
+    color: #60bf3c;
+}
+.azul-oscuro{
+    color: #1f90d8;
+}
+.azul-claro{
+    color: #23c6c8;
+}
+.amarillo{
+    color: #F7A54A;
+}
+
+/*link en color rojo*/
+.rojo{
+    color: red;
+}
+
+
+.leyenda{
+    font-size: 12px !important;
+}
+
+.message{
+    font-weight: bold;
+}
+
+
+#see_hide {
+    -webkit-appearance: button;
+    -moz-appearance: button;
+    appearance: button;
+    line-height: 16px;
+    padding: .2em .4em;
+    margin: .2em;
+    display: none;
+}
+
+.visible_label {
+    visibility: hidden;
+}
+
+.field_with_errors{
+    /*display: inline-block;*/
+}
+
+/*========================== entrada de  mayusculas ============================*/
+
+.mayusculas{
+     text-transform: uppercase;
+}
+
+#session_user_email,#operadora_transporte_p_email, #session_user_email_confirmation{
+    text-transform: lowercase !important;
+}
+
+/*input[type="text"]{*/
+    /*text-transform: uppercase;*/
+/*}*/
+
+/*===============================Seguro pantalla seguro RCV========================*/
+
+#btn-continuar-seguro, .continuar-seguro-pregunta{
+    display: none;
+}
+
+/*===============================Fecha inhabilitada en servicio========================*/
+
+#servicio_operadora_c_fecha_vencimiento_3i, #servicio_operadora_c_fecha_vencimiento_2i, #servicio_operadora_c_fecha_vencimiento_1i,
+#fecha_vencimiento_asd_3i, #fecha_vencimiento_asd_2i, #fecha_vencimiento_asd_1i{
+    background: #d7d7d7;
+    border: none;
+    font-size: 14px;
+    height: 28px;
+    margin: 0;
+    font-weight: bold;
+}
+
+/* ======================================Ayuda==================================================== */
+
+.ayuda-small{
+    font-size: 9px;
+}
+/*Esto permite esconder y mostrar el vencimiento de fecha*/
+.fecha_to_hide_extinto{
+    display: none;
+}
+
+.cedula-register-fix {
+    margin-left: 60px;
+}
+.blank-space {
+    width: 20px;
+}
+
+.register-button-fix
+{
+    margin-left: 350px;
+}

@@ -1,0 +1,119 @@
+%nav.navbar-default.navbar-static-side{:role => "navigation"}
+  .sidebar-collapse
+    %ul#side-menu.nav
+      %li.nav-header
+        - if signed_in?
+          .dropdown.profile-element
+            %span
+              = image_tag 'schuler.png', class: 'img-circle', alt: 'image', heigth: 50, width: 50
+            %a.dropdown-toggle{"data-toggle" => "dropdown", :href => "#"}
+              %span.clear
+                %span.block.m-t-xs
+                  %strong.font-bold= current_usuario.authentication_key
+                  - if current_session_user.present?
+                    %span.text-muted.text-xs.block
+                      Representante Legal Conex-ET
+                  - else
+                    %span.text-muted.text-xs.block
+                      Funcionario Conex-ET
+                %span.text-muted.text-xs.block
+                  %b.caret
+              %ul.dropdown-menu.animated.fadeInRight.m-t-xs
+                %li
+                  = link_to 'Datos Personales', '#'#personas_perfil_path
+                %li
+                  - if current_session_user.present?
+                    = link_to "Cambiar Contraseña", cambio_contrasena_session_user_path
+                  - else
+                    = link_to "Cambiar Contraseña",  edit_funcionario_registration_path
+                %li.divider
+                %li
+                  = link_to  "/#{usuario}s/sign_out", method: :delete do
+                    Cerrar Sesión
+            .logo-element
+              SHi
+        - if session_user_signed_in?
+          %li
+            %a{:href => "#"}
+              %i.fa.fa-university
+              %span.nav-label Escuelas de Transporte
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              %li
+                = link_to new_representante_legal_escuela_transporte_path(current_session_user.representante_legal) do
+                  %i.fa.fa-plus-circle
+                  Registrar Nueva Escuela de Transporte
+                = link_to representante_legal_escuela_transportes_path(current_session_user.representante_legal) do
+                  %i.fa.fa-bars
+                  Listar Escuelas de Transporte
+          - if not current_session_user.escuelas_registradas.empty?
+            %li
+              = link_to escuela_transportes_informacion_general_index_path do
+                %i.fa.fa-folder-open-o
+                %span.nav-label Solicitud de la Autorización para la Construcción y Adecuación de la ET
+
+        - if can? :show, Funcionario
+          %li
+            %a{:href => "#"}
+              %i.fa.fa-users
+              %span.nav-label Funcionarios
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              - if can? :create, Funcionario
+                %li
+                  = link_to funcionarios_new_path do
+                    %i.fa.fa-user
+                    Registrar Funcionario
+              - if can? :update, Funcionario
+                %li
+                  = link_to funcionarios_editf_path do
+                    %i.fa.fa-terminal
+                    Editar Funcionario
+        - if can? :index, Rol
+          %li
+            %a{:href => "#"}
+              %i.fa.fa-cogs
+              %span.nav-label Roles
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              %li
+                = link_to rols_path do
+                  %i.fa.fa-bars
+                  Administrar Roles
+              %li
+                - if can? :create, Rol
+                  = link_to new_rol_path do
+                    %i.fa.fa-check-circle
+                    Nuevo Rol
+        - if can? :index, InteresadoCet
+          %li
+            %a{:href => "#"}
+              %i.fa.fa-comments-o
+              %span.nav-label Registro de Interesados
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              %li
+                = link_to new_interesado_cet_path  do
+                  %i.fa.fa-comment-o
+                  Nuevo Interesado
+              %li
+                = link_to interesado_cets_path do
+                  %i.fa.fa-comments
+                  Interesados
+        - if can? :manage, TipoEscuela
+          %li
+            %a{:href => "#"}
+              %i.fa.fa-cubes
+              %span.nav-label Tipos de Escuela
+              %span.fa.arrow
+            %ul.nav.nav-second-level
+              %li
+                = link_to tipo_escuelas_path do
+                  %i.fa.fa-comments
+                  Tipos de Escuela
+        - if can? :manage, :verificar_preinscripcion
+          %li
+            = link_to verificar_preinscripcions_path do
+              %i.fa.fa-folder-open-o
+              %span.nav-label Verificar Solicitud de la Autorización para la Construcción y Adecuación de la ET
+

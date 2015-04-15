@@ -1,0 +1,49 @@
+-#codigo de Jesus npi
+.row
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h3
+          Ubicación
+      .ibox-content
+        .row
+          .row.col-sm-12
+            .form-group.col-sm-6
+              = label :estado, :estado, class: 'col-sm-4 control-label' do
+                Estado:
+                %span.fa.fa-asterisk.red
+              .col-sm-8
+                = collection_select  :estado_id, :nombre, Estado.order(:nombre), :id, :nombre,
+                            {selected: f.object.parroquia.nil? ? false : f.object.parroquia.municipio.estado_id,
+                             include_blank: "Seleccione un Estado"},
+                            { class: "form-control"}
+            .form-group.col-sm-6
+              = label :municipio_id, :municipio, class: 'col-sm-4 control-label' do
+                Municipio:
+                %span.fa.fa-asterisk.red
+              .col-sm-8
+                = collection_select  :municipio_id, :nombre,
+                f.object.parroquia.nil? ? [] : Municipio.where(estado_id: f.object.parroquia.municipio.estado.id),
+                :id, :nombre,
+                {selected: f.object.parroquia.nil? ? 0 : f.object.parroquia.municipio.id,
+                 include_blank: "Seleccione un Municipio"},
+                  { data: { dynamic_selectable_url: dynamic_select_parroquias_path(':municipio_id'),
+                  dynamic_selectable_target: '#escuela_transporte_parroquia_id' },
+                  class: "form-control" }
+          .row.col-sm-12
+            .form-group.col-sm-6
+              = f.label :ciudad_id, class: 'col-sm-4 control-label' do
+                Ciudad:
+                %span.fa.fa-asterisk.red
+              .col-sm-8
+                = f.select :ciudad_id,
+                 options_from_collection_for_select(Ciudad.where(estado_id: f.object.parroquia.nil? ? 0 : f.object.parroquia.municipio.estado_id),
+                  :id, :nombre, selected: f.object.ciudad_id),
+                  {prompt: "Seleccione una Ciudad"}, {class: "form-control"}
+            .form-group.col-sm-6
+              = f.label :parroquia_id, class: 'col-sm-4 control-label' do
+                Parroquia:
+                %span.fa.fa-asterisk.red
+              .col-sm-8
+                = f.collection_select :parroquia_id, f.object.parroquia_id.nil? ? [] : Parroquia.where(municipio_id: f.object.parroquia.municipio.id),
+                 :id, :nombre, {prompt: "Seleccione una Parroquia", selected: f.object.parroquia_id.nil? ? nil : f.object.parroquia_id}, {class: "form-control"}

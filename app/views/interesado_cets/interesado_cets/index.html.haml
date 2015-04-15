@@ -1,0 +1,24 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Interesados Conex-ET
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Nuevo Interesado', new_interesado_cet_path
+      %li
+        Interesados Conex-ET
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %p
+            Número de Interesados en CONEX-ET hasta el momento:
+            %strong= @nro_interesados
+          %br/
+          .row
+            .col-sm-3
+              = link_to 'Nuevo Interesado', new_interesado_cet_path, class: "btn btn-success btn-block"

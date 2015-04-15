@@ -1,0 +1,75 @@
+#------------------------APPLICATION  RAILS------------------------------------
+default: &default
+   host: localhost
+   adapter: postgresql
+   username: postgres
+   password: 123456
+
+development:
+  <<: *default
+  database: conex_et_development
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: conex_et_test
+
+production:
+  <<: *default
+  database: conex_et_production
+
+#---------------------------SAIME----------------------------------
+server_saime: &server_saime
+  host: 192.168.0.103
+  adapter: postgresql
+  username: postgres
+  password: 123456
+  schema_search_path: 'public'
+
+saime_development:
+  <<: *default
+  database: Saime
+
+saime_production:
+  <<: *server_saime
+  database: Saime
+
+saime_test:
+  <<: *server_saime
+  database: Saime
+#---------------------------SPUT----------------------------------
+
+server_sput: &server_sput
+  host: 192.168.0.103
+  adapter: postgresql
+  username: postgres
+  password: 123456
+  schema_search_path: 'public'
+
+sput_development:
+  <<: *default
+  database: sput_development
+
+sput_test:
+  <<: *server_sput
+  database: sput_test
+
+
+sput_production:
+  <<: *server_sput
+  database: sput_production
+
+
+#---------------------------Vehiculos INTTT----------------------------------
+server_inttt: &server_inttt
+  host: localhost
+  adapter: postgresql
+  username: postgres
+  password: 123456
+  schema_search_path: 'public'
+
+inttt_database:
+  <<: *server_inttt
+  database: intt

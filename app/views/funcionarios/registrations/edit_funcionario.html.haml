@@ -1,0 +1,18 @@
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3 Buscar funcionario a editar
+        .ibox-content
+          = text_field_tag :buscar_funcionario, nil, class:'form-control', placeholder: 'Puede buscar por login, nombre, apellido o cédula del funcionario.', id:'query-buscar-funcionarios'
+          %br
+          .row
+            .col-sm-3
+              %button.btn.btn-success.btn-block{ id: 'boton-buscar-funcionarios' }
+                %i.fa.fa-search
+                Buscar
+  .row.animated.fadeInUp
+    .col-md-12
+      .ibox-content.inspinia-timeline
+        .span9{id: 'div-resultados-funcionarios'}

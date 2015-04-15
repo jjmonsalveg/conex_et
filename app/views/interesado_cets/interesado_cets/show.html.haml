@@ -1,0 +1,81 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Interesado Conex-ET
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Nuevo Interesado', new_interesado_cet_path
+      %li
+        Interesado Conex-ET
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Ciudadano
+        .ibox-content
+          .row
+            .col-md-4
+              %h4
+                %strong Nombres: &nbsp;
+                = @interesado_cet.nombre
+            .col-md-4
+              %h4
+                %strong
+                  Apellidos: &nbsp;
+                = @interesado_cet.apellido
+            .col-md-4
+              %h4
+                %strong
+                  Número de Documento: &nbsp;
+                = @interesado_cet.nacionalidad+'-'
+                = @interesado_cet.cedula
+          .row
+            .col-md-4
+              %h4
+                %strong Teléfono: &nbsp;
+                = @interesado_cet.telefono
+            .col-md-4
+              %h4
+                %strong Email: &nbsp;
+                = @interesado_cet.email
+            .col-md-4
+              %h4
+                %strong Consultas: &nbsp;
+                = @interesado_cet.nro_consultas
+          %hr/
+          .row
+            .col-md-12
+              %h3
+                Ubicación
+          .row
+            .col-md-4
+              %h4
+                %strong Estado: &nbsp;
+                = @interesado_cet.ciudad.estado.nombre
+            .col-md-4
+              %h4
+                %strong Ciudad: &nbsp;
+                = @interesado_cet.ciudad.nombre
+            .col-md-4
+              %h4
+                %strong Município:    &nbsp;
+                = @interesado_cet.municipio.nombre
+          %hr/
+          .row
+            .col-md-12
+              %h3 Tipo de Escuela
+          .row
+            .col-md-12
+              %strong
+                = @interesado_cet.tipo_escuela.nombre
+          %br/
+          %br/
+          .row
+            .col-sm-3
+              = link_to "Nuevo Interesado",new_interesado_cet_path, class: 'btn btn-success btn-block'
+            .col-sm-3.col-sm-offset-6
+              = link_to "Inicio", root_path, class: 'btn btn-primary btn-block'

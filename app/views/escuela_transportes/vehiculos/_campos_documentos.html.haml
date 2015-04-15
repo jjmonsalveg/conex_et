@@ -1,0 +1,111 @@
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        Carga de Documentos
+      .ibox-content
+        = render 'shared/error_messages', object: @vehiculo_et, model: 'Vehículo'
+        = form_for @vehiculo_et , url: escuela_transportes_vehiculos_path, remote: true, html:{multipart: true} do |v|
+          = token_tag form_authenticity_token
+          = v.hidden_field :placa, value: params[:placa]
+          = v.hidden_field :s_carroceria, value: params[:s_carroceria]
+          = v.hidden_field :ano, value: params[:ano]
+          = hidden_field_tag :id, params[:id]
+          =render 'shared/show_modelo_documentos_no_paginados', model: v
+          .row
+            .col-sm-3.col-sm-offset-4
+              = v.button(type: "submit", class: "btn btn-success btn-block", data: { disable_with: "Guardar Vehículo" }) do
+                Guardar Vehículo
+                %i.fa.fa-floppy-o
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  -#%table.table.table-bordered
+                  -#  %thead
+                  -#    %tr
+                  -#      %th
+                  -#        Certificado Registro
+                  -#        %span.glyphicon-asterisk.red
+                  -#      %th
+                  -#        Certificado Revisión Técnica
+                  -#        %span.glyphicon-asterisk.red
+                  -#      %th
+                  -#        Seguro RCV
+                  -#        %span.glyphicon-asterisk.red
+                  -#      %th
+                  -#        Comprobante Deposito Certificación de Vehículo
+                  -#        %span.glyphicon-asterisk.red
+                  -#      %th
+                  -#        Certificado Homologación
+                  -#        - if @vehiculo.ID_USO == 'CG'
+                  -#          (Obligatorio)
+                  -#          %span.glyphicon-asterisk.red
+                  -#  %tbody
+                  -#    %tr
+                  -#      %td
+                  -#        .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                  -#          %div{"data-trigger" => "fileinput"}
+                  -#          %i{class: "fa fa-upload fileinput-new"}
+                  -#          %i{class: "fa fa-upload fileinput-exists"}
+                  -#            %span.fileinput-filename
+                  -#          %span.input-group-addon.btn.btn-default.btn-file
+                  -#            %span{class: "fileinput-new"} Subir Documento
+                  -#            %span{class: "fileinput-exists"} Cambiar
+                  -#            = f.file_field :certificado_registro
+                  -#      %td
+                  -#        .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                  -#          %div{"data-trigger" => "fileinput"}
+                  -#          %i{class: "fa fa-upload fileinput-new"}
+                  -#          %i{class: "fa fa-upload fileinput-exists"}
+                  -#            %span.fileinput-filename
+                  -#          %span.input-group-addon.btn.btn-default.btn-file
+                  -#            %span{class: "fileinput-new"} Subir Documento
+                  -#            %span{class: "fileinput-exists"} Cambiar
+                  -#            = f.file_field :certificado_revision_tecnica
+                  -#      %td
+                  -#        .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                  -#          %div{"data-trigger" => "fileinput"}
+                  -#          %i{class: "fa fa-upload fileinput-new"}
+                  -#          %i{class: "fa fa-upload fileinput-exists"}
+                  -#            %span.fileinput-filename
+                  -#          %span.input-group-addon.btn.btn-default.btn-file
+                  -#            %span{class: "fileinput-new"} Subir Documento
+                  -#            %span{class: "fileinput-exists"} Cambiar
+                  -#            = f.file_field :rcv
+                  -#      %td
+                  -#        .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                  -#          %div{"data-trigger" => "fileinput"}
+                  -#          %i{class: "fa fa-upload fileinput-new"}
+                  -#          %i{class: "fa fa-upload fileinput-exists"}
+                  -#            %span.fileinput-filename
+                  -#          %span.input-group-addon.btn.btn-default.btn-file
+                  -#            %span{class: "fileinput-new"} Subir Documento
+                  -#            %span{class: "fileinput-exists"} Cambiar
+                  -#            = f.file_field :bauche_vehiculo
+                  -#      %td
+                  -#        .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                  -#          %div{"data-trigger" => "fileinput"}
+                  -#          %i{class: "fa fa-upload fileinput-new"}
+                  -#          %i{class: "fa fa-upload fileinput-exists"}
+                  -#            %span.fileinput-filename
+                  -#          %span.input-group-addon.btn.btn-default.btn-file
+                  -#            %span{class: "fileinput-new"} Subir Documento
+                  -#            %span{class: "fileinput-exists"} Cambiar
+                  -#            = f.file_field :certificado_homologacion

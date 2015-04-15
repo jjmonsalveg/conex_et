@@ -1,0 +1,14 @@
+es:
+  errors:
+    messages:
+      taken_in_past: "ya ha sido tomado!"
+      equal_to_current_password: "debe ser diferente a la contraseña actual"
+      password_format: "debe contener letras en mayuscula, minuscula y números"
+    devise:
+      invalid_captcha: "The captcha input is not valid!"
+      password_expired:
+        updated: "Your new password is saved."
+        change_required: "Your password is expired. Please renew your password!"
+      failure:
+        session_limited: 'Su cuenta ha iniciado sesión en otro explorador. Por favor, inicie sesión para continuar en este explorador.'
+        expired: 'Your account has expired due to inactivity. Please contact the site administrator.'

@@ -1,0 +1,36 @@
+.wrapper.wrapper-content
+  .row
+    .col-lg-12
+      .ibox.float-e-margins
+        - if @funcionario.respond_to?(:cedula)
+          .ibox-title.ibox-header-color
+            %h3
+              Datos Personales
+          .ibox-content
+            .row
+              .col-md-3
+                %h4
+                  %strong Nombres: &nbsp;
+                  = @funcionario.nombre
+              .col-md-3
+                %h4
+                  %strong
+                    Apellidos: &nbsp;
+                  = @funcionario.apellido
+              .col-md-2
+                %h4
+                  %strong
+                    Cédula: &nbsp;
+                  = @funcionario.nacionalidad+'-'
+                  = @funcionario.cedula
+              .col-md-3
+                %h4
+                  %strong
+                    Sexo: &nbsp;
+                  = @funcionario.sexo
+            .row
+              .col-md-12
+                = render 'form'
+        - else
+          .ibox-content
+            = @funcionario

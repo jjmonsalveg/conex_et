@@ -1,0 +1,43 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-lg-10
+    %h2
+      Verificación de Solicitud de Autorización Adecuación
+    %ol.breadcrumb
+      %li
+        = link_to 'Inicio', root_url
+      %li
+        = link_to 'Buscar Solicitudes de Autorización de Adecuación', verificar_preinscripcions_path
+      %li
+        Verificación de Solicitud de Autorización de Adecuación
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        - if @solicitud.nil?
+          .ibox-content
+            Error - No se ha encontrado la solicitud.
+        - else
+          .ibox-title
+            %h3
+              Prueba
+          .ibox-content
+            = form_for @solicitud.documentos.build(documento_requisito_id: 1, solicitud_id: 2), url:{action: :create}, html: {multipart: true, id: 'fileupload', enctype:"multipart/form-data"} do |f|
+              .row
+                .span16.fileupload-buttonbar
+                  .progressbar.fileupload-progressbar.nofade
+                    %div{:style => "width:0%;"}
+                  %span.btn.success.fileinput-button
+                    %span= t('photos.add_files')
+                    = f.file_field :file, multiple: true
+                  %button.btn.primary.start{:type => "submit"}= t('photos.start_upload')
+                  %button.btn.info.cancel{:type => "reset"}= t('photos.cancel_upload')
+                  %button.btn.danger.delete{:type => "button"}= t('photos.delete_selected')
+                  %input.toggle{:type => "checkbox"}/
+                  %br/
+                  .row
+                    .span16
+                      %table.zebra-striped
+                        %tbody.files
+                      #loading
+= render 'shared/jquery_scripts'

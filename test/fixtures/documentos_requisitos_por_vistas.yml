@@ -1,0 +1,34 @@
+# == Schema Information
+#
+# Table name: documentos_requisitos_por_vistas
+#
+#  id                      :integer          not null, primary key
+#  documento_requisito_id  :integer
+#  vista_id                :integer
+#  grupo_documentos_uno_id :integer
+#  created_at              :datetime
+#  updated_at              :datetime
+#
+# Indexes
+#
+#  index_doc_requisito_intermedia         (documento_requisito_id)
+#  index_documentos_unique_vista          (documento_requisito_id,vista_id) UNIQUE
+#  index_grupo_documentos_uno_intermedia  (grupo_documentos_uno_id)
+#  index_vista_intermedia                 (vista_id)
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  documento_requisito_id: 
+  vista_id: 
+  grupo_documentos_uno_id: 
+  obligatorio: false
+  almenos_uno: false
+
+two:
+  documento_requisito_id: 
+  vista_id: 
+  grupo_documentos_uno_id: 
+  obligatorio: false
+  almenos_uno: false

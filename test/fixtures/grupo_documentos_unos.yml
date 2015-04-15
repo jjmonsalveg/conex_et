@@ -1,0 +1,20 @@
+# == Schema Information
+#
+# Table name: grupo_documentos_unos
+#
+#  id         :integer          not null, primary key
+#  mensaje    :string(100)      default(""), not null
+#  icon_color :string(15)       default(""), not null
+#  created_at :datetime
+#  updated_at :datetime
+#
+
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  mensaje: MyString
+  icon_color: MyString
+
+two:
+  mensaje: MyString
+  icon_color: MyString

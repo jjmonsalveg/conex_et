@@ -1,0 +1,46 @@
+.wrapper.wrapper-content
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Rol
+        .ibox-content
+          = form_for(@rol, html: {class: "form-horizontal m-t-md"}) do |f|
+            - if @rol.errors.any?
+              #error_explanation
+                %h2
+                  = pluralize(@rol.errors.count, "error")
+                  prohibited this rol from being saved:
+                %ul
+                  - @rol.errors.full_messages.each do |message|
+                    %li= message
+            .form-group
+              = f.label :nombre, "Nombre: ", class: "col-sm-2 control-label"
+              .col-sm-10
+                = f.text_field :nombre, class: "form-control"
+            %br
+              %table.table.table-striped
+                %thead
+                  %tr
+                    %th{colspan: 2}
+                      Funcion del Sistema
+
+              - controlador_aux = ""
+              = f.collection_check_boxes :funcion_sistema_ids, FuncionSistema.all, :id, :nombre_accion_controlador do |r|
+                - if r.object.clase_controlador != controlador_aux
+                  .row
+                    .col-md-3.col-md-offset-3
+                      %h3
+                        = r.object.clase_controlador
+                .row
+                  .col-md-7
+                    = r.label
+                  .col-md-3
+                    = r.check_box
+                - controlador_aux = r.object.clase_controlador
+            .form-group
+              .col-sm-3
+                = f.submit "Guardar Rol", class: "btn btn-success btn-block"
+              .col-sm-3.col-sm-offset-4
+                = link_to "Volver", rols_path, class: "btn btn-primary btn-block"
