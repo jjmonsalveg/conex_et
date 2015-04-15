@@ -29,7 +29,7 @@ module ManageSolicitudHelper
 
   def load_solicitud(model)
     init_solicitud(nombre_solicitud, model)
-    load_documentos(nombre_vista,@solicitud)
+    @lista_documentos = load_documentos(nombre_vista,@solicitud)
   end
 
 #

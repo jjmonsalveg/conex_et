@@ -15,7 +15,7 @@
         .ibox-content
           .row.form-horizontal
             = form_for @escuela_transporte, url:  escuela_transportes_documentos_registro_path(@escuela_transporte), html: {method: :post} do |escuela|
-              =render 'shared/show_modelo_documentos_no_paginados', model: escuela
+              =render 'shared/show_modelo_documentos_no_paginados', model: escuela, list_documents: @lista_documentos
               .form-group
                 .col-sm-3.col-sm-offset-1
                   = escuela.submit 'Guardar Rif', class: 'btn btn-success btn-block', data: { disable_with: "Guardar Documentos." }

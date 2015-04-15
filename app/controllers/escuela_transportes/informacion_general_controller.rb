@@ -24,7 +24,7 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
                                   notice: 'Se ha actualizado la Información General de la escuela de transporte satisfactoriamente.' }
 
       else
-        load_documentos(nombre_vista,@solicitud,true)
+        @lista_documentos =  load_documentos(nombre_vista,@solicitud,true)
         format.html { render :new }
         format.json { render json: @tramite.errors, status: :unprocessable_entity }
       end
