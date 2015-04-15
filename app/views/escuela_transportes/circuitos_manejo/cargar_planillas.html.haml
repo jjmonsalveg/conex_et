@@ -8,50 +8,68 @@
       .ibox.float-e-margins
         .ibox-content
           %h2
-            Modelos de Planillas Para Practica de Manejo
+            Registro de Circuitos de Manejo
           %ol.breadcrumb
             %li
               = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
             %li
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            %li
+              = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
+            %li
               = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
             %li
-              = link_to 'Planos de Infraestructura', escuela_transportes_cargar_planos_path(@escuela_transporte)
-            %li
-              Planillas Para Prácticas de Manejo
-  .row
-    .col-md-9.col-md-offset-1
-      %p.text-muted.leyenda.text-justify
-        %strong.text-navy Ayuda:
-        %br
-        \- Para subir Modelos de Planillas Para Practica de Manejo haga click en boton
-        %span.azul-oscuro
-          Subir Documento
-        %br
-          Busque el documento a cargar en su equipo. Luego haga click en boton
-          %span{style: 'color:#18a689'}
-            Cargar
-            %i.fa.fa-plus-circle
-        %br
-          \- Si el documento fue guardado satisfactoriamente sera listado en la
-          %strong
-            Lista de planillas cargadas
-        %br
-          \- Una vez cargadas todas las planillas puede hacer click en
-          %span.azul-oscuro Guardar solicitud
-          para que sea procesada
-        %br
-          \- Si el boton
-          %span.azul-oscuro Guardar solicitud
-          se encuentra deshabilitado,es porque algún campo requerido
-          %br
-          no ha sido cargado en el proceso
-          COMPLETO de la solicitud use el boton
-          %span{style: 'color:#23c6c8'}
-            Regresar
-          y verifique la información
+              Registro de Circuitos de Manejo
+
+  .row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        = form_for @escuela_transporte,
+         url: escuela_transportes_informacion_general_path(@escuela_transporte),
+         html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general'} do |f|
+          .form-group
+          = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
+          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
+            text_prev:'Regresar',
+            clase_prev: '<i class="fa fa-folder-open-o"></i>',
+            url_prev:  escuela_transportes_informacion_general_index_path,
+            text_next: 'Guardar Información general',
+            clase_next: '<i class="fa fa-floppy-o"></i>'
+
+  -#.row
+  -#  .col-md-9.col-md-offset-1
+  -#    %p.text-muted.leyenda.text-justify
+  -#      %strong.text-navy Ayuda:
+  -#      %br
+  -#      \- Para subir Modelos de Planillas Para Practica de Manejo haga click en boton
+  -#      %span.azul-oscuro
+  -#        Subir Documento
+  -#      %br
+  -#        Busque el documento a cargar en su equipo. Luego haga click en boton
+  -#        %span{style: 'color:#18a689'}
+  -#          Cargar
+  -#          %i.fa.fa-plus-circle
+  -#      %br
+  -#        \- Si el documento fue guardado satisfactoriamente sera listado en la
+  -#        %strong
+  -#          Lista de planillas cargadas
+  -#      %br
+  -#        \- Una vez cargadas todas las planillas puede hacer click en
+  -#        %span.azul-oscuro Guardar solicitud
+  -#        para que sea procesada
+  -#      %br
+  -#        \- Si el boton
+  -#        %span.azul-oscuro Guardar solicitud
+  -#        se encuentra deshabilitado,es porque algún campo requerido
+  -#        %br
+  -#        no ha sido cargado en el proceso
+  -#        COMPLETO de la solicitud use el boton
+  -#        %span{style: 'color:#23c6c8'}
+  -#          Regresar
+  -#        y verifique la información
 
 -#formulario para cargar planilla
-= render 'escuela_transportes/planillas_practica_manejo/form_add_planilla'
 -#
 -##planillas-table
 -#  -unless @escuela_transporte.documentos_planillas.empty?

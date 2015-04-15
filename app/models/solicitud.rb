@@ -38,6 +38,7 @@ class Solicitud < ActiveRecord::Base
 
   has_many :traza_solicitud_funcionarios
 
+  #associations Particularizadas por proyecto
   has_one :circuito, dependent: :destroy
 
   #modulos genericos J&J

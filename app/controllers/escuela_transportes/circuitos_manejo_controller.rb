@@ -7,47 +7,54 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   helper_method :nombre_solicitud
 
   def cargar_planillas
-    @documento= Documento.new
-  end
-
-  def nombre_solicitud
-    :preinscripcion
+    init_solicitud(nombre_solicitud,@escuela_transporte)
+    @solicitud.build_circuito if @solicitud.circuito.nil?
+    @lista_documentos = load_documentos(nombre_vista,@solicitud.circuito,true)
   end
 
   def guardar_planillas
 
-    redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte),
-                alert: 'Debe cargar algun documento' and return if params[:documento].blank?
-
-    solicitud = @escuela_transporte.solicitud(:preinscripcion)
-    documentoRequisito = DocumentoRequisito.find_by(nombre: :planillas_practicas_manejo)
-
-    @documento = solicitud.documentos.build(params_planillas)
-    @documento.documento_requisito = documentoRequisito
-    @documento.solicitud = solicitud
-
-
-    if @documento.save
-      @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3)
-      flash[:success]= 'Planilla cargada satisfactoriamente'
-      redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
-    else
-      flash[:danger] = 'Error cargando la planilla'
-      render 'escuela_transportes/planillas_practica_manejo/cargar_planillas'
-    end
-
-  end
-
-  def eliminar_planilla
-
-    Documento.find_by(id: params_id_planilla).destroy
-    flash[:success] = 'Planilla Eliminada con exito'
-
-    @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3,false) if @escuela_transporte.documentos_planillas.empty?
-    redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
+    # redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte),
+    #             alert: 'Debe cargar algun documento' and return if params[:documento].blank?
+    #
+    # solicitud = @escuela_transporte.solicitud(:preinscripcion)
+    # documentoRequisito = DocumentoRequisito.find_by(nombre: :planillas_practicas_manejo)
+    #
+    # @documento = solicitud.documentos.build(params_planillas)
+    # @documento.documento_requisito = documentoRequisito
+    # @documento.solicitud = solicitud
+    #
+    #
+    # if @documento.save
+    #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3)
+    #   flash[:success]= 'Planilla cargada satisfactoriamente'
+    #   redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
+    # else
+    #   flash[:danger] = 'Error cargando la planilla'
+    #   render 'escuela_transportes/planillas_practica_manejo/cargar_planillas'
+    # end
 
   end
+  #
+  # def eliminar_planilla
+  #
+  #   Documento.find_by(id: params_id_planilla).destroy
+  #   flash[:success] = 'Planilla Eliminada con exito'
+  #
+  #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3,false) if @escuela_transporte.documentos_planillas.empty?
+  #   redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
+  #
+  # end
 
+  def nombre_solicitud
+    :preinscripcion
+  end
+  helper_method :nombre_solicitud
+
+  def nombre_vista
+    :registro_circuitos_manejo
+  end
+  helper_method :nombre_vista
 
   private
 
