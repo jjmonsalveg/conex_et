@@ -8,6 +8,7 @@ jQuery(document).ready ($) ->
         placa: $('#placa_vehiculo_pre').val()
         s_carroceria: $('#s_carroceria_vehiculo_pre').val()
         ano: $('#ano_vehiculo_pre').val()
+        id: $('#escuela_transporte_hidden').val()
       success: (data) ->
         html = $('#div_buscar_vehiculo_pre')
         html.empty()

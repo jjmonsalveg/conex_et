@@ -2177,7 +2177,7 @@ vista_rcv_flota = Vista.create!(nombre:'rcv_flota',
                                 descripcion: 'Registro de Seguro RCV para Vehículos',
                                 index: 2)
 
-vista_vehiculo_ensenanza = Vista.create!(nombre:'vehiculo_ensenanza ',
+vista_vehiculo_ensenanza = Vista.create!(nombre:'vehiculo_pre ',
                                          descripcion: 'Registro de Vehículos de Enseñanza',
                                          index: 3)
 

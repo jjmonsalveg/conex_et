@@ -1,7 +1,7 @@
 class EscuelaTransportes::VehiculosController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
-  before_action :set_escuela_transporte_preinscripcion , only: [:new, :create, :campos_documentos,:index]
+  before_action :set_escuela_transporte_preinscripcion , only: [:new, :create, :campos_documentos,:index, :buscar_vehiculo_pre]
 
   def new
     if @escuela_transporte.nil?
@@ -10,11 +10,19 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   end
 
   def buscar_vehiculo_pre
-    if vehiculo_pertenece_et?
-      render partial: 'vehiculo_in_use'
-    else
-      @vehiculo = find_vehiculo_parametros
+    if VehiculoPre.find_by(placa: ActionController::Parameters.new(placa: params[:placa]).permit(:placa)[:placa].upcase).nil?
+      @vehiculo_intt = find_vehiculo_parametros
+      render partial:'vehiculo_no_carga' and return if @vehiculo_intt.nil?
+      @propietario = TramitePropietario.find_by(NRO_TRAMITE: @vehiculo_intt.NRO_TRAMITE) || TramitePropietario.new
+      @vehiculo = VehiculoPre.new
+      if @escuela_transporte.solicitud(nombre_solicitud).seguro.nil?
+        seguro = @vehiculos.build_seguro
+        @documentos_seguro = load_documentos(:rcv_flota, seguro, true)
+      end
+      @documentos_vehiculos = load_documentos(nombre_vista, @vehiculo)
       render partial: 'found_vehiculo'
+    else
+      render partial: 'vehiculo_in_use'
     end
   end
 
@@ -22,7 +30,7 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   def campos_documentos
     vehiculo_intt = find_vehiculo_parametros
     @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
-    @documentos_vehiculos = load_documentos(nombre_vista,@vehiculo_et)
+    @documentos_vehiculos = load_documentos(:vehiculo_ensenanza, @vehiculo_et)
     render partial: 'campos_documentos'
   end
 
@@ -85,7 +93,7 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   helper_method :nombre_solicitud
 
   def nombre_vista
-    :vehiculo_ensenanza
+    :vehiculo_pre
   end
   helper_method :nombre_vista
 
