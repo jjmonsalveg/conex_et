@@ -11,7 +11,7 @@
           = v.hidden_field :s_carroceria, value: params[:s_carroceria]
           = v.hidden_field :ano, value: params[:ano]
           = hidden_field_tag :id, params[:id]
-          =render 'shared/show_modelo_documentos_no_paginados', model: v
+          =render 'shared/show_modelo_documentos_no_paginados', model: v, list_documents: @documentos_vehiculos
           .row
             .col-sm-3.col-sm-offset-4
               = v.button(type: "submit", class: "btn btn-success btn-block", data: { disable_with: "Guardar Vehículo" }) do

@@ -172,7 +172,8 @@ Rails.application.routes.draw do
     get 'solicitud/print', to: 'solicitud_final#print', as: :print
 
     # Seguro RCV
-    resources :seguros
+    resources :seguros, only: [:new, :create]
+    patch '/seguros/', to: 'seguros#create'
     post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
   end
 end

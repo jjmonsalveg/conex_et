@@ -21,8 +21,8 @@
       .ibox-content
         .row
           .col-md-12
-            - if @escuela_transporte.vehiculo_pres.any?
-              - @escuela_transporte.vehiculo_pres.each do |vehiculo|
+            - if @solicitud.vehiculo_pres.any?
+              - @solicitud.vehiculo_pres.each do |vehiculo|
                 %h3
                   Vehículo
                 .row
@@ -85,7 +85,7 @@
                     Registrar Vehículo Adicional
                     %i.fa.fa-car
                 .col-sm-3.col-sm-offset-6
-                  - if @escuela_transporte.vehiculo_pres.any?
+                  - if @solicitud.vehiculo_pres.any?
                     = link_to escuela_transportes_cargar_planos_path(@escuela_transporte), class: 'btn btn-success btn-block' do
                       A Infraestructura
                       %i.fa.fa-building-o

@@ -42,7 +42,7 @@
             = render 'shared/error_messages', object: f.object, model: 'Planos Infraestructura'
           = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
 
-          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
+          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom', f:f ,
             text_prev:'Volver a Informacion General',
             clase_prev: '<i class="fa fa-database"></i>',
             url_prev:  escuela_transportes_informacion_general_new_path(id: @escuela_transporte.id),

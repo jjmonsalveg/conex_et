@@ -21,8 +21,8 @@ class EscuelaTransportes::VehiculosController < ApplicationController
 
   def campos_documentos
     vehiculo_intt = find_vehiculo_parametros
-    @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte)
-    load_documentos(nombre_vista,@vehiculo_et)
+    @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
+    @documentos_vehiculos = load_documentos(nombre_vista,@vehiculo_et)
     render partial: 'campos_documentos'
   end
 
@@ -66,14 +66,14 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   end
 
   def index
+    @solicitud = @escuela_transporte.solicitud(nombre_solicitud)
   end
 
   def destroy
-    @vehiculo  = VehiculoPre.find_by(id: params_id)
-    escuela = @vehiculo.escuela_transporte
+    @vehiculo  = @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.find_by(id: params_id)
     @vehiculo.destroy
-    unless escuela.vehiculo_pres.any?
-      escuela.solicitud(nombre_solicitud).update_index_mask(1, false)
+    unless @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.any?
+      @escuela.solicitud(nombre_solicitud).update_index_mask(1, false)
     end
     flash[:success]= 'Vehículo eliminado con éxito'
     redirect_to escuela_transportes_vehiculos_path(id: escuela) and return
@@ -85,9 +85,9 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   helper_method :nombre_solicitud
 
   def nombre_vista
-    :documentos_vehiculos
+    :vehiculo_ensenanza
   end
-  helper_method :nombre_tramite
+  helper_method :nombre_vista
 
 
   private
