@@ -4,7 +4,7 @@ class EscuelaTransportes::DocumentosRegistrosController < ApplicationController
   before_action :set_escuela_transporte
 
   def new
-    load_documentos(:registro_inicial, @escuela_transporte)
+    @lista_documentos = load_documentos(:registro_inicial, @escuela_transporte)
   end
 
   def create
@@ -12,7 +12,7 @@ class EscuelaTransportes::DocumentosRegistrosController < ApplicationController
       flash[:success]= 'Documentos registrados con éxito'
       redirect_to representante_legal_escuela_transportes_path(@escuela_transporte.representante_legal) and return
     else
-      load_documentos(:registro_inicial, @escuela_transporte,true)
+      @lista_documentos = load_documentos(:registro_inicial, @escuela_transporte,true)
       render :new
     end
   end

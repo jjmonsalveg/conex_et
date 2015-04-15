@@ -180,7 +180,7 @@
          url: escuela_transportes_informacion_general_path(@escuela_transporte),
          html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general'} do |f|
           .form-group
-          = render 'shared/solicitud_documents',f:f
+          = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
           = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
             text_prev:'Regresar',
             clase_prev: '<i class="fa fa-folder-open-o"></i>',

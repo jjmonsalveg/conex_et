@@ -12,7 +12,6 @@ module ManageDocumentHelper
 
     loop_build_documentos(documento_requisitos_por_vista, modelo)
     cargar_documentos(documento_requisitos_por_vista_show, modelo)
-
   end
 
   protected
@@ -23,16 +22,17 @@ module ManageDocumentHelper
   end
 
   def cargar_documentos(documento_requisitos_por_vista, modelo)
-    @documentos = Array.new
+    documentos = Array.new
     modelo.documentos.to_a.each do |d|
       documento_requisitos_por_vista.each do |documento|
         # next  if not cargar_paginados and documento.documento_requisito.paginado
         if d.documentos_requisitos_por_vista_id == documento[:id]
-          @documentos<<d
+          documentos<<d
           break
         end
       end
     end
+    return documentos
   end
 
   def consulta(nombre_vista, modelo)

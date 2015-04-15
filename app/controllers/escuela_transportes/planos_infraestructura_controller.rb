@@ -23,7 +23,7 @@ class EscuelaTransportes::PlanosInfraestructuraController < ApplicationControlle
       # redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
       redirect_to root_path
     else
-      load_documentos(nombre_vista,@solicitud,true)
+      @lista_documentos = load_documentos(nombre_vista,@solicitud,true)
       render :new
     end
   end

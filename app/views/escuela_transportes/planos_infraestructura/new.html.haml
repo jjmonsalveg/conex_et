@@ -40,7 +40,7 @@
          html: {class: 'form-horizontal m-t-md'} do |f|
           .form-group
             = render 'shared/error_messages', object: f.object, model: 'Planos Infraestructura'
-          = render 'shared/solicitud_documents',f:f
+          = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
 
           = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
             text_prev:'Volver a Informacion General',
