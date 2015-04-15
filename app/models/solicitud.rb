@@ -38,6 +38,8 @@ class Solicitud < ActiveRecord::Base
 
   has_many :traza_solicitud_funcionarios
 
+  has_one :circuito, dependent: :destroy
+
   #modulos genericos J&J
   has_one :seguro
 

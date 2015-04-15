@@ -1,4 +1,4 @@
-class EscuelaTransportes::PlanillasPracticaManejoController < ApplicationController
+class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion
