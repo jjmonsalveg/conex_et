@@ -67,7 +67,7 @@ class SessionUsers::RegistrationsController < Devise::RegistrationsController
 
 
   def create
-    # if verify_recaptcha
+    if verify_recaptcha
       original =  params[:session_user][:usuario_sput_attributes][:representante_legal_attributes][:rif]
       original_movil = params[:session_user][:usuario_sput_attributes][:movil]
 
@@ -123,14 +123,14 @@ class SessionUsers::RegistrationsController < Devise::RegistrationsController
 
         respond_with resource
       end
-    # else
-    #
-    #   build_resource(sign_up_params)
-    #   clean_up_passwords(resource)
-    #   resource.errors[:base] <<
-    #       'Codigo de Verificación erróneo'
-    #   render :new
-    # end
+    else
+
+      build_resource(sign_up_params)
+      clean_up_passwords(resource)
+      resource.errors[:base] <<
+          'Codigo de Verificación erróneo'
+      render :new
+    end
   end
 
 

@@ -139,21 +139,21 @@
                   Cédula de Identidad Digitalizada:
                   %span.glyphicon-asterisk.red
                 .col-sm-7
-                  =render 'shared/file_upload_generic',f: representante_legal,
+                  =render 'shared/file_upload_static',f: representante_legal,
                    field: :doc_cedula, name_file:nil# representante_legal.object.doc_cedula
               .form-group.doc-feedback
                 = representante_legal.label :doc_rif , class: ' control-label col-sm-5' do
                   Rif Digitalizado:
                   %span.glyphicon-asterisk.red
                 .col-sm-7
-                  =render 'shared/file_upload_generic',f: representante_legal,
+                  =render 'shared/file_upload_static',f: representante_legal,
                   field: :doc_rif, name_file: nil #representante_legal.object.doc_rif
               .form-group
                 = representante_legal.label :doc_gaceta_naturalizacion ,
                   class: ' control-label col-sm-5' do
                   Gaceta de Naturalización Digitalizada:
                 .col-sm-7
-                  =render 'shared/file_upload_generic',f: representante_legal,
+                  =render 'shared/file_upload_static',f: representante_legal,
                   field: :doc_gaceta_naturalizacion,
                   name_file: nil # representante_legal.object.doc_gaceta_naturalizacion
           .form-group
