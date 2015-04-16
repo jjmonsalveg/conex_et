@@ -5,4 +5,6 @@ class ContratoArrendamiento < ActiveRecord::Base
   has_many :documentos,  dependent: :destroy, as: :modelo
   accepts_nested_attributes_for :documentos, allow_destroy: true
 
+  mount_uploader :contrato_arrendamiento_file, ContratoArrendamientoFileUploader
+
 end

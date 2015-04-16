@@ -1,4 +1,5 @@
 jQuery(document).ready ($) ->
+
   $('#buscar_vehiculo_pre').click ->
     $('#div_buscar_vehiculo_pre').empty()
     $('#loading_buscar_vehiculo').show()

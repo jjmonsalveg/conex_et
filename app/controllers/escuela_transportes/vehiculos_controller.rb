@@ -1,7 +1,7 @@
 class EscuelaTransportes::VehiculosController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
-  before_action :set_escuela_transporte_preinscripcion , only: [:new, :create, :campos_documentos,:index, :buscar_vehiculo_pre]
+  before_action :set_escuela_transporte_preinscripcion , only: [:new, :create, :destroy,:index, :buscar_vehiculo_pre]
 
   def new
     if @escuela_transporte.nil?
@@ -27,24 +27,24 @@ class EscuelaTransportes::VehiculosController < ApplicationController
     end
   end
 
-
-  def campos_documentos
-    vehiculo_intt = find_vehiculo_parametros
-    @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
-    @documentos_vehiculos = load_documentos(:vehiculo_ensenanza, @vehiculo_et)
-    render partial: 'campos_documentos'
-  end
+  #
+  # def campos_documentos
+  #   vehiculo_intt = find_vehiculo_parametros
+  #   @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
+  #   @documentos_vehiculos = load_documentos(:vehiculo_ensenanza, @vehiculo_et)
+  #   render partial: 'campos_documentos'
+  # end
 
   def create
     respond_to do |format|
       unless vehiculo_pertenece_et?
         vehiculo_intt = find_vehiculo_parametros
         if vehiculo_intt.present?
-          @vehiculo = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
+          @vehiculo = VehiculoPre.build_vehiculo_intt(vehiculo_intt, contrato_arrendamiento_params, create_vehiculo_documentos_params, @escuela_transporte.solicitud(nombre_solicitud))
           @vehiculo.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])
           if @vehiculo.save
             @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
-            format.html { redirect_to escuela_transportes_vehiculos_path(id: @servicio.id),
+            format.html { redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id),
                                       notice: 'El vehículo fue guardado con éxito.' }
           else
             format.html {redirect_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), alert: 'Error guardando el vehículo.' }
@@ -56,32 +56,32 @@ class EscuelaTransportes::VehiculosController < ApplicationController
         format.html { redirect_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), alert: 'Vehículo pertenece a otra Escuela de transporte'}
       end
     end
-    if vehiculo_pertenece_et?
-      flash[:danger]=
-      render js: "window.location = '#{new_escuela_transportes_vehiculo_path(id: @escuela_transporte)}'"
-    else
-      vehiculo_intt = find_vehiculo_parametros
-      if vehiculo_intt.nil?
-        flash[:danger]=
-        render js: "window.location = '#{}'"
-      else
-        @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte)
-        @vehiculo_et.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])
-        respond_to do |format|
-          if @vehiculo_et.save
-            flash[:success]= 'Vehículo Guardado Satisfactoriamente'
-            @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
-            render js: "window.location = '#{escuela_transportes_vehiculos_path(id: @escuela_transporte)}'"
-            return
-          else
-            load_documentos(nombre_vista,@vehiculo_et,true)
-            format.js
-          end
-
-        end
-
-      end
-    end
+    # if vehiculo_pertenece_et?
+    #   flash[:danger]=
+    #   render js: "window.location = '#{new_escuela_transportes_vehiculo_path(id: @escuela_transporte)}'"
+    # else
+    #   vehiculo_intt = find_vehiculo_parametros
+    #   if vehiculo_intt.nil?
+    #     flash[:danger]=
+    #     render js: "window.location = '#{}'"
+    #   else
+    #     @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte)
+    #     @vehiculo_et.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])
+    #     respond_to do |format|
+    #       if @vehiculo_et.save
+    #         flash[:success]= 'Vehículo Guardado Satisfactoriamente'
+    #         @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
+    #         render js: "window.location = '#{escuela_transportes_vehiculos_path(id: @escuela_transporte)}'"
+    #         return
+    #       else
+    #         load_documentos(nombre_vista,@vehiculo_et,true)
+    #         format.js
+    #       end
+    #
+    #     end
+    #
+    #   end
+    # end
     #TODO hacer este if
     # if vehiculo_intt.ID_USO == 'CG' && !vehiculo_params[:certificado_homologacion].present?
   end
@@ -91,13 +91,13 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   end
 
   def destroy
-    @vehiculo  = @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.find_by(id: params_id)
+    @vehiculo  = @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.find_by(placa: ActionController::Parameters.new(vh: params[:vh]).permit(:vh)[:vh])
     @vehiculo.destroy
     unless @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.any?
       @escuela.solicitud(nombre_solicitud).update_index_mask(1, false)
     end
     flash[:success]= 'Vehículo eliminado con éxito'
-    redirect_to escuela_transportes_vehiculos_path(id: escuela) and return
+    redirect_to escuela_transportes_vehiculos_path(id: @escuela) and return
   end
 
   def nombre_solicitud
@@ -144,6 +144,25 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   end
 
   def create_vehiculo_documentos_params
-    params.require(:vehiculo_pre).permit(:placa, :s_carroceria,:ano,:id, documentos_attributes:[:id, :documentos_requisitos_por_vista_id,:doc])
+    params.require(:vehiculo_pre).permit(:placa, :s_carroceria,:ano,:id,
+                                         documentos_attributes:[:id, :documentos_requisitos_por_vista_id,:doc],
+                                         seguro: [:rif,
+                                                           :num_poliza,
+                                                           :fecha_vencimiento,
+                                                           :aseguradora_id,
+                                                           :flotum_id,
+                                                           :documento_poliza,
+                                                           documentos_attributes: [
+                                                               :id, :documentos_requisitos_por_vista_id, :doc]])
+  end
+
+  def contrato_arrendamiento_params
+    params.require(:contrato_arrendamiento).permit(:duracion,
+                                                   :fecha,
+                                                   :tomo,
+                                                   :folio,
+                                                   :notaria,
+                                                   :nombre_arrendatario,
+                                                   :rif_arrendatario, :contrato_arrendamiento_file) rescue nil
   end
 end
