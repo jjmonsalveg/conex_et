@@ -16,10 +16,11 @@ class EscuelaTransportes::VehiculosController < ApplicationController
       @propietario = TramitePropietario.find_by(NRO_TRAMITE: @vehiculo_intt.NRO_TRAMITE) || TramitePropietario.new
       @vehiculo = VehiculoPre.new
       if @escuela_transporte.solicitud(nombre_solicitud).seguro.nil?
-        seguro = @vehiculos.build_seguro
+        seguro = @vehiculo.build_seguro
         @documentos_seguro = load_documentos(:rcv_flota, seguro, true)
       end
       @documentos_vehiculos = load_documentos(nombre_vista, @vehiculo)
+      puts @documentos_vehiculos
       render partial: 'found_vehiculo'
     else
       render partial: 'vehiculo_in_use'

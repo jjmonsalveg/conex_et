@@ -38,7 +38,7 @@
   private
     def seguro_params
     params.require(:seguro).permit(:rif, :num_poliza, :fecha_vencimiento,
-                                     :aseguradora_id, documentos_attributes: [:id, :documentos_requisitos_por_vista_id, :doc])
+                                     :aseguradora_id, documentos_attributes: [:id, :documentos_requisitos_por_vista_id, :doc]) rescue nil
     end
 
     def check_seguro_solicitud

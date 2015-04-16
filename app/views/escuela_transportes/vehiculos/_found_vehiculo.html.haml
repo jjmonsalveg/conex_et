@@ -66,11 +66,11 @@
         = f.hidden_field :ano, value: @vehiculo_intt.ANO, id: 'found_vehiculo_ano'
         = render 'shared/show_modelo_documentos_no_paginados', model: f, list_documents: @documentos_vehiculos
         - if @escuela_transporte.solicitud(nombre_solicitud).seguro.nil?
-          = f.fields_for @vehiculo.seguro_vehiculo do |seguro|
+          = f.fields_for @vehiculo.seguro do |seguro|
             %hr
             %h4 Datos del Seguro
             %div#seguro_fields_on
-              = render 'solicitud/shared/campos_seguro', f: seguro
+              = render 'escuela_transportes/seguros/campos_seguro', f: seguro
         .row
           .col-md-12
             .checkbox.i-checks
@@ -107,205 +107,126 @@
       if ($("#posee_arrendatario").is(':checked')) {
         $('#contenedor-arrendatario').show();
         $('#contenedor-arrendatario :input').prop("disabled", false);
-        //$('#contrato_arrendamiento_duracion').prop("disabled", false);
-        //$('#contrato_arrendamiento_tomo').prop("disabled", false);
-        //$('#contrato_arrendamiento_notaria').prop("disabled", false);
-        //$('#contrato_arrendamiento_nombre_arrendatario').prop("disabled", false);
-        //$('#contrato_arrendamiento_folio').prop("disabled", false);
-        //$('#contrato_arrendamiento_rif_arrendatario').prop("disabled", false);
-        //$('#contrato_arrendamiento_notaria').prop("disabled", false);
         $('#contenedor-arrendatario').find('select').prop("disabled", false);
       } else {
         $('#contenedor-arrendatario').hide();
         $('#contenedor-arrendatario :input').prop("disabled", true);
-        //$('#contrato_arrendamiento_duracion').prop("disabled", true);
-        //$('#contrato_arrendamiento_tomo').prop("disabled", true);
-        //$('#contrato_arrendamiento_notaria').prop("disabled", true);
-        //$('#contrato_arrendamiento_nombre_arrendatario').prop("disabled", true);
-        //$('#contrato_arrendamiento_folio').prop("disabled", true);
-        //$('#contrato_arrendamiento_rif_arrendatario').prop("disabled", true);
-        //$('#contrato_arrendamiento_notaria').prop("disabled", true);
         $('#contenedor-arrendatario').find('select').prop("disabled", true);
       }
     });
-    if ($('#seguro_fields_on').length == 0) {
-      $('#form-vehiculo-tramite-found').bootstrapValidator({
-        feedbackIcons: {
-          valid: 'fa fa-check',
-          invalid: 'fa fa-times',
-          validating: 'fa fa-refresh'
+
+    $('#form-vehiculo-tramite-found').bootstrapValidator({
+      feedbackIcons: {
+        valid: 'fa fa-check',
+        invalid: 'fa fa-times',
+        validating: 'fa fa-refresh'
+      },
+      live: 'submitted',
+      fields: {
+        'vehiculo_pre[documentos_attributes][0][doc]': {
+          validators: {
+            notEmpty: {
+              message: 'Certificado de Homologación es obligatorio'
+            }
+          }
         },
-        live: 'submitted',
-        fields: {
-          'vehiculos_tramite[documentos_attributes][0][doc]': {
-            validators: {
-              notEmpty: {
-                message: 'El Certificado de Registro del Vehículo es obligatorio'
-              }
+        'vehiculo_pre[documentos_attributes][1][doc]': {
+          validators: {
+            notEmpty: {
+              message: 'Certificado de Registro de Vehículoes obligatorio'
             }
-          },
-          'vehiculos_tramite[documentos_attributes][1][doc]': {
-            validators: {
-              notEmpty: {
-                message: 'Constancia de Revisión del Vehículo es obligatorio'
-              }
+          }
+        },
+        'vehiculo_pre[documentos_attributes][2][doc]': {
+          validators: {
+            notEmpty: {
+              message: 'Certificado Revisión Técnica es obligatorio'
             }
-          },
-          'contrato_arrendamiento[duracion]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar los años de duración del contrato'
-              }
+          }
+        },
+        'vehiculo_pre[seguro][aseguradora_id]': {
+          validators: {
+            notEmpty: {
+              message: 'Debe de ingresar una compañia aseguradora'
             }
-          },
-          'contrato_arrendamiento[tomo]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de Tomo'
-              }
+          }
+        },
+        'vehiculo_pre[seguro][num_poliza]': {
+          validators: {
+            notEmpty: {
+              message: 'Número de póliza es obligatorio'
             }
-          },
-          'contrato_arrendamiento[contrato_arrendamiento_file]': {
-            validators: {
-              notEmpty: {
-                message: 'Contrato de Arrendamiento Notariado es Obligatorio.'
-              }
+          }
+        },
+        "vehiculo_pre[seguro][documentos_attributes][0][doc]": {
+          validators: {
+            notEmpty: {
+                message: 'Debe de subir la póliza digitalizada'
             }
-          },
-          'contrato_arrendamiento[folio]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de Folio'
-              }
+          }
+        },
+        'contrato_arrendamiento[duracion]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar los años de duración del contrato'
             }
-          },
-          'contrato_arrendamiento[notaria]': {
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de notaria'
-              }
+          }
+        },
+        'contrato_arrendamiento[tomo]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de Tomo'
             }
-          },
-          'contrato_arrendamiento[nombre_arrendatario]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el Nombre y Apellido/Razón Social'
-              }
+          }
+        },
+        'contrato_arrendamiento[folio]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de Folio'
             }
-          },
-          'contrato_arrendamiento[rif_arrendatario]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar la C.I/RIF'
-              }
+          }
+        },
+        'contrato_arrendamiento[notaria]': {
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de notaria'
+            }
+          }
+        },
+        'contrato_arrendamiento[nombre_arrendatario]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el Nombre y Apellido/Razón Social'
+            }
+          }
+        },
+        'contrato_arrendamiento[rif_arrendatario]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar la C.I/RIF'
+            }
+          }
+        },
+        'contrato_arrendamiento[contrato_arrendamiento_file]': {
+          validators: {
+            notEmpty: {
+              message: 'Contrato de Arrendamiento es Obligatorio'
             }
           }
         }
-      });
-    } else {
-      $('#form-vehiculo-tramite-found').bootstrapValidator({
-        feedbackIcons: {
-          valid: 'fa fa-check',
-          invalid: 'fa fa-times',
-          validating: 'fa fa-refresh'
-        },
-        live: 'submitted',
-        fields: {
-          'vehiculos_tramite[documentos_attributes][0][doc]': {
-            validators: {
-              notEmpty: {
-                message: 'El Certificado de Registro del Vehículo es obligatorio'
-              }
-            }
-          },
-          'vehiculos_tramite[documentos_attributes][1][doc]': {
-            validators: {
-              notEmpty: {
-                message: 'Constancia de Revisión del Vehículo es obligatorio'
-              }
-            }
-          },
-          'vehiculos_tramite[seguro_vehiculo][aseguradora_id]': {
-            validators: {
-              notEmpty: {
-                message: 'Debe de ingresar una compañia aseguradora'
-              }
-            }
-          },
-          'vehiculos_tramite[seguro_vehiculo][num_poliza]': {
-            validators: {
-              notEmpty: {
-                message: 'Número de póliza es obligatorio'
-              }
-            }
-          },
-          "vehiculos_tramite[seguro_vehiculo][documentos_attributes][0][doc]": {
-            validators: {
-              notEmpty: {
-                  message: 'Debe de subir la póliza digitalizada'
-              }
-            }
-          },
-          'contrato_arrendamiento[duracion]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar los años de duración del contrato'
-              }
-            }
-          },
-          'contrato_arrendamiento[tomo]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de Tomo'
-              }
-            }
-          },
-          'contrato_arrendamiento[folio]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de Folio'
-              }
-            }
-          },
-          'contrato_arrendamiento[notaria]': {
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el numero de notaria'
-              }
-            }
-          },
-          'contrato_arrendamiento[nombre_arrendatario]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar el Nombre y Apellido/Razón Social'
-              }
-            }
-          },
-          'contrato_arrendamiento[rif_arrendatario]': {
-            group: '.group',
-            validators: {
-              notEmpty: {
-                message: 'Debe indicar la C.I/RIF'
-              }
-            }
-          }
-        }
-      });
-    }
+      }
+    });
+
 
     $('#aseguradora_id_rif').change(function() {
       return $.ajax({
         type: "POST",
-        url: "/asegurador/rif",
+        url: "/escuela_transportes/rif",
         dataType: "JSON",
         beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
         data: {
