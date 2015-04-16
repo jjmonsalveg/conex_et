@@ -1,5 +1,7 @@
 jQuery(document).ready ($) ->
   $('#buscar_vehiculo_pre').click ->
+    $('#div_buscar_vehiculo_pre').empty()
+    $('#loading_buscar_vehiculo').show()
     $.ajax
       type: "POST"
       url: "/escuela_transportes/vehiculos/buscar_vehiculo_pre"
@@ -13,4 +15,6 @@ jQuery(document).ready ($) ->
         html = $('#div_buscar_vehiculo_pre')
         html.empty()
         html.append(data)
+      complete: ->
+        $('#loading_buscar_vehiculo').hide()
 
