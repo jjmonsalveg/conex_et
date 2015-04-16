@@ -35,23 +35,35 @@ class EscuelaTransportes::VehiculosController < ApplicationController
     render partial: 'campos_documentos'
   end
 
-  # def build_vehiculo_et(vehiculo_intt)
-  #   @escuela_transporte.vehiculo_pres.build(modelo: vehiculo_intt.MODELO, placa: vehiculo_intt.PLACA,
-  #                                           s_carroceria: vehiculo_intt.SERIAL_CARROCERIA,
-  #                                           ano: vehiculo_intt.ANO, marca: vehiculo_intt.marca.NOMBRE_MARCA,
-  #                                           uso: vehiculo_intt.ID_USO)
-  # end
-
   def create
-
+    respond_to do |format|
+      unless vehiculo_pertenece_et?
+        vehiculo_intt = find_vehiculo_parametros
+        if vehiculo_intt.present?
+          @vehiculo = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte.solicitud(nombre_solicitud))
+          @vehiculo.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])
+          if @vehiculo.save
+            @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
+            format.html { redirect_to escuela_transportes_vehiculos_path(id: @servicio.id),
+                                      notice: 'El vehículo fue guardado con éxito.' }
+          else
+            format.html {redirect_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), alert: 'Error guardando el vehículo.' }
+          end
+        else
+          format.html { redirect_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), alert: 'Vehículo no encontrado en base de datos INTT'}
+        end
+      else
+        format.html { redirect_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), alert: 'Vehículo pertenece a otra Escuela de transporte'}
+      end
+    end
     if vehiculo_pertenece_et?
-      flash[:danger]= 'Vehículo pertenece a otra Escuela de transporte'
+      flash[:danger]=
       render js: "window.location = '#{new_escuela_transportes_vehiculo_path(id: @escuela_transporte)}'"
     else
       vehiculo_intt = find_vehiculo_parametros
       if vehiculo_intt.nil?
-        flash[:danger]= 'Vehículo no encontrado en base de datos INTT'
-        render js: "window.location = '#{new_escuela_transportes_vehiculo_path(id: @escuela_transporte)}'"
+        flash[:danger]=
+        render js: "window.location = '#{}'"
       else
         @vehiculo_et = VehiculoPre.build_vehiculo_intt(vehiculo_intt, @escuela_transporte)
         @vehiculo_et.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])

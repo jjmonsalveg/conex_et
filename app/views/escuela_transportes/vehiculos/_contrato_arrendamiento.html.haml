@@ -75,19 +75,20 @@
           .row
             .col-md-12
               .form-group
-                = contrato.label :notaria, class: 'col-sm-3 control-label' do
-                  Contrato de Arrendamiento Notariado:
-                  %span.fa.fa-asterisk.red
-                .col-sm-9
-                  .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
-                    .form-control{"data-trigger" => "fileinput"}
-                      %i.glyphicon.glyphicon-file.fileinput-exists
-                      %span.fileinput-filename
-                    %span.input-group-addon.btn.btn-default.btn-file
-                      %span.fileinput-new Subir Documento
-                      %span.fileinput-exists Cambiar
-                      = contrato.file_field :contrato_arrendamiento_file, disabled: true, id: 'contrato_arrendamiento_file'
-                    %a.input-group-addon.btn.btn-default.fileinput-exists{"data-dismiss" => "fileinput", :href => "#"} Quitar
+                .group
+                  = contrato.label :notaria, class: 'col-sm-3 control-label' do
+                    Contrato de Arrendamiento Notariado:
+                    %span.fa.fa-asterisk.red
+                  .col-sm-9
+                    .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                      .form-control{"data-trigger" => "fileinput"}
+                        %i.glyphicon.glyphicon-file.fileinput-exists
+                        %span.fileinput-filename
+                      %span.input-group-addon.btn.btn-default.btn-file
+                        %span.fileinput-new Subir Documento
+                        %span.fileinput-exists Cambiar
+                        = contrato.file_field :contrato_arrendamiento_file, disabled: true, id: 'contrato_arrendamiento_file'
+                      %a.input-group-addon.btn.btn-default.fileinput-exists{"data-dismiss" => "fileinput", :href => "#"} Quitar
 %script{:src => "/js/plugins/input-mask/jquery.inputmask.js" }
 %script{:src => "/js/plugins/input-mask/jquery.inputmask.regex.extensions.js" }
 :javascript

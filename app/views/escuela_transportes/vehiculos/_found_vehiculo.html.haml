@@ -64,7 +64,9 @@
         = f.hidden_field :placa, value: @vehiculo_intt.PLACA, id: 'found_vehiculo_placa'
         = f.hidden_field :s_carroceria, value: @vehiculo_intt.SERIAL_CARROCERIA, id: 'found_vehiculo_s_carroceria'
         = f.hidden_field :ano, value: @vehiculo_intt.ANO, id: 'found_vehiculo_ano'
+        = f.hidden_field :uso, value: @vehiculo_intt.ID_USO, id: 'found_vehiculo_uso'
         = render 'shared/show_modelo_documentos_no_paginados', model: f, list_documents: @documentos_vehiculos
+
         - if @escuela_transporte.solicitud(nombre_solicitud).seguro.nil?
           = f.fields_for @vehiculo.seguro do |seguro|
             %hr
@@ -114,7 +116,6 @@
         $('#contenedor-arrendatario').find('select').prop("disabled", true);
       }
     });
-
     $('#form-vehiculo-tramite-found').bootstrapValidator({
       feedbackIcons: {
         valid: 'fa fa-check',
@@ -124,23 +125,43 @@
       live: 'submitted',
       fields: {
         'vehiculo_pre[documentos_attributes][0][doc]': {
+          group: '.group',
           validators: {
-            notEmpty: {
-              message: 'Certificado de Homologación es obligatorio'
+            callback: {
+              message: 'Certificado Homologación es obligatorio para Vehículos Carga',
+              callback: function(value, validator, $field) {
+                var uso = $('#found_vehiculo_uso').val();
+                if ((uso === 'CG' || uso === 'CL') && value === '') {
+                  return false
+                }
+                else {
+                  return true
+                }
+              }
             }
           }
         },
         'vehiculo_pre[documentos_attributes][1][doc]': {
+          group: '.group',
           validators: {
             notEmpty: {
-              message: 'Certificado de Registro de Vehículoes obligatorio'
+              message: 'Certificado de Registro de Vehículo es obligatorio'
             }
           }
         },
         'vehiculo_pre[documentos_attributes][2][doc]': {
+          group: '.group',
           validators: {
             notEmpty: {
               message: 'Certificado Revisión Técnica es obligatorio'
+            }
+          }
+        },
+        'vehiculo_pre[documentos_attributes][3][doc]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Comprobante de pago por certificación es obligatorio'
             }
           }
         },
@@ -174,7 +195,7 @@
           }
         },
         'contrato_arrendamiento[tomo]': {
-          group: '.group',
+          //group: '.group',
           validators: {
             notEmpty: {
               message: 'Debe indicar el numero de Tomo'
@@ -182,7 +203,7 @@
           }
         },
         'contrato_arrendamiento[folio]': {
-          group: '.group',
+          //group: '.group',
           validators: {
             notEmpty: {
               message: 'Debe indicar el numero de Folio'
