@@ -6,21 +6,32 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_action :cargar_rif
   helper_method :nombre_solicitud
   helper_method :nombre_vista
+  helper_method :reload_documents?
 
   def index_circuitos
     init_solicitud(nombre_solicitud,@escuela_transporte)
   end
 
-  def cargar_planillas
+  def new
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    @solicitud.build_circuito if @solicitud.circuito.nil?
-    @lista_documentos = load_documentos(nombre_vista,@solicitud.circuito,true)
+    @circuito = @solicitud.circuitos.build
+    # @lista_documentos = load_documentos(nombre_vista,@circuito,true)
     # {'E' => 'E',
     #  'V'=> 'V'}
     # = f.select :nacionalidad,  options_for_select(@lista, selected: 'V'),
     #            {id: 'select-documento'}, {class: 'form-control'}
   end
 
+  def guardar_circuito
+    init_solicitud(nombre_solicitud,@escuela_transporte)
+    if @solicitud.update(params_solicitud_circuito)
+      flash[:success]='Circuito de manejo Guardado exitosamente'
+    redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+    else
+      @circuito =  @solicitud.circuitos.last
+      render :new
+    end
+  end
   def guardar_planillas
 
     # redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte),
@@ -63,6 +74,10 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     :registro_circuitos_manejo
   end
 
+  def reload_documents?
+    not (action_name == 'new' or action_name == 'index_circuitos')
+  end
+
   private
 
   def cargar_rif
@@ -78,8 +93,8 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     @representante_legal =  current_session_user.representante_legal
   end
 
-  def params_planillas
-    params.require(:documento).permit(:nombre,:doc)
+  def params_solicitud_circuito
+    params.require(:solicitud).permit(:id,circuitos_attributes: [:id,:tipo_circuito,:descripcion_ruta])
   end
 
   def params_id_planilla

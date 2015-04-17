@@ -40,6 +40,7 @@ class Solicitud < ActiveRecord::Base
 
   #associations Particularizadas por proyecto
   has_many :circuitos, dependent: :destroy
+  accepts_nested_attributes_for :circuitos, allow_destroy: true
 
   #modulos genericos J&J
   has_one :seguro

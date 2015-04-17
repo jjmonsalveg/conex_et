@@ -39,17 +39,24 @@ class Circuito < ActiveRecord::Base
 
   validates_uniqueness_of :solicitud_id
 
-  # validates :descripcion_ruta,
-  #           presence: { message: 'Descripción de la Ubicación o ruta es requerida'},
-  #           format: {
-  #               with:     DIRECCION_REGEX,
-  #               message: 'Ubicación o ruta  no cumple con formato (caracteres especiales no permitidos)'
-  #           },
-  #           :length => {  maximum: 255,
-  #                         message:
-  #                             'Descripción de la Ubicación o ruta debe contener máximo 255 caracteres'
-  #           }
+  validates :descripcion_ruta,
+            presence: { message: 'Descripción de la Ubicación o ruta es requerida'},
+            format: {
+                with:     DIRECCION_REGEX,
+                message: 'Ubicación o ruta  no cumple con formato (caracteres especiales no permitidos)'
+            },
+            :length => {  maximum: 255,
+                          message:
+                              'Descripción de la Ubicación o ruta debe contener máximo 255 caracteres'
+            }
 
   validates :tipo_circuito ,
             presence: { message: 'Tipo de circuito es requerido'}
+
+  def documentos_registro_circuito_completos?
+    boolean_registro= DocumentosRequisitosPorVista.vista_completa?(:registro_circuitos_manejo,self)
+    return ( (self.abierto? and boolean_registro and
+        DocumentosRequisitosPorVista.vista_completa?(:registro_circuitos_manejo_abierto,self) ) or
+        (self.cerrado? and boolean_registro) )
+  end
 end
