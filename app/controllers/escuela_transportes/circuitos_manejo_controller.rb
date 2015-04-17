@@ -4,6 +4,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_action :set_escuela_transporte_preinscripcion
   before_action :cargar_representante
   before_action :cargar_rif
+  before_action :cargar_solicitud, only: [:actualizar_circuito,:guardar_circuito]
   helper_method :nombre_solicitud
   helper_method :nombre_vista
   helper_method :reload_documents?
@@ -15,56 +16,43 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def new
     init_solicitud(nombre_solicitud,@escuela_transporte)
     @circuito = @solicitud.circuitos.build
-    # @lista_documentos = load_documentos(nombre_vista,@circuito,true)
-    # {'E' => 'E',
-    #  'V'=> 'V'}
-    # = f.select :nacionalidad,  options_for_select(@lista, selected: 'V'),
-    #            {id: 'select-documento'}, {class: 'form-control'}
+  end
+
+  def editar_circuito
+    init_solicitud(nombre_solicitud,@escuela_transporte)
+    @circuito = @solicitud.circuitos.find_by(id: params[:circuito_id])
   end
 
   def guardar_circuito
-    init_solicitud(nombre_solicitud,@escuela_transporte)
     if @solicitud.update(params_solicitud_circuito)
       flash[:success]='Circuito de manejo Guardado exitosamente'
-    redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+      redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
     else
       @circuito =  @solicitud.circuitos.last
-      render :new
+      render 'circuito_form', url: escuela_transportes_guardar_circuito_path(@escuela_transporte), method: :post
     end
   end
-  def guardar_planillas
 
-    # redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte),
-    #             alert: 'Debe cargar algun documento' and return if params[:documento].blank?
-    #
-    # solicitud = @escuela_transporte.solicitud(:preinscripcion)
-    # documentoRequisito = DocumentoRequisito.find_by(nombre: :planillas_practicas_manejo)
-    #
-    # @documento = solicitud.documentos.build(params_planillas)
-    # @documento.documento_requisito = documentoRequisito
-    # @documento.solicitud = solicitud
-    #
-    #
-    # if @documento.save
-    #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3)
-    #   flash[:success]= 'Planilla cargada satisfactoriamente'
-    #   redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
-    # else
-    #   flash[:danger] = 'Error cargando la planilla'
-    #   render 'escuela_transportes/planillas_practica_manejo/cargar_planillas'
-    # end
+  def actualizar_circuito
+    if @solicitud.update(params_solicitud_circuito)
+      flash[:success]='Circuito de manejo Guardado exitosamente'
+      redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+    else
+      @circuito =  @solicitud.circuitos.find_by(id: params[:solicitud][:circuitos_attributes][:id])
+      render 'circuito_form', url: escuela_transportes_actualizar_circuito_path(@escuela_transporte), method: :patch
+    end
+  end
+
+
+  def eliminar_circuito
+
+    Documento.find_by(id: params_id_planilla).destroy
+    flash[:success] = 'Planilla Eliminada con exito'
+
+    @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3,false) if @escuela_transporte.documentos_planillas.empty?
+    redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
 
   end
-  #
-  # def eliminar_planilla
-  #
-  #   Documento.find_by(id: params_id_planilla).destroy
-  #   flash[:success] = 'Planilla Eliminada con exito'
-  #
-  #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3,false) if @escuela_transporte.documentos_planillas.empty?
-  #   redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
-  #
-  # end
 
   def nombre_solicitud
     :preinscripcion
@@ -79,6 +67,13 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   private
+  def cargar_solicitud
+    @solicitud = @escuela_transporte.solicituds.find_by(id: params[:id])
+    if @solicitud.nil?
+      flash[:danger]='Solicitud no Existente'
+      redirect_to root_path
+    end
+  end
 
   def cargar_rif
     #TODO Arreglar el RIF de representante legal, o este rif

@@ -8,6 +8,5 @@ class CreateCircuitos < ActiveRecord::Migration
 
       t.timestamps
     end
-    add_index :circuitos, :solicitud_id, unique: true
   end
 end
