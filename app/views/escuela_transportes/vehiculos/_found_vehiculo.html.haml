@@ -166,6 +166,7 @@
           }
         },
         'vehiculo_pre[seguro][aseguradora_id]': {
+          group: '.group',
           validators: {
             notEmpty: {
               message: 'Debe de ingresar una compañia aseguradora'
@@ -173,6 +174,7 @@
           }
         },
         'vehiculo_pre[seguro][num_poliza]': {
+          group: '.group',
           validators: {
             notEmpty: {
               message: 'Número de póliza es obligatorio'
@@ -180,6 +182,7 @@
           }
         },
         "vehiculo_pre[seguro][documentos_attributes][0][doc]": {
+          group: '.group',
           validators: {
             notEmpty: {
                 message: 'Debe de subir la póliza digitalizada'

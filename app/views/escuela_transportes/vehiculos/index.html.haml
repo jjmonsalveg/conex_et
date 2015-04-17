@@ -29,6 +29,11 @@
                 .col-md-12
                   .ibox.float-e-margins
                     .ibox-content
+                      %br
+                      = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary' do
+                        Registrar Vehículo Adicional
+                        %i.fa.fa-car
+                      %br
                       %table.table.table-striped.table-bordered.table-condensed
                         %thead
                           %tr
@@ -55,7 +60,7 @@
                             %th
                               C.I/RIF
                             %th
-                              Vehículo En arriendo
+                              Vehículo en Arriendo
                             %th{:colspan => '3'}
                               Acciones
 
@@ -89,60 +94,31 @@
                                 - unless vehiculo_inttt.contrato_arrendamiento.nil?
                                   %i.fa.fa-check
                               %td
-                                -#= link_to  vehiculo_path(id: escuela_transportes_vehiculo_path.id, vh: vehiculo_inttt.placa) do
-                                -#  %i.fa.fa-search
-                                -#= link_to  edit_vehiculo_path(id: escuela_transportes_vehiculo_path.id ,vh: vehiculo_inttt.placa) do
-                                -#  %i.fa.fa-pencil-square-o
-                                = link_to  escuela_transportes_vehiculo_path(id: @escuela_transporte.id, vh: vehiculo_inttt.placa ) , method: :delete,
+                                = link_to escuela_transportes_vehiculo_path(id: @escuela_transporte.id, vh: vehiculo_inttt.placa) do
+                                  %i.fa.fa-search
+                                &nbsp;
+                                &nbsp;
+                                = link_to  edit_escuela_transportes_vehiculo_path(id: @escuela_transporte.id ,vh: vehiculo_inttt.placa) do
+                                  %i.fa.fa-pencil-square-o
+                                &nbsp;
+                                &nbsp;
+                                = link_to escuela_transportes_vehiculo_path(id: @escuela_transporte.id, vh: vehiculo_inttt.placa ) , method: :delete,
                                 data: { confirm:'¿Seguro de borrar Vehiculo de flota?' } do
                                   %i.fa.fa-trash-o
-              -#  .row
-              -#    .col-md-11
-              -#      %table.table-striped.table-bordered.table
-              -#        %thead
-              -#          %tr
-              -#            %th Modelo
-              -#            %th Placa
-              -#            %th Serial de Carroceria
-              -#            %th Año
-              -#            %th Uso
-              -#        %tbody
-              -#          %tr
-              -#            %td= vehiculo.modelo
-              -#            %td= vehiculo.placa
-              -#            %td= vehiculo.s_carroceria
-              -#            %td= vehiculo.ano
-              -#            %td= vehiculo.uso
-              -#        %thead
-              -#          %tr
-              -#            - vehiculo.documentos.each do |documento|
-              -#              %td
-              -#                %strong
-              -#                  = documento.documento_requisito.descripcion
-              -#
-              -#        %tbody
-              -#          %tr
-              -#            - vehiculo.documentos.each do |documento|
-              -#              - if documento.pdf?
-              -#                %td= image_tag(documento.doc.thumb)
-              -#              - else
-              -#                %td= link_to image_tag(documento.doc.thumb), documento.doc.url, rel: 'lightbox'
-              -#
-              -#    .col-md-1.text-center{style: 'margin-top: 50px'}
-              -#      = link_to  escuela_transportes_vehiculo_path(vh: vehiculo.placa , id: @escuela_transporte.id) , method: :delete,
-              -#        data: { confirm:'¿Seguro que desea Borrar el Vehículo?' } do
-              -#        Eliminar
-              -#        %i.fa.fa-trash.fa-lg
-              -#.row
-              -#  .col-sm-3
-              -#    = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary btn-block' do
-              -#      Registrar Vehículo Adicional
-              -#      %i.fa.fa-car
-              -#  .col-sm-3.col-sm-offset-6
-              -#    - if @solicitud.vehiculo_pres.any?
-              -#      = link_to escuela_transportes_cargar_planos_path(@escuela_transporte), class: 'btn btn-success btn-block' do
-              -#        A Infraestructura
-              -#        %i.fa.fa-building-o
+                  .row
+                    .col-sm-3
+                      - if @solicitud.seguro.nil?
+                        = link_to escuela_transportes_cargar_planos_path(@escuela_transporte.id), class: 'btn btn-info' do
+                          Volver a Infraestructura
+                          %i.fa.fa-building-o
+                      - else
+                        = link_to new_escuela_transportes_seguro_path(id: @escuela_transporte.id), class: 'btn btn-info' do
+                          Volver a Seguro RCV
+                    .col-sm-3.col-sm-offset-6
+                      - if @solicitud.vehiculo_pres.any?
+                        = link_to escuela_transportes_index_circuitos_path(id: @escuela_transporte), class: 'btn btn-success btn-block' do
+                          Continuar
+                          %i.fa.fa-floppy-o
             - else
               %p.text-center
                 Esta Escuela de Transporte no posee ningún vehículo asociado, para asociar un vehículo ingrese al siguiente link.
@@ -151,4 +127,6 @@
                   = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary btn-block' do
                     Registrar Vehículo
                     %i.fa.fa-car
+
+
 
