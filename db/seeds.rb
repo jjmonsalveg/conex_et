@@ -2177,7 +2177,7 @@ vista_rcv_flota = Vista.create!(nombre:'rcv_flota',
                                 descripcion: 'Registro de Seguro RCV para Vehículos',
                                 index: 2)
 
-vista_vehiculo_ensenanza = Vista.create!(nombre:'vehiculo_ensenanza ',
+vista_vehiculo_ensenanza = Vista.create!(nombre:'vehiculo_pre',
                                          descripcion: 'Registro de Vehículos de Enseñanza',
                                          index: 3)
 
@@ -2403,7 +2403,8 @@ vista_vehiculo_ensenanza.documento_requisitos<<
                                    {nombre:'certificado_homologacion',
                                     descripcion:
                                         'Certificado de Homologación:',
-                                    cardinalidad_maxima:1
+                                    cardinalidad_maxima:1,
+                                    obligatorio: false
                                    },
                                    {nombre:'certificado_registro_del_vehiculo',
                                     descripcion:
@@ -2418,7 +2419,6 @@ vista_vehiculo_ensenanza.documento_requisitos<<
                                    {nombre:'Comprobante_de_pago_por_certificacion',
                                     descripcion: 'Comprobante de pago por certificación:',
                                     cardinalidad_maxima:1,
-                                    paginado:true,
                                     obligatorio: true
                                    }
                                ])

@@ -34,7 +34,7 @@ class VehiculoPre < ActiveRecord::Base
   has_many :documentos, dependent: :destroy, as: :modelo
   accepts_nested_attributes_for :documentos, allow_destroy: true
 
-  belongs_to :escuela_transporte
+  belongs_to :solicitud
 
   has_one :seguro, dependent: :destroy
   has_one :contrato_arrendamiento, dependent: :destroy
@@ -46,7 +46,7 @@ class VehiculoPre < ActiveRecord::Base
     self.contrato_arrendamiento.update(attributes)
   end
 
-  def self.build_vehiculo_intt(vehiculo_intt, escuela_transporte)
+  def self.build_vehiculo_intt(vehiculo_intt, contrato_arrendamiento_params, vehiculo_params, solicitud)
     propietario = TramitePropietario.find_by(NRO_TRAMITE: vehiculo_intt.NRO_TRAMITE) || TramitePropietario.new
     uso = Uso.find_by(ID_USO: vehiculo_intt.ID_USO) || Uso.new
     tipo_vehiculo = TipoVehiculo.find_by(ID_TIPO_VEHICULO: vehiculo_intt.ID_TIPO_VEHICULO) || TipoVehiculo.new
@@ -66,7 +66,10 @@ class VehiculoPre < ActiveRecord::Base
                                     puesto: vehiculo_intt.NRO_PUESTOS,
                                     uso: (uso.NOMBRE_USO || ''),
                                     tipo_vehiculo: (tipo_vehiculo.NOMBRE_TIPO || ''  ),
-                                    escuela_transporte_id: escuela_transporte.id)
+                                    solicitud_id: solicitud.id)
+    vehiculo.build_contrato_arrendamiento(contrato_arrendamiento_params) unless contrato_arrendamiento_params.nil?
+
+    vehiculo.build_seguro(vehiculo_params[:seguro]) if solicitud.seguro.nil?
 
     return vehiculo
   end

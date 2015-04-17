@@ -9,6 +9,7 @@ class CreateContratoArrendamientos < ActiveRecord::Migration
       t.integer :folio
       t.string :notaria
       t.string :nombre_arrendador
+      t.string :contrato_arrendamiento_file
 
       t.references :vehiculo_pre, index: true
 

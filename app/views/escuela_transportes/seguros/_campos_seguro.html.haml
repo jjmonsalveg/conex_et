@@ -1,38 +1,42 @@
 .form-horizontal.m-t-md
   .form-group
     .col-md-6
-      = f.label  :aseguradora_id, class: 'col-sm-3 control-label' do
-        Aseguradora:
-        %span.fa.fa-asterisk.red
-      .col-sm-9
-        = f.collection_select(:aseguradora_id,  Aseguradora.all, :id, :nombre , {include_blank: "Seleccione una Compañia Aseguradora"}, {class: 'form-control', id: 'aseguradora_id_rif'})
-        %p.text-muted.small
-          Sólo aseguradoras inscritas en la superintendencia de la actividad aseguradora
+      .group
+        = f.label  :aseguradora_id, class: 'col-sm-3 control-label' do
+          Aseguradora:
+          %span.fa.fa-asterisk.red
+        .col-sm-9
+          = f.collection_select(:aseguradora_id,  Aseguradora.all, :id, :nombre , {include_blank: "Seleccione una Compañia Aseguradora"}, {class: 'form-control', id: 'aseguradora_id_rif'})
+          %p.text-muted.small
+            Sólo aseguradoras inscritas en la superintendencia de la actividad aseguradora
     .col-md-6
-      = f.label :rif ,'RIF:', class: 'col-sm-3 control-label'
-      .col-sm-9
-        - if f.object.present?
-          = f.text_field :rif, value: f.object.aseguradora_id.nil? ? "" : Aseguradora.find_by(id: f.object.aseguradora_id).rif , disabled: true, class: 'form-control', id: "seguro_vehiculo_rif"
-        - else
-          = f.text_field :rif, disabled: true, class: 'form-control', id: "seguro_vehiculo_rif"
+      .group
+        = f.label :rif ,'RIF:', class: 'col-sm-3 control-label'
+        .col-sm-9
+          - if f.object.present?
+            = f.text_field :rif, value: f.object.aseguradora_id.nil? ? "" : Aseguradora.find_by(id: f.object.aseguradora_id).rif , disabled: true, class: 'form-control', id: "seguro_vehiculo_rif"
+          - else
+            = f.text_field :rif, disabled: true, class: 'form-control', id: "seguro_vehiculo_rif"
   .form-group
+    .group
+      .col-md-6
+        = f.label :num_poliza, class: 'col-sm-3 control-label' do
+          Nº Póliza:
+          %span.fa.fa-asterisk.red
+        .col-sm-9
+          = f.text_field :num_poliza, class: 'form-control'
     .col-md-6
-      = f.label :num_poliza, class: 'col-sm-3 control-label' do
-        Nº Póliza:
-        %span.fa.fa-asterisk.red
-      .col-sm-9
-        = f.text_field :num_poliza, class: 'form-control'
-    .col-md-6
-      = f.label :fecha_vencimiento, class:'col-sm-3 control-label ' do
-        Fecha de Vencimiento:
-        %span.fa.fa-asterisk.red
-      .col-sm-9.form-inline#fecha_vencimiento_div
-        - if f.object.present?
-          = f.date_select :fecha_vencimiento , options = {start_year: Date.today.year - 60, end_year: Date.today.year + 1}, html_options = {class: 'form-control',
-            id: 'fecha_nacimiento',:value => f.object.fecha_vencimiento.blank? ? '' : f.object.fecha_vencimiento.strftime("%d/%m/%Y"),:required => 'required' }
-        - else
-          = f.date_select :fecha_vencimiento , options = {start_year: Date.today.year - 60, end_year: Date.today.year + 1}, html_options = {class: 'form-control',
-          id: 'fecha_nacimiento',:required => 'required' }
+      .group
+        = f.label :fecha_vencimiento, class:'col-sm-3 control-label ' do
+          Fecha de Vencimiento:
+          %span.fa.fa-asterisk.red
+        .col-sm-9.form-inline#fecha_vencimiento_div
+          - if f.object.present?
+            = f.date_select :fecha_vencimiento , options = {start_year: Date.today.year - 60, end_year: Date.today.year + 1}, html_options = {class: 'form-control',
+              id: 'fecha_nacimiento',:value => f.object.fecha_vencimiento.blank? ? '' : f.object.fecha_vencimiento.strftime("%d/%m/%Y"),:required => 'required' }
+          - else
+            = f.date_select :fecha_vencimiento , options = {start_year: Date.today.year - 60, end_year: Date.today.year + 1}, html_options = {class: 'form-control',
+            id: 'fecha_nacimiento',:required => 'required' }
 %br
 %h3
   Documentos Digitalizados
@@ -43,14 +47,15 @@
     -#- next if documento.object.documentos_requisitos_por_vista.documento_requisito.paginado
     = documento.hidden_field :documentos_requisitos_por_vista_id, value: documento.object.documentos_requisitos_por_vista_id
     .form-group
-      = documento.label documento.object.documentos_requisitos_por_vista.documento_requisito.nombre.to_sym,
-                 class: 'col-sm-3 control-label' do
-        = documento.object.documentos_requisitos_por_vista.documento_requisito.descripcion
-        - if documento.object.documentos_requisitos_por_vista.documento_requisito.obligatorio
-          %span.fa.fa-asterisk.red
-        - elsif documento.object.documentos_requisitos_por_vista.documento_requisito.almenos_uno
-          %span{class: "fa fa-asterisk #{documento.object.documentos_requisitos_por_vista.grupo_documentos_uno.icon_color}"}
-      .col-sm-9
-        = render 'shared/file_upload_generic',f: documento,
-                    field: :doc,
-                    name_file: documento.object.doc
+      .group
+        = documento.label documento.object.documentos_requisitos_por_vista.documento_requisito.nombre.to_sym,
+                   class: 'col-sm-3 control-label' do
+          = documento.object.documentos_requisitos_por_vista.documento_requisito.descripcion
+          - if documento.object.documentos_requisitos_por_vista.documento_requisito.obligatorio
+            %span.fa.fa-asterisk.red
+          - elsif documento.object.documentos_requisitos_por_vista.documento_requisito.almenos_uno
+            %span{class: "fa fa-asterisk #{documento.object.documentos_requisitos_por_vista.grupo_documentos_uno.icon_color}"}
+        .col-sm-9
+          = render 'shared/file_upload_generic',f: documento,
+                      field: :doc,
+                      name_file: documento.object.doc

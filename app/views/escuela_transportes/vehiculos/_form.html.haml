@@ -1,0 +1,117 @@
+.row
+  .col-md-12.col-md-offset-0
+    .ibox.float-e-margins
+      .ibox-title
+        %h3
+          Vehículos / Datos del Vehículos
+      .ibox-content
+        = form_for( @vehiculo, url: url_submit, html: {id: 'edit_vehiculo'} )  do |f|
+          = render 'shared/error_messages', object: f.object, model: 'Vehiculo de Flota'
+          = render 'shared/error_messages', object: f.object.contrato_arrendamiento, model: 'Vehiculo de Flota' rescue ''
+          -#=f.hidden_field :placa, value: @vehiculo.placa
+          -#=f.hidden_field :uso, value: @vehiculo.uso
+          -#=f.hidden_field :tipo_unidad, value: @vehiculo.tipo_unidad
+          .row
+            .col-md-12
+              %h3
+                Vehículo
+              %table.table.table-striped.table-bordered.table-condensed
+                %thead
+                  %tr
+                    %th
+                      Placa
+                    %th
+                      Serial de Carroceria
+                    %th
+                      Modelo
+                    %th
+                      Marca
+                    %th
+                      Año
+                  %tbody
+                    %tr
+                      %td
+                        #{@vehiculo.placa}
+                      %td
+                        #{@vehiculo.s_carroceria}
+                      %td
+                        #{@vehiculo.modelo}
+                      %td
+                        #{@vehiculo.marca}
+                      %td
+                        #{@vehiculo.ano}
+                %thead
+                  %tr
+                    %th
+                      Color
+                    %th
+                      Serial de Motor
+                    %th
+                      Uso
+                    %th
+                      Tipo
+                    %th
+                      Capacidad
+                  %tbody
+                    %tr
+                      %td
+                        #{@vehiculo.color}
+                      %td
+                        #{@vehiculo.serial_motor}
+                      %td
+                        #{@vehiculo.uso}
+                      %td
+                        #{@vehiculo.tipo_vehiculo}
+                      %td
+                        #{@vehiculo.puesto}
+                  %thead
+                    %tr
+                      %th{colspan:3}
+                        Propietario
+                      %th{colspan:2}
+                        C.I/RIF
+                    %tbody
+                      %tr
+                        %td{colspan:3}
+                          = @vehiculo.propietario
+                        %td{colspan:2}
+                          = @vehiculo.identificacion_propietario
+          .row
+            .col-md-12
+              %h3
+                Documentos
+            %br
+            .row
+              .col-md-10.col-md-offset-1
+                = render 'shared/show_modelo_documentos_no_paginados', model: f, list_documents: @documentos_vehiculos
+          .row#seguro_fields_on
+            .col-md-12
+              - unless f.object.seguro.nil?
+                =f.fields_for f.object.seguro do |seguro|
+                  %h3
+                    Datos del seguro
+                  %hr
+                  = render 'escuela_transportes/seguros/campos_seguro', f: seguro
+          .row
+            .col-md-12
+              - if @vehiculo.contrato_arrendamiento.nil?
+                .checkbox
+                  %label
+                    = check_box_tag :posee_arrendatario,'', false
+                    %h4
+                      ¿El vehiculo es arrendado?
+                %div#contenedor-arrendatario{style: 'display: none;'}
+                  = render 'contrato_arrendamiento'
+              - else
+                = fields_for @vehiculo.contrato_arrendamiento do |contrato|
+                  = render 'contrato_arrendamiento_nojavascript', contrato: contrato
+          .row
+            .col-sm-3
+              = link_to 'Cancelar', escuela_transportes_vehiculos_path(id: @escuela_transporte.id), class: "btn btn-primary btn-block"
+            .col-sm-3.col-sm-offset-6
+              = f.submit 'Guardar', class: "btn btn-success btn-block", data: { disable_with: 'Guardar'}
+          %br
+          %br
+          %br
+          %br
+

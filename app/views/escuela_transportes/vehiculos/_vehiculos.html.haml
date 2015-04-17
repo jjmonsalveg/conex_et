@@ -3,7 +3,7 @@
     .ibox.float-e-margins
       .ibox-content
         .form-horizontal.m-t-md
-          .form-group
+          .form-group#form-buscar-vehiculos-pre
             = label_tag :placa, class: 'control-label col-sm-4' do
               Placa del Vehículo:
               %span.glyphicon-asterisk.red
@@ -28,4 +28,9 @@
                 Buscar Vehículo
             .col-sm-3.col-sm-offset-2
               = link_to 'Volver', escuela_transportes_vehiculos_path(id: @escuela_transporte)
+          %div.text-center#loading_buscar_vehiculo{style:'display:none;'}
+            %br
+            %br
+            %h2 Buscando Vehículo
+            %i.fa.fa-circle-o-notch.fa-5x.fa-spin
           .form-group#div_buscar_vehiculo_pre

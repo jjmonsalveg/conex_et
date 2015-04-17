@@ -2,7 +2,8 @@
   .col-md-12
     .ibox.float-e-margins
       .ibox-title
-        Carga de Documentos
+        %h3
+          Carga de Documentos
       .ibox-content
         = render 'shared/error_messages', object: @vehiculo_et, model: 'Vehículo'
         = form_for @vehiculo_et , url: escuela_transportes_vehiculos_path, remote: true, html:{multipart: true} do |v|
@@ -11,7 +12,7 @@
           = v.hidden_field :s_carroceria, value: params[:s_carroceria]
           = v.hidden_field :ano, value: params[:ano]
           = hidden_field_tag :id, params[:id]
-          =render 'shared/show_modelo_documentos_no_paginados', model: v
+          =render 'shared/show_modelo_documentos_no_paginados', model: v, list_documents: @documentos_vehiculos
           .row
             .col-sm-3.col-sm-offset-4
               = v.button(type: "submit", class: "btn btn-success btn-block", data: { disable_with: "Guardar Vehículo" }) do

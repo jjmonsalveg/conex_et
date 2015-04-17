@@ -21,74 +21,104 @@
       .ibox-content
         .row
           .col-md-12
-            - if @escuela_transporte.vehiculo_pres.any?
-              - @escuela_transporte.vehiculo_pres.each do |vehiculo|
-                %h3
-                  Vehículo
-                .row
-                  .col-md-11
-                    %table.table-striped.table-bordered.table
-                      %thead
-                        %tr
-                          %th Modelo
-                          %th Placa
-                          %th Serial de Carroceria
-                          %th Año
-                          %th Uso
-                      %tbody
-                        %tr
-                          %td= vehiculo.modelo
-                          %td= vehiculo.placa
-                          %td= vehiculo.s_carroceria
-                          %td= vehiculo.ano
-                          %td= vehiculo.uso
-                      %thead
-                        %tr
-                          %th Certificado de Registro
-                          %th Certificado de Revisión Técnica
-                          %th Seguro R.C.V
-                          %th Comprobante Deposito Certificación de Vehículo
-                          %th Certificado de Homologación
-                      %tbody
-                        %tr
-                          - if vehiculo.certificado_registro.pdf?
-                            %td= image_tag(vehiculo.certificado_registro.doc.thumb)
-                          - else
-                            %td= link_to image_tag(vehiculo.certificado_registro.doc.thumb), vehiculo.certificado_registro.doc.url, rel: 'lightbox'
-                          - if vehiculo.certificado_revision_tecnica.pdf?
-                            %td= image_tag(vehiculo.certificado_revision_tecnica.doc.thumb)
-                          - else
-                            %td= link_to image_tag(vehiculo.certificado_revision_tecnica.doc.thumb), vehiculo.certificado_revision_tecnica.doc.url, rel: 'lightbox'
-                          - if vehiculo.rcv.pdf?
-                            %td= image_tag(vehiculo.rcv.doc.thumb)
-                          - else
-                            %td= link_to image_tag(vehiculo.rcv.doc.thumb), vehiculo.rcv.doc.url, rel: 'lightbox'
-                          - if vehiculo.bauche_vehiculo.pdf?
-                            %td= image_tag(vehiculo.bauche_vehiculo.doc.thumb)
-                          - else
-                            %td= link_to image_tag(vehiculo.bauche_vehiculo.doc.thumb), vehiculo.bauche_vehiculo.doc.url, rel: 'lightbox'
-                          -if vehiculo.certificado_homologacion.doc.present?
-                            - if  vehiculo.certificado_homologacion.pdf?
-                              %td= image_tag(vehiculo.certificado_homologacion.doc.thumb)
-                            - else
-                              %td= link_to image_tag(vehiculo.certificado_homologacion.doc.thumb), vehiculo.certificado_homologacion.doc.url, rel: 'lightbox'
-                  .col-md-1.text-center{style: 'margin-top: 50px'}
-                    = link_to  escuela_transportes_vehiculo_path(vehiculo) , method: :delete,
-                      data: { confirm:'¿Seguro que desea Borrar el Vehículo?' } do
-                      Eliminar
-                      %i.fa.fa-trash.fa-lg
-
-
+            - if @solicitud.vehiculo_pres.any?
+              %h2
+                %i.fa.fa-car
+                Vehículos
               .row
-                .col-sm-3
-                  = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary btn-block' do
-                    Registrar Vehículo Adicional
-                    %i.fa.fa-car
-                .col-sm-3.col-sm-offset-6
-                  - if @escuela_transporte.vehiculo_pres.any?
-                    = link_to escuela_transportes_cargar_planos_path(@escuela_transporte), class: 'btn btn-success btn-block' do
-                      A Infraestructura
-                      %i.fa.fa-building-o
+                .col-md-12
+                  .ibox.float-e-margins
+                    .ibox-content
+                      %br
+                      = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary' do
+                        Registrar Vehículo Adicional
+                        %i.fa.fa-car
+                      %br
+                      %table.table.table-striped.table-bordered.table-condensed
+                        %thead
+                          %tr
+                            %th
+                              Placa
+                            %th
+                              Año
+                            %th
+                              Serial Carrocería
+                            %th
+                              Color
+                            %th
+                              Marca
+                            %th
+                              Uso
+                            %th
+                              Modelo
+                            %th
+                              Tipo
+                            %th
+                              Puestos
+                            %th
+                              Propietario
+                            %th
+                              C.I/RIF
+                            %th
+                              Vehículo en Arriendo
+                            %th{:colspan => '3'}
+                              Acciones
+
+
+                        %tbody
+                          -@solicitud.vehiculo_pres.each do |vehiculo_inttt|
+                            %tr
+                              %td
+                                = vehiculo_inttt.placa
+                              %td
+                                = vehiculo_inttt.ano
+                              %td
+                                = vehiculo_inttt.s_carroceria
+                              %td
+                                = vehiculo_inttt.color
+                              %td
+                                = vehiculo_inttt.marca
+                              %td
+                                = vehiculo_inttt.uso
+                              %td
+                                = vehiculo_inttt.modelo
+                              %td
+                                = TipoVehiculo.tipo_vehiculo(vehiculo_inttt.tipo_vehiculo)
+                              %td
+                                = vehiculo_inttt.puesto
+                              %td
+                                = vehiculo_inttt.propietario
+                              %td
+                                = vehiculo_inttt.identificacion_propietario
+                              %td.text-center
+                                - unless vehiculo_inttt.contrato_arrendamiento.nil?
+                                  %i.fa.fa-check
+                              %td
+                                = link_to escuela_transportes_vehiculo_path(id: @escuela_transporte.id, vh: vehiculo_inttt.placa) do
+                                  %i.fa.fa-search
+                                &nbsp;
+                                &nbsp;
+                                = link_to  edit_escuela_transportes_vehiculo_path(id: @escuela_transporte.id ,vh: vehiculo_inttt.placa) do
+                                  %i.fa.fa-pencil-square-o
+                                &nbsp;
+                                &nbsp;
+                                = link_to escuela_transportes_vehiculo_path(id: @escuela_transporte.id, vh: vehiculo_inttt.placa ) , method: :delete,
+                                data: { confirm:'¿Seguro de borrar Vehiculo de flota?' } do
+                                  %i.fa.fa-trash-o
+                  .row
+                    .col-sm-3
+                      - if @solicitud.seguro.nil?
+                        = link_to escuela_transportes_cargar_planos_path(@escuela_transporte.id), class: 'btn btn-info' do
+                          Volver a Infraestructura
+                          %i.fa.fa-building-o
+                      - else
+                        = link_to new_escuela_transportes_seguro_path(id: @escuela_transporte.id), class: 'btn btn-info' do
+                          Volver a Seguro RCV
+                    .col-sm-3.col-sm-offset-6
+                      - if @solicitud.vehiculo_pres.any?
+                        = link_to escuela_transportes_index_circuitos_path(id: @escuela_transporte), class: 'btn btn-success btn-block' do
+                          Continuar
+                          %i.fa.fa-floppy-o
             - else
               %p.text-center
                 Esta Escuela de Transporte no posee ningún vehículo asociado, para asociar un vehículo ingrese al siguiente link.
@@ -97,4 +127,6 @@
                   = link_to new_escuela_transportes_vehiculo_path(id: @escuela_transporte), class: 'btn btn-primary btn-block' do
                     Registrar Vehículo
                     %i.fa.fa-car
+
+
 

@@ -1,107 +1,264 @@
 .row
   %hr
-  .col-md-9.col-md-offset-1
+  .col-md-10.col-md-offset-1
 
-    - if @vehiculo.nil?
-      %p.text-center
-        No se encontro ningún vehículo con esos datos.
-    - else
-      %h3
-        Datos del Vehículo
-      %table.table.table-bordered.table-striped
-        %thead
-          %tr
-            %th
-              Modelo
-            %th
-              Marca
-            %th
-              Año
-            %th
-              Placa
-            %th
-              Serial de Carroceria
-            %th
-              Color
-            %th
-              Capacidad
-            %th
-              Uso
-            %th
-              Nro Puestos
-            %th
-              Tipo
-        %tbody
-          %tr
-            %td
-              = @vehiculo.MODELO
-            %td
-              = Marca.marca(@vehiculo.ID_MARCA)
-            %td
-              = @vehiculo.ANO
-            %td
-              = @vehiculo.PLACA
-            %td
-              = @vehiculo.SERIAL_CARROCERIA
-            %td
-              = Color.color(@vehiculo.ID_COLOR1)
-            %td
-              = @vehiculo.CAPACIDAD
-            %td
-              = @vehiculo.ID_USO
-            %td
-              = @vehiculo.NRO_PUESTOS
-            %td
-              = TipoVehiculo.tipo_vehiculo(@vehiculo.ID_TIPO_VEHICULO)
-      = hidden_field_tag :placa, @vehiculo.PLACA, id: 'found_vehiculo_placa'
-      = hidden_field_tag :s_carroceria, @vehiculo.SERIAL_CARROCERIA, id: 'found_vehiculo_s_carroceria'
-      = hidden_field_tag :ano, @vehiculo.ANO, id: 'found_vehiculo_ano'
-      .row
-        .col-md-12
-          .row
-            .col-sm-12
-              %p.text-center
-                ¿Desea registrar este vehículo a la Escuela de Transporte?
-          .row
-            .col-md-2.col-md-offset-3
-              %button.btn.btn-danger.btn-block#found_vehiculo_cancelar
-                Cancelar
-            .col-md-2.col-md-offset-2
-              %a.btn.btn-success.btn-block#found_vehiculo_aceptar{href: '#fields'}
-                Aceptar
-.row
-  %hr
-  .col-md-12#div_campos_documentos
-#fields
+    %h3
+      Datos del Vehículo
+    %table.table.table-bordered.table-striped
+      %thead
+        %tr
+          %th
+            Modelo
+          %th
+            Marca
+          %th
+            Año
+          %th
+            Placa
+          %th
+            Serial de Carroceria
+          %th
+            Color
+          %th
+            Capacidad
+          %th
+            Uso
+          %th
+            Nro Puestos
+          %th
+            Tipo
+      %tbody
+        %tr
+          %td
+            = @vehiculo_intt.MODELO
+          %td
+            = Marca.marca(@vehiculo_intt.ID_MARCA)
+          %td
+            = @vehiculo_intt.ANO
+          %td
+            = @vehiculo_intt.PLACA
+          %td
+            = @vehiculo_intt.SERIAL_CARROCERIA
+          %td
+            = Color.color(@vehiculo_intt.ID_COLOR1)
+          %td
+            = @vehiculo_intt.CAPACIDAD
+          %td
+            = @vehiculo_intt.ID_USO
+          %td
+            = @vehiculo_intt.NRO_PUESTOS
+          %td
+            = TipoVehiculo.tipo_vehiculo(@vehiculo_intt.ID_TIPO_VEHICULO)
+      %thead
+        %tr
+          %th{colspan:3} C.I./RIF
+          %th{colspan:7} Propietario
+      %tbody
+        %tr
+          %td{colspan:3}
+            ="#{@propietario.ID_TIPO_IDENTIFICACION}-#{@propietario.NRO_IDENTIFICACION}#{@propietario.DIGITO_RIF}"
+          %td{colspan:7}
+            ="#{@propietario.PRIMER_NOMBRE} #{@propietario.SEGUNDO_NOMBRE} #{@propietario.PRIMER_APELLIDO} #{@propietario.SEGUNDO_APELLIDO}"
+    #div_prueba_bootstrapValidator
+      = form_for @vehiculo, url: escuela_transportes_vehiculos_path(id: params[:id]),  method: :post, html: {id:'form-vehiculo-tramite-found'} do |f|
+        = f.hidden_field :placa, value: @vehiculo_intt.PLACA, id: 'found_vehiculo_placa'
+        = f.hidden_field :s_carroceria, value: @vehiculo_intt.SERIAL_CARROCERIA, id: 'found_vehiculo_s_carroceria'
+        = f.hidden_field :ano, value: @vehiculo_intt.ANO, id: 'found_vehiculo_ano'
+        = f.hidden_field :uso, value: @vehiculo_intt.ID_USO, id: 'found_vehiculo_uso'
+        = render 'shared/show_modelo_documentos_no_paginados', model: f, list_documents: @documentos_vehiculos
+
+        - if @escuela_transporte.solicitud(nombre_solicitud).seguro.nil?
+          = f.fields_for @vehiculo.seguro do |seguro|
+            %hr
+            %h4 Datos del Seguro
+            %div#seguro_fields_on
+              = render 'escuela_transportes/seguros/campos_seguro', f: seguro
+        .row
+          .col-md-12
+            .checkbox.i-checks
+              %label
+                = check_box_tag :posee_arrendatario,'', false
+                %h4
+                  ¿El vehiculo es arrendado?
+          %br
+          %br
+          %br
+        .row
+          .col-md-12
+            %div#contenedor-arrendatario{style: 'display: none;'}
+              = render 'contrato_arrendamiento'
+        .row
+          .col-md-3
+            %a.btn.btn-danger.btn-block#found_vehiculo_cancelar
+              Cancelar
+          .col-md-3.col-md-offset-6
+            = f.submit 'Agregar Vehículo', class: 'btn btn-block btn-success', id: 'submit-agregar-vehiculo'
+
+%script{:src => "/js/plugins/bootstrapValidator/bootstrapValidator.js" }
 :javascript
   jQuery(document).ready(function($) {
-    $("#found_vehiculo_aceptar").click(function() {
-  return $.ajax({
-    type: "POST",
-    url: "/escuela_transportes/vehiculos/campos_documentos",
-    dataType: "html",
-    beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
-    data: {
-      placa: $('#found_vehiculo_placa').val(),
-      s_carroceria: $('#found_vehiculo_s_carroceria').val(),
-      ano: $('#found_vehiculo_ano').val(),
-      id: $('#escuela_transporte_hidden').val()
-    },
-    success: function(data) {
-      var html;
-      html = $('#div_campos_documentos');
-      html.empty();
-      return html.append(data);
-    }
-    });
-  });
     $("#found_vehiculo_cancelar").click(function() {
       var html;
-      $('#placa_vehiculo_pre').val('')
-      $('#s_carroceria_vehiculo_pre').val('')
-      $('#ano_vehiculo_pre').val('')
-      html = $('#div_buscar_vehiculo_pre');
+      $('#placa_vehiculo').val('')
+      $('#s_carroceria_vehiculo').val('')
+      $('#ano_vehiculo').val('')
+      html = $('#div_buscar_vehiculo');
       return html.empty();
+    });
+    $('#posee_arrendatario').click(function() {
+      if ($("#posee_arrendatario").is(':checked')) {
+        $('#contenedor-arrendatario').show();
+        $('#contenedor-arrendatario :input').prop("disabled", false);
+        $('#contenedor-arrendatario').find('select').prop("disabled", false);
+      } else {
+        $('#contenedor-arrendatario').hide();
+        $('#contenedor-arrendatario :input').prop("disabled", true);
+        $('#contenedor-arrendatario').find('select').prop("disabled", true);
+      }
+    });
+    $('#form-vehiculo-tramite-found').bootstrapValidator({
+      feedbackIcons: {
+        valid: 'fa fa-check',
+        invalid: 'fa fa-times',
+        validating: 'fa fa-refresh'
+      },
+      live: 'submitted',
+      fields: {
+        'vehiculo_pre[documentos_attributes][0][doc]': {
+          group: '.group',
+          validators: {
+            callback: {
+              message: 'Certificado Homologación es obligatorio para Vehículos Carga',
+              callback: function(value, validator, $field) {
+                var uso = $('#found_vehiculo_uso').val();
+                if ((uso === 'CG' || uso === 'CL') && value === '') {
+                  return false
+                }
+                else {
+                  return true
+                }
+              }
+            }
+          }
+        },
+        'vehiculo_pre[documentos_attributes][1][doc]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Certificado de Registro de Vehículo es obligatorio'
+            }
+          }
+        },
+        'vehiculo_pre[documentos_attributes][2][doc]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Certificado Revisión Técnica es obligatorio'
+            }
+          }
+        },
+        'vehiculo_pre[documentos_attributes][3][doc]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Comprobante de pago por certificación es obligatorio'
+            }
+          }
+        },
+        'vehiculo_pre[seguro][aseguradora_id]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe de ingresar una compañia aseguradora'
+            }
+          }
+        },
+        'vehiculo_pre[seguro][num_poliza]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Número de póliza es obligatorio'
+            }
+          }
+        },
+        "vehiculo_pre[seguro][documentos_attributes][0][doc]": {
+          group: '.group',
+          validators: {
+            notEmpty: {
+                message: 'Debe de subir la póliza digitalizada'
+            }
+          }
+        },
+        'contrato_arrendamiento[duracion]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar los años de duración del contrato'
+            }
+          }
+        },
+        'contrato_arrendamiento[tomo]': {
+          //group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de Tomo'
+            }
+          }
+        },
+        'contrato_arrendamiento[folio]': {
+          //group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de Folio'
+            }
+          }
+        },
+        'contrato_arrendamiento[notaria]': {
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el numero de notaria'
+            }
+          }
+        },
+        'contrato_arrendamiento[nombre_arrendatario]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar el Nombre y Apellido/Razón Social'
+            }
+          }
+        },
+        'contrato_arrendamiento[rif_arrendatario]': {
+          group: '.group',
+          validators: {
+            notEmpty: {
+              message: 'Debe indicar la C.I/RIF'
+            }
+          }
+        },
+        'contrato_arrendamiento[contrato_arrendamiento_file]': {
+          validators: {
+            notEmpty: {
+              message: 'Contrato de Arrendamiento es Obligatorio'
+            }
+          }
+        }
+      }
+    });
 
+
+    $('#aseguradora_id_rif').change(function() {
+      return $.ajax({
+        type: "POST",
+        url: "/escuela_transportes/rif",
+        dataType: "JSON",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        data: {
+          id: $('#aseguradora_id_rif').val()
+        },
+        success: function(data) {
+          return $('#seguro_vehiculo_rif').val(data[0]);
+        }
+      });
     });
   });

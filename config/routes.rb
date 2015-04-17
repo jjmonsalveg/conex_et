@@ -147,9 +147,8 @@ Rails.application.routes.draw do
     get 'informacion_general/new', to: 'informacion_general#new_get', as: 'informacion_general_new_get'
 
    #6.2 Documentos de Vehiculos
-   resources :vehiculos, only: [:index, :create, :new, :destroy]
+   resources :vehiculos
    post 'vehiculos/buscar_vehiculo_pre', to: 'vehiculos#buscar_vehiculo_pre'
-   post 'vehiculos/campos_documentos', to: 'vehiculos#campos_documentos'
 
     #6.3 Documentos Planos de Infraestructura
     # resources :planos
@@ -179,7 +178,8 @@ Rails.application.routes.draw do
     get 'solicitud/print', to: 'solicitud_final#print', as: :print
 
     # Seguro RCV
-    resources :seguros
+    resources :seguros, only: [:new, :create]
+    patch '/seguros/', to: 'seguros#create'
     post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
   end
 end

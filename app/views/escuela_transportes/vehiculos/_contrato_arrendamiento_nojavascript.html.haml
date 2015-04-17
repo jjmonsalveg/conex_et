@@ -1,0 +1,92 @@
+.form-horizontal
+  .row
+    .col-md-12
+      %hr
+      %h4
+        Datos del Arrendatario
+      .row
+        .col-md-12
+          %br/
+          .row
+            .form-group
+              .group
+                = contrato.label :duracion, class:'col-sm-2 control-label' do
+                  Año(s) de Duración del Contrato:
+                  %span.fa.fa-asterisk.red
+                .col-sm-2
+                  = contrato.text_field :duracion, class:'form-control', maxlength: 1, presence: true
+              .group
+                = contrato.label :fecha, class:'col-sm-3 control-label' do
+                  Fecha del Contrato:
+                  %span.fa.fa-asterisk.red
+                .col-sm-4
+                  .form-inline
+                    = contrato.date_select :fecha, options = {start_year: Date.today.year - 60, end_year: Date.today.year},
+                                html_options = {class: '',
+                                id: 'fecha_contrato'}
+          /# :value => contrato.object.fecha.blank? ? '' : contrato.object.fecha.strftime("%d/%m/%Y")}
+          .row
+            .form-group
+              .group
+                = contrato.label :tomo, class:'col-sm-2 control-label' do
+                  Nº Tomo:
+                  %span.fa.fa-asterisk.red
+                .col-sm-2
+                  = contrato.text_field :tomo, class:'form-control', maxlength: 3, presence: true
+              .group
+                =contrato.label :folio, class:'col-sm-3 control-label ' do
+                  Nº Folio:
+                  %span.fa.fa-asterisk.red
+                .col-sm-2
+                  = contrato.text_field :folio, class:'form-control', maxlength: 3, presence: true
+          .row
+            .form-group
+              = contrato.label :notaria, class:' col-sm-2 control-label ' do
+                Notaria:
+                %span.fa.fa-asterisk.red
+              .col-sm-10
+                = contrato.text_field :notaria, class:'form-control', maxlength: 20
+      .row
+        .col-md-12
+          %h4
+            Arrendatario
+          %hr/
+          .form-group
+            .group
+              = contrato.label :nombre_arrendatario, class:'col-sm-2 control-label' do
+                Nombre y Apellido/Razón Social:
+                %span.fa.fa-asterisk.red
+              .col-sm-4
+                =contrato.text_field :nombre_arrendatario, class:'form-control', maxlength: 60
+            .group
+              = contrato.label :rif_arrendatario, class:'col-sm-2 control-label ' do
+                C.I/RIF:
+                %span.fa.fa-asterisk.red
+              .col-sm-4
+                = contrato.text_field :rif_arrendatario, class:'form-control'
+                %h6.text-muted
+                  Si la/el CI/RIF es menor a nueve (9) dígitos complete con ceros (0) a la izquierda.
+                  %br
+                  Formato del documento de identidad VEJPG, Ejemplo: G-123456789
+      .row
+        .col-md-12
+          .form-group
+            = contrato.label :notaria, class: 'col-sm-3 control-label' do
+              Contrato de Arrendamiento Notariado:
+              %span.fa.fa-asterisk.red
+            .col-sm-9
+              .fileinput.fileinput-new.input-group{"data-provides" => "fileinput"}
+                .form-control{"data-trigger" => "fileinput"}
+                  %i.glyphicon.glyphicon-file.fileinput-exists
+                  - if contrato.object.contrato_arrendamiento_file.present?
+                    %i.fa.fa-upload.fileinput-new.pull-left
+                  %span.fileinput-filename
+                    = contrato.object.contrato_arrendamiento_file.present? ? contrato.object.contrato_arrendamiento_file.to_s.split('/').last : ""
+                %span.input-group-addon.btn.btn-default.btn-file
+                  - if contrato.object.contrato_arrendamiento_file.present?
+                    %span.fileinput-new Cambiar
+                    %span.fileinput-exists Cambiar
+                  - else
+                    %span.fileinput-new Subir Documento
+                    %span.fileinput-exists Cambiar
+                  = contrato.file_field :contrato_arrendamiento_file, id: 'contrato_arrendamiento_file'

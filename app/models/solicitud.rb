@@ -28,15 +28,11 @@ class Solicitud < ActiveRecord::Base
   #associations
 
   belongs_to :servicio_intt, polymorphic: true
-
   belongs_to :tipo_solicitud
-
   belongs_to :estado, class_name: "EstadosWorkFlow", foreign_key: "estados_work_flow_id"
-
-
   has_many :funcionarios , through: :traza_solicitud_funcionarios
-
   has_many :traza_solicitud_funcionarios
+  has_many :vehiculo_pres, dependent: :destroy
 
   #associations Particularizadas por proyecto
   has_many :circuitos, dependent: :destroy
@@ -71,12 +67,12 @@ class Solicitud < ActiveRecord::Base
 
   end
 
-  def seguro_vehiculo_update_or_create(attributes)
-    if self.seguro_vehiculo.present?
-      self.seguro_vehiculo.update(attributes) ? (return true, self.seguro_vehiculo) : (return false, self.seguro_vehiculo)
+  def seguro_update_or_create(attributes)
+    if self.seguro.present?
+      self.seguro.update(attributes) ? (return true, self.seguro) : (return false, self.seguro)
     else
-      self.build_seguro_vehiculo(attributes)
-      self.seguro_vehiculo.save ? (return true, self.seguro_vehiculo) : (return false, self.seguro_vehiculo)
+      self.build_seguro(attributes)
+      self.seguro.save ? (return true, self.seguro) : (return false, self.seguro)
     end
   end
 
