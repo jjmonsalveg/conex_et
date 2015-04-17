@@ -51,7 +51,7 @@
                   %th Tipo De Circuito
                   %th Descripción
                   %th Carga de Documentos Lista
-                  %th{:colspan => '3'}
+                  %th.text-center{:colspan => '3'}
                     Acciones
 
               %tbody
@@ -67,6 +67,9 @@
                   %td.text-center
                     = link_to escuela_transportes_editar_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
                       %i.fa.fa-pencil-square-o
+                      = link_to  escuela_transportes_eliminar_circuito_path(id: circuito.id) , method: :delete,
+                        data: { confirm:'¿Seguro que desea Borrar Circuito de manejo?' } do
+                        %i.fa.fa-trash-o
 
                   -#%td.text-center
                   -#  - unless DocumentosRequisitosPorVista.vista_completa?(:registro_inicial,operadora_escuela_transporte)

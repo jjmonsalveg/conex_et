@@ -1,7 +1,7 @@
 class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
-  before_action :set_escuela_transporte_preinscripcion
+  before_action :set_escuela_transporte_preinscripcion,only: [:index_circuitos,:new,:editar_circuito]
   before_action :cargar_representante
   before_action :cargar_rif
   before_action :cargar_solicitud, only: [:actualizar_circuito,:guardar_circuito]
@@ -45,13 +45,21 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
 
 
   def eliminar_circuito
-
-    Documento.find_by(id: params_id_planilla).destroy
-    flash[:success] = 'Planilla Eliminada con exito'
-
-    @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3,false) if @escuela_transporte.documentos_planillas.empty?
-    redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
-
+    circuito= Circuito.includes(:solicitud).find_by(id: params[:id])
+    if circuito.present?
+      escuela = @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: circuito.solicitud.id}).last
+      if  escuela.nil?
+        flash[:danger] = 'Este circuito no existe para ninguna de sus Escuelas'
+        redirect_to root_path
+      else
+        circuito.destroy
+        flash[:success] = 'Circuito de Manejo Eliminado con exito'
+        redirect_to escuela_transportes_index_circuitos_path(id: escuela.id)
+      end
+    else
+      flash[:danger] = 'Este circuito no existe'
+      redirect_to root_path
+    end
   end
 
   def nombre_solicitud

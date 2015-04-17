@@ -170,9 +170,9 @@ Rails.application.routes.draw do
     patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
           as: :actualizar_circuito
 
-    # delete '/eliminar_planilla/:id_planilla',
-    #        to: 'cargar_circuitos#eliminar_planilla',
-    #        as: :eliminar_planilla
+    delete '/eliminar_circuito/:id',
+           to: 'circuitos_manejo#eliminar_circuito',
+           as: :eliminar_circuito
 
     #6.5 Planilla de Solicitud
     resources :solicitud_final, only: [:new]
