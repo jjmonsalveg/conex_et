@@ -1,5 +1,5 @@
 class SessionUsers::SessionsController < Devise::SessionsController
-  before_filter :autenticar_session_user, only: [:edit_password,
+  before_filter :autenticar_session_user!, only: [:edit_password,
                                                     :update_password]
   # before_action :configure_sign_in_params
 

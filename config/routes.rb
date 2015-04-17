@@ -159,13 +159,16 @@ Rails.application.routes.draw do
          as: :guardar_planos
 
     #6.4 Modelos de Planillas para practica de manejo
-    get  'cargar_planillas_manejo/:id', to:'planillas_practica_manejo#cargar_planillas',
-         as: :cargar_planillas
-    post 'guardar_planillas_manejo/:id', to:'planillas_practica_manejo#guardar_planillas',
-         as: :guardar_planillas
-    delete ':id/eliminar_planilla/:id_planilla',
-           to: 'planillas_practica_manejo#eliminar_planilla',
-           as: :eliminar_planilla
+    get  'listar_circuitos_manejo/:id', to: 'circuitos_manejo#index_circuitos',
+         as: :index_circuitos
+    get  'crear_circuito_manejo/:id', to:'circuitos_manejo#new',
+         as: :crear_circuito
+    post 'guardar_circuito_manejo/:id', to:'circuitos_manejo#guardar_circuito',
+         as: :guardar_circuito
+
+    # delete '/eliminar_planilla/:id_planilla',
+    #        to: 'cargar_circuitos#eliminar_planilla',
+    #        as: :eliminar_planilla
 
     #6.5 Planilla de Solicitud
     resources :solicitud_final, only: [:new]

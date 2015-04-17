@@ -1,7 +1,7 @@
 -#partial para documentos NO paginados
 = model.fields_for :documentos, list_documents do |documento|
   = documento.hidden_field :documentos_requisitos_por_vista_id, value: documento.object.documentos_requisitos_por_vista_id
-  .form-group
+  .form-group.doc-feedback
     .group
       = documento.label documento.object.documentos_requisitos_por_vista.documento_requisito.nombre.to_sym,
                  class: 'col-sm-3 control-label' do

@@ -47,7 +47,7 @@
                 -#    RIF Actualizado:
                 -#    %span.fa.fa-asterisk.red
                 -#  .col-sm-8
-                =render 'shared/show_modelo_documentos_no_paginados', model: f
+                =render 'shared/show_modelo_documentos_no_paginados', model: f, list_documents: @lista_documentos
                 .form-group
                   .col-sm-3.col-sm-offset-5
                     = f.submit 'Actualizar RIF.', class: 'btn btn-success btn-block', data: { disable_with: "Actualizar Rif" }

@@ -1,0 +1,82 @@
+= provide(:title, 'Preinscripcion Escuelas de Transporte')
+
+= render 'escuela_transportes/shared/ficha_datos'
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %h2
+            Registro de Circuitos de Manejo
+          %ol.breadcrumb
+            %li
+              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+            %li
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            %li
+              = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
+            %li
+              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+            %li
+              Registro de Circuitos de Manejo
+
+  .row.animated.fadeInRight
+    .col-md-12.col-md-offset-0
+      %ul.text-muted.leyenda
+        %li.text-justify
+          Puede registrar un Circuito de Manejo haciendo click en
+          %span.verde-button-primary
+            Agregar Circuito de Manejo
+  - if @solicitud.circuitos.empty?
+    .ibox-content.text-center.animated.fadeInRight
+      %h3.font-bold No posee Circuitos de Manejo
+      =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
+      class: 'btn btn-primary  pull-center' do
+        Agregar Circuito de Manejo
+        %i.fa.fa-road
+
+  - else
+    .row
+      .col-md-12.col-md-offset-0
+        .ibox.float-e-margins
+          .ibox-content
+            %br/
+            %table.table.table-striped.table-bordered.table-condensed
+              %thead
+                %tr
+                  %th Tipo De Circuito
+                  %th Descripción
+                  %th Carga de Documentos Lista
+                  %th{:colspan => '3'}
+                    Acciones
+
+              %tbody
+              - @solicitud.circuitos.each do |circuito|
+                %tr
+                  %td= circuito.tipo_circuito
+                  %td= circuito.descripcion_ruta
+                  %td
+                    -if circuito.documentos_registro_circuito_completos?
+                      %fa.fa-check
+                    -else
+                      Debe Completar Carga Documentos
+                  -#%td.text-center
+                  -#  - unless DocumentosRequisitosPorVista.vista_completa?(:registro_inicial,operadora_escuela_transporte)
+                  -#    = link_to escuela_transportes_cargar_documentos_registro_path(id: operadora_escuela_transporte) do
+                  -#      Terminar Registro
+                  -#      %span.fa.fa-file-image-o
+                  -#    = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
+                  -#      data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
+                  -#      %i.fa.fa-trash-o
+                  -#  - else
+                  -#    = link_to representante_legal_escuela_transporte_path(@representante_legal, operadora_escuela_transporte) do
+                  -#      %i.fa.fa-search
+                  -#    - if operadora_escuela_transporte.solicituds_lockeds.empty?
+                  -#      = link_to edit_representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) do
+                  -#        %i.fa.fa-pencil-square-o
+                  -#      = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
+                  -#      data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
+                  -#        %i.fa.fa-trash-o
+                  -#    - else
+                  -#      = link_to edit_escuela_transportes_update_rif_path(id: operadora_escuela_transporte) do
+                  -#        Actualizar RIF

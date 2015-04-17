@@ -20,7 +20,6 @@ class EscuelaTransportes::PlanosInfraestructuraController < ApplicationControlle
     if @escuela_transporte.update(escuela_transporte_doc_params)
       @solicitud.update_index_mask(1)
       flash[:success]= 'Planos de la infraestructura cargados satisfactoriamente'
-      # redirect_to escuela_transportes_cargar_planillas_path(@escuela_transporte)
       redirect_to new_escuela_transportes_seguro_path(id: @escuela_transporte.id)
     else
       @lista_documentos = load_documentos(nombre_vista,@solicitud,true)

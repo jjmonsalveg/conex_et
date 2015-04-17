@@ -2189,6 +2189,10 @@ vista_registro_circuitos_manejo = Vista.create!(nombre: 'registro_circuitos_mane
                                                 descripcion: 'Registro de Circuitos de Manejo',
                                                 index: 4)
 
+vista_registro_circuitos_manejo_abierto = Vista.create!(nombre: 'registro_circuitos_manejo_abierto',
+                                                        descripcion: 'Registro de Circuitos de Manejo abierto',
+                                                        index: 4)
+
 
 vista_trabajadores = Vista.create!(nombre: 'trabajadores',
                                    descripcion: 'Registro de los Trabajadores',
@@ -2202,7 +2206,8 @@ puts '### ASOCIANDO VISTAS A TIPOS DE SOLICITUDES###'
 
 preinscripcion.vistas<< vista_informacion_general<<vista_planos_infraestructura<<
     vista_rcv_flota<<vista_vehiculo_ensenanza<<vista_arrendamiento<<
-    vista_registro_circuitos_manejo<<vista_trabajadores<<vista_trabajadores_instructores
+    vista_registro_circuitos_manejo<<vista_trabajadores<<vista_trabajadores_instructores<<
+    vista_registro_circuitos_manejo_abierto
 puts '### DOCUMENTOS DE REQUISITOS ###'
 
 # ######## DOCUMENTOS DE REGISTRO DE ESCUELA DE TRANSPORTE ###############
@@ -2445,7 +2450,10 @@ vista_registro_circuitos_manejo.documento_requisitos<<
                                         'planos_escala 1:1000:',
                                     cardinalidad_maxima:20,
                                     paginado:true
-                                   },
+                                   }
+                               ])
+vista_registro_circuitos_manejo_abierto.documento_requisitos<<
+    DocumentoRequisito.create!([
                                    {nombre:'permiso_circulacion ',
                                     descripcion: 'Permiso circulación en vías públicas:',
                                     cardinalidad_maxima:1,
