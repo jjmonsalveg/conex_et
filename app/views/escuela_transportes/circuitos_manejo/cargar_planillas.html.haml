@@ -22,20 +22,22 @@
               Registro de Circuitos de Manejo
 
   .row.animated.fadeInRight
-  .col-md-12
-    .ibox.float-e-margins
-      .ibox-content
-        = form_for @escuela_transporte,
-         url:  escuela_transportes_guardar_circuito_path(@escuela_transporte),
-         html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general'} do |f|
-          .form-group
-          = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
-          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
-            text_prev:'Regresar',
-            clase_prev: '<i class="fa fa-folder-open-o"></i>',
-            url_prev:  escuela_transportes_informacion_general_index_path,
-            text_next: 'Guardar Información general',
-            clase_next: '<i class="fa fa-floppy-o"></i>'
+    = render 'shared/error_messages', object: @escuela_transporte, model: 'Información General'
+    = render  'shared/show_modelo_modals_documentos_paginados',vista: :registro_circuitos_manejo,modelo: @solicitud.circuito
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          = form_for @escuela_transporte,
+           url:  escuela_transportes_guardar_circuito_path(@escuela_transporte),
+           html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general',:multipart => true} do |f|
+            .form-group
+            = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
+            = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom',f:f,
+              text_prev:'Regresar',
+              clase_prev: '<i class="fa fa-folder-open-o"></i>',
+              url_prev:  escuela_transportes_informacion_general_index_path,
+              text_next: 'Guardar Información general',
+              clase_next: '<i class="fa fa-floppy-o"></i>'
 
   -#.row
   -#  .col-md-9.col-md-offset-1

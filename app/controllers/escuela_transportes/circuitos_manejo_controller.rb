@@ -5,11 +5,20 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_action :cargar_representante
   before_action :cargar_rif
   helper_method :nombre_solicitud
+  helper_method :nombre_vista
+
+  def index_circuitos
+    init_solicitud(nombre_solicitud,@escuela_transporte)
+  end
 
   def cargar_planillas
     init_solicitud(nombre_solicitud,@escuela_transporte)
     @solicitud.build_circuito if @solicitud.circuito.nil?
     @lista_documentos = load_documentos(nombre_vista,@solicitud.circuito,true)
+    # {'E' => 'E',
+    #  'V'=> 'V'}
+    # = f.select :nacionalidad,  options_for_select(@lista, selected: 'V'),
+    #            {id: 'select-documento'}, {class: 'form-control'}
   end
 
   def guardar_planillas
@@ -49,12 +58,10 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def nombre_solicitud
     :preinscripcion
   end
-  helper_method :nombre_solicitud
 
   def nombre_vista
     :registro_circuitos_manejo
   end
-  helper_method :nombre_vista
 
   private
 
