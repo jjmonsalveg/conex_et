@@ -40,6 +40,10 @@
       .col-md-12.col-md-offset-0
         .ibox.float-e-margins
           .ibox-content
+            =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
+            class: 'btn btn-primary  pull-center' do
+              Agregar Circuito de Manejo
+              %i.fa.fa-road
             %br/
             %table.table.table-striped.table-bordered.table-condensed
               %thead
@@ -60,6 +64,10 @@
                       %fa.fa-check
                     -else
                       Debe Completar Carga Documentos
+                  %td.text-center
+                    = link_to escuela_transportes_editar_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
+                      %i.fa.fa-pencil-square-o
+
                   -#%td.text-center
                   -#  - unless DocumentosRequisitosPorVista.vista_completa?(:registro_inicial,operadora_escuela_transporte)
                   -#    = link_to escuela_transportes_cargar_documentos_registro_path(id: operadora_escuela_transporte) do

@@ -37,8 +37,6 @@ class Circuito < ActiveRecord::Base
 
   #validates field
 
-  validates_uniqueness_of :solicitud_id
-
   validates :descripcion_ruta,
             presence: { message: 'Descripción de la Ubicación o ruta es requerida'},
             format: {

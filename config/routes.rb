@@ -162,8 +162,12 @@ Rails.application.routes.draw do
          as: :index_circuitos
     get  'crear_circuito_manejo/:id', to:'circuitos_manejo#new',
          as: :crear_circuito
+    get  'aditar_circuito_manejo/:id', to:'circuitos_manejo#editar_circuito',
+         as: :editar_circuito
     post 'guardar_circuito_manejo/:id', to:'circuitos_manejo#guardar_circuito',
          as: :guardar_circuito
+    patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
+          as: :actualizar_circuito
 
     # delete '/eliminar_planilla/:id_planilla',
     #        to: 'cargar_circuitos#eliminar_planilla',
