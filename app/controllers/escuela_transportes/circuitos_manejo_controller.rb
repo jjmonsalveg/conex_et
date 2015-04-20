@@ -1,10 +1,10 @@
 class EscuelaTransportes::CircuitosManejoController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
-  before_action :set_escuela_transporte_preinscripcion,only: [:index_circuitos,:new,:editar_circuito]
+  before_action :set_escuela_transporte_preinscripcion,only:[:index_circuitos, :new, :editar_circuito]
   before_action :cargar_representante
   before_action :cargar_rif
-  before_action :cargar_solicitud, only: [:actualizar_circuito,:guardar_circuito]
+  before_action :cargar_solicitud_escuela, only: [:actualizar_circuito,:guardar_circuito,:show]
   helper_method :nombre_solicitud
   helper_method :nombre_vista
   helper_method :reload_documents?
@@ -18,9 +18,13 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     @circuito = @solicitud.circuitos.build
   end
 
+  def show
+  end
+
   def editar_circuito
     init_solicitud(nombre_solicitud,@escuela_transporte)
     @circuito = @solicitud.circuitos.find_by(id: params[:circuito_id])
+    check_circuito
   end
 
   def guardar_circuito
@@ -29,7 +33,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
       redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
     else
       @circuito =  @solicitud.circuitos.last
-      render 'circuito_form', url: escuela_transportes_guardar_circuito_path(@escuela_transporte), method: :post
+      render 'escuela_transportes/circuitos_manejo/new', url: escuela_transportes_guardar_circuito_path(@solicitud), method: :post
     end
   end
 
@@ -39,7 +43,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
       redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
     else
       @circuito =  @solicitud.circuitos.find_by(id: params[:solicitud][:circuitos_attributes][:id])
-      render 'circuito_form', url: escuela_transportes_actualizar_circuito_path(@escuela_transporte), method: :patch
+      render'escuela_transportes/circuitos_manejo/editar_circuito', url: escuela_transportes_actualizar_circuito_path(@solicitud), method: :patch
     end
   end
 
@@ -71,15 +75,28 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   def reload_documents?
-    not (action_name == 'new' or action_name == 'index_circuitos')
+    not (action_name == 'new' or action_name == 'editar_circuito')
   end
 
   private
-  def cargar_solicitud
-    @solicitud = @escuela_transporte.solicituds.find_by(id: params[:id])
-    if @solicitud.nil?
+
+  def check_circuito
+    if @circuito.nil?
+      flash[:danger]='Circuito No existente'
+      redirect_to root_path
+    end
+  end
+  def cargar_solicitud_escuela
+    @solicitud = Solicitud.includes(:servicio_intt).find_by(id: params[:id])
+    if @solicitud.nil? or (not @solicitud.servicio_intt_type == 'EscuelaTransporte')
       flash[:danger]='Solicitud no Existente'
       redirect_to root_path
+    else
+      @escuela_transporte = @representante_legal.escuela_transportes.find_by(id:@solicitud.servicio_intt.id)
+      if @escuela_transporte.nil?
+        flash[:danger]='Solicitud no le pertenece a ninguna de sus escuelas'
+        redirect_to root_path
+      end
     end
   end
 

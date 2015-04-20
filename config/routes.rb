@@ -160,6 +160,8 @@ Rails.application.routes.draw do
     #6.4 Modelos de Planillas para practica de manejo
     get  'listar_circuitos_manejo/:id', to: 'circuitos_manejo#index_circuitos',
          as: :index_circuitos
+    get  'ver_circuito_manejo/:id', to: 'circuitos_manejo#show',
+         as: :ver_circuito
     get  'crear_circuito_manejo/:id', to:'circuitos_manejo#new',
          as: :crear_circuito
     get  'aditar_circuito_manejo/:id', to:'circuitos_manejo#editar_circuito',
