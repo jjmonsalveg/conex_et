@@ -16,7 +16,8 @@
         #wrapper.background-color-blue
           = render 'layouts/sidenavbar'
           #page-wrapper.gray-bg
-            = render 'layouts/flash_message'
+            #flashing_conex_et_ajax
+              = render 'layouts/flash_message'
             = yield
             = render 'layouts/footer'
       - else

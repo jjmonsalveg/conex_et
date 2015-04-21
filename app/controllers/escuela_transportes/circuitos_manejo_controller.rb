@@ -28,14 +28,31 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   def guardar_circuito
-    if @solicitud.update(params_solicitud_circuito)
-      flash[:success]='Circuito de manejo Guardado exitosamente'
-      redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
-    else
+    respond_to do |format|
+      if @solicitud.update(params_solicitud_circuito)
+        flash[:success]='Circuito de manejo Guardado exitosamente'
+        @guardo = true
+      else
+        @guardo = false
+        # render 'escuela_transportes/circuitos_manejo/new', url: escuela_transportes_guardar_circuito_path(@solicitud), method: :post
+      end
       @circuito =  @solicitud.circuitos.last
-      render 'escuela_transportes/circuitos_manejo/new', url: escuela_transportes_guardar_circuito_path(@solicitud), method: :post
+      format.js
     end
   end
+
+  # def guardar_circuito
+  #   # respond_to do |format|
+  #   #
+  #   # end
+  #   if @solicitud.update(params_solicitud_circuito)
+  #     flash[:success]='Circuito de manejo Guardado exitosamente'
+  #     redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+  #   else
+  #     @circuito =  @solicitud.circuitos.last
+  #     render 'escuela_transportes/circuitos_manejo/new', url: escuela_transportes_guardar_circuito_path(@solicitud), method: :post
+  #   end
+  # end
 
   def actualizar_circuito
     if @solicitud.update(params_solicitud_circuito)

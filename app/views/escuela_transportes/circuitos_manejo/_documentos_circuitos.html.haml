@@ -1,0 +1,52 @@
+= render 'shared/error_messages', object: @circuito, model: 'Circuito de Manejo'
+= render  'shared/show_modelo_modals_documentos_paginados',vista: :registro_circuitos_manejo,modelo: @circuito
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        Carga de Documentos de Circuito
+      .ibox-content
+        = form_for @circuito , url: escuela_transportes_guardar_documentos_circuito_path, remote: true, html:{multipart: true} do |c|
+          = token_tag form_authenticity_token
+          =render 'shared/show_modelo_documentos_no_paginados', model: c,
+           list_documents: load_documentos(:registro_circuitos_manejo_abierto,@circuito,true)
+          .row
+            .col-sm-3.col-sm-offset-4
+              = c.button(type: "submit", class: "btn btn-success btn-block", data: { disable_with: "Guardando documentos..." }) do
+                Guardar Documentos
+                %i.fa.fa-floppy-o
+-#=render 'escuela_transportes/circuitos_manejo/scripts'
+-#:javascript
+  //var fileUploadErrors = {
+  //  maxFileSize: 'File is too big',
+  //  minFileSize: 'File is too small',
+  //  acceptFileTypes: 'Filetype not allowed',
+  //  maxNumberOfFiles: 'Max number of files exceeded',
+  //  uploadedBytes: 'Uploaded bytes exceed file size',
+  //  emptyResult: 'Empty file upload result'
+  //};
+  //var cargar_archivos, cargar_documentos;
+
+  //$('.fileupload-generic').fileupload();
+  //console.log("despues");
+  ////
+  //cargar_archivos = function(id) {
+  //  $.getJSON($('#' + id).prop('action'), function(files) {
+  //    var fu, template;
+  //    fu = $('.fileupload-generic').data('blueimpFileupload');
+  //    template = void 0;
+  //    template = fu._renderDownload(files).appendTo($('#' + id + ' .files'));
+  //    fu._reflow = fu._transition && template.length && template[0].offsetWidth;
+  //    template.addClass('in');
+  //    $('#loading').remove();
+  //  });
+  //};
+  //
+  //cargar_documentos = function() {
+  //  $('.fileupload-generic').each(function(indice, elemento) {
+  //    cargar_archivos(elemento.id);
+  //  });
+  //};
+  //
+  //console.log("cargar");
+  //cargar_documentos();

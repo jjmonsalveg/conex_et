@@ -168,6 +168,8 @@ Rails.application.routes.draw do
          as: :editar_circuito
     post 'guardar_circuito_manejo/:id', to:'circuitos_manejo#guardar_circuito',
          as: :guardar_circuito
+    post 'guardar_documentos_circuito_manejo/:id', to:'circuitos_manejo#guardar_documentos_circuito',
+         as: :guardar_documentos_circuito
     patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
           as: :actualizar_circuito
 

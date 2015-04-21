@@ -1,6 +1,5 @@
 jQuery(document).ready ($) ->
 
-
   $('#buscar_numero_solicitud').click ->
     buscar_solicitud()
 
@@ -63,6 +62,7 @@ jQuery(document).ready ($) ->
     maxNumberOfFiles: 'Max number of files exceeded'
     uploadedBytes: 'Uploaded bytes exceed file size'
     emptyResult: 'Empty file upload result'
+
 
   $('.fileupload-generic').fileupload()
 

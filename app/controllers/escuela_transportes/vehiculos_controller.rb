@@ -21,7 +21,6 @@ class EscuelaTransportes::VehiculosController < ApplicationController
         @documentos_seguro = load_documentos(:rcv_flota, seguro, true)
       end
       @documentos_vehiculos = load_documentos(nombre_vista, @vehiculo, true)
-      puts @documentos_vehiculos
       render partial: 'found_vehiculo'
     else
       render partial: 'vehiculo_in_use'
