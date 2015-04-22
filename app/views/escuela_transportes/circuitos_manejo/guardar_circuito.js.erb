@@ -1,4 +1,3 @@
-
 <% if @guardo %>
 $('#flash-circuito-creado').html('<%= j render('layouts/flash_message') %>');
 <% flash.discard %>
@@ -7,4 +6,5 @@ $('#div-reload-or-save-circuitos').html('<%= link_to 'Editar' , escuela_transpor
 $('#form-documentos-circuito-solicitud-<%=@solicitud.id%>').html('<%= j render('escuela_transportes/circuitos_manejo/documentos_circuitos') %>');
 
 <% else %>
+$('#form-circuito-solicitud-<%=@solicitud.id %>').html('<%= j render('escuela_transportes/circuitos_manejo/circuito_form',url:escuela_transportes_guardar_circuito_path(@solicitud), method: :post)%>');
 <% end %>
