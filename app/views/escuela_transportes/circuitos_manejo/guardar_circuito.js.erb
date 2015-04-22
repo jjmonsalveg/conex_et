@@ -1,10 +1,10 @@
 <% if @guardo %>
 $('#flash-circuito-creado').html('<%= j render('layouts/flash_message') %>');
 <% flash.discard %>
-$('.deshabilitar-condition').prop( 'disabled', true )
+$('#error_explanation').html('');
+$('.deshabilitar-condition').prop( 'disabled', true );
 $('#div-reload-or-save-circuitos').html('<%= link_to 'Editar' , escuela_transportes_editar_circuito_path(id:@escuela_transporte, circuito_id: @circuito)%>');
 $('#form-documentos-circuito-solicitud-<%=@solicitud.id%>').html('<%= j render('escuela_transportes/circuitos_manejo/documentos_circuitos') %>');
-
 <% else %>
 $('#form-circuito-solicitud-<%=@solicitud.id %>').html('<%= j render('escuela_transportes/circuitos_manejo/circuito_form',url:escuela_transportes_guardar_circuito_path(@solicitud), method: :post)%>');
 <% end %>
