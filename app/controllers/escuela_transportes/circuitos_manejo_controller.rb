@@ -142,8 +142,4 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def params_circuito_documento
     params.require(:circuito).permit(:id,documentos_attributes: [:id, :documentos_requisitos_por_vista_id,:doc])
   end
-  # def params_id_planilla
-  #   ActionController::Parameters.new(id_planilla: params[:id_planilla]).permit(:id_planilla)[:id_planilla]
-  # end
-
 end
