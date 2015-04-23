@@ -10,3 +10,4 @@ Rails.application.config.assets.version = '1.0'
 Rails.application.config.assets.precompile += %w( jquery.iframe-transport.js )
 Rails.application.config.assets.precompile += %w( jquery.fileupload.js )
 Rails.application.config.assets.precompile += %w( jquery.fileupload-ui.js )
+# Rails.application.config.assets.precompile += %w(verificar_preinscripcion.js)

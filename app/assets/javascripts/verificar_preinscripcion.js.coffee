@@ -69,7 +69,11 @@ jQuery(document).ready ($) ->
 
   cargar_archivos = (id) ->
     $.getJSON $('#'+id).prop('action'), (files) ->
-        fu = $('.fileupload-generic').data('blueimpFileupload')
+        fu = $('#'+id).data('blueimpFileupload')
+        console.log 'este es fu'
+        console.log fu
+        console.log 'este es id'
+        console.log $('#'+id)
         template = undefined
         template = fu._renderDownload(files).appendTo($('#'+id+' .files'))
         # Force reflow:
@@ -87,3 +91,4 @@ jQuery(document).ready ($) ->
     return
 
   cargar_documentos()
+  console.log('haciendo')

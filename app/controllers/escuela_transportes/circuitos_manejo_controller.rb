@@ -36,6 +36,37 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     end
   end
 
+  def guardar_documentos_circuito
+    @circuito =  Circuito.includes(:solicitud).find_by(id: params[:id])
+    check_circuito
+    @escuela_transporte= @representante_legal.escuela_transportes.joins(solicituds: :circuitos).where(circuitos: {id: @circuito.id} ).last
+    respond_to do |format|
+
+      if @escuela_transporte.nil?
+        render js: "window.location = '#{root_path}'"
+        return
+      end
+
+      if @circuito.update(params_circuito_documento)
+        flash[:success]= 'Documentos de Circuito Guardados Satisfactoriamente'
+        render js: "window.location = '#{escuela_transportes_index_circuitos_path(id: @escuela_transporte)}'"
+        return
+      else
+        format.js
+      end
+    end
+  end
+
+  #   if @vehiculo_et.save
+  #   flash[:success]= 'Vehículo Guardado Satisfactoriamente'
+  #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
+  #   render js: "window.location = '#{escuela_transportes_vehiculos_path(id: @escuela_transporte)}'"
+  #   return
+  # else
+  #   load_documentos(nombre_vista,@vehiculo_et,true)
+  #   format.js
+  # end
+
   # def guardar_circuito
   #   # respond_to do |format|
   #   #
@@ -106,7 +137,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     else
       @escuela_transporte = @representante_legal.escuela_transportes.find_by(id:@solicitud.servicio_intt.id)
       if @escuela_transporte.nil?
-        flash[:danger]='Solicitud no le pertenece a ninguna de sus escuelas'
+        flash[:danger]='Solicitud no le pertenece a ninguna de sus Escuelas'
         redirect_to root_path
       end
     end
@@ -129,8 +160,11 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     params.require(:solicitud).permit(:id,circuitos_attributes: [:id,:tipo_circuito,:descripcion_ruta])
   end
 
-  def params_id_planilla
-    ActionController::Parameters.new(id_planilla: params[:id_planilla]).permit(:id_planilla)[:id_planilla]
+  def params_circuito_documento
+    params.require(:circuito).permit(:id,documentos_attributes: [:id, :documentos_requisitos_por_vista_id,:doc])
   end
+  # def params_id_planilla
+  #   ActionController::Parameters.new(id_planilla: params[:id_planilla]).permit(:id_planilla)[:id_planilla]
+  # end
 
 end
