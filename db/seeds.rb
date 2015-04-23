@@ -2454,7 +2454,7 @@ vista_registro_circuitos_manejo.documento_requisitos<<
                                ])
 vista_registro_circuitos_manejo_abierto.documento_requisitos<<
     DocumentoRequisito.create!([
-                                   {nombre:'permiso_circulacion ',
+                                   {nombre:'permiso_circulacion',
                                     descripcion: 'Permiso circulación en vías públicas:',
                                     cardinalidad_maxima:1,
                                     obligatorio: true

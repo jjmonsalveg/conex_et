@@ -18,6 +18,10 @@
           %span.fa.fa-asterisk.red
         .col-sm-8
           = circuito.text_field :descripcion_ruta,class: 'form-control deshabilitar-condition', maxlength:255
+    .row.col-sm-12
+      .form-group.col-sm-8.document-lock
+        =render 'shared/show_modelo_documentos_no_paginados', model: circuito,
+         list_documents: load_documentos(:registro_circuitos_manejo_abierto,circuito.object,reload_documents?)
       .col-sm-2.col-lg-offset-10{id: 'div-reload-or-save-circuitos'}
         = circuito.button(type: 'submit', class: 'btn btn-success btn-block',
                    data: { disable_with: 'Cargar Documentos' }) do

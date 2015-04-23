@@ -1,39 +1,13 @@
 = render 'shared/error_messages', object: @circuito, model: 'Circuito de Manejo'
 = render  'shared/show_modelo_modals_documentos_paginados',vista: :registro_circuitos_manejo,modelo: @circuito
-.row.animated.fadeInRight
-  .col-md-12
+
+.row
+  .col-sm-12
     .ibox.float-e-margins
-      .ibox-title
-        Carga de Documentos de Circuito
       .ibox-content
-        = form_for @circuito , url: escuela_transportes_guardar_documentos_circuito_path(@circuito),method: :post,
-          remote: true, html:{multipart: true,id:'circuito_manejo'} do |c|
-          = token_tag form_authenticity_token
-          =render 'shared/show_modelo_documentos_no_paginados', model: c,
-           list_documents: load_documentos(:registro_circuitos_manejo_abierto,@circuito,true)
-          .row
-            .col-sm-3.col-sm-offset-4
-              = text_field_tag :nombre
-              = c.button(type: "submit", class: "btn btn-success btn-block", data: { disable_with: "Guardando documentos..." }) do
-                Guardar Documentos
-                %i.fa.fa-floppy-o
--#%script{:src => "/js/bootstrap.js" }
--#%script{:src => "/js/plugins/bootstrapValidator/bootstrapValidator.js" }
--#:javascript
--#  $('#circuito_manejo').bootstrapValidator({
--#    feedbackIcons: {
--#      valid: 'fa fa-check',
--#      invalid: 'fa fa-times',
--#      validating: 'fa fa-refresh'
--#    },
--#    live: 'enable',
--#    fields: {
--#      'nombre': {
--#        validators: {
--#          notEmpty: {
--#            message: 'Es obligatorio'
--#          }
--#        }
--#      }
--#    }
--#  }
+        .row
+          .col-sm-9.col-sm-offset-4
+            = link_to  escuela_transportes_guardar_documentos_circuito_path(id: @circuito.id),
+            class: "btn btn-info " do
+              Guardar Documentos
+              %i.fa.fa-save

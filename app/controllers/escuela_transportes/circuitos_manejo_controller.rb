@@ -30,7 +30,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def guardar_circuito
     respond_to do |format|
       @guardo = @solicitud.update(params_solicitud_circuito)
-      flash[:success]='Circuito de manejo Guardado exitosamente' if @guardo
+      flash[:success]='Circuito de manejo Guardado exitosamente, a continuacion suba los siguientes documentos' if @guardo
       @circuito =  @solicitud.circuitos.last
       format.js
     end
@@ -40,45 +40,21 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     @circuito =  Circuito.includes(:solicitud).find_by(id: params[:id])
     check_circuito
     @escuela_transporte= @representante_legal.escuela_transportes.joins(solicituds: :circuitos).where(circuitos: {id: @circuito.id} ).last
-    respond_to do |format|
 
-      if @escuela_transporte.nil?
-        render js: "window.location = '#{root_path}'"
-        return
-      end
+    if @escuela_transporte.nil?
+      redirect_to root_path
+      return
+    end
 
-      if @circuito.update(params_circuito_documento)
-        flash[:success]= 'Documentos de Circuito Guardados Satisfactoriamente'
-        render js: "window.location = '#{escuela_transportes_index_circuitos_path(id: @escuela_transporte)}'"
-        return
-      else
-        format.js
-      end
+    if @circuito.documentos_registro_circuito_completos?
+      flash[:success]= 'Documentos de Circuito Guardados Satisfactoriamente'
+      redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+      return
+    else
+      flash[:danger]= 'Debe cargar los Documentos Paginados, intente denuevo '
+      redirect_to escuela_transportes_editar_circuito_path(id:@escuela_transporte, circuito_id: @circuito)
     end
   end
-
-  #   if @vehiculo_et.save
-  #   flash[:success]= 'Vehículo Guardado Satisfactoriamente'
-  #   @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(1)
-  #   render js: "window.location = '#{escuela_transportes_vehiculos_path(id: @escuela_transporte)}'"
-  #   return
-  # else
-  #   load_documentos(nombre_vista,@vehiculo_et,true)
-  #   format.js
-  # end
-
-  # def guardar_circuito
-  #   # respond_to do |format|
-  #   #
-  #   # end
-  #   if @solicitud.update(params_solicitud_circuito)
-  #     flash[:success]='Circuito de manejo Guardado exitosamente'
-  #     redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
-  #   else
-  #     @circuito =  @solicitud.circuitos.last
-  #     render 'escuela_transportes/circuitos_manejo/new', url: escuela_transportes_guardar_circuito_path(@solicitud), method: :post
-  #   end
-  # end
 
   def actualizar_circuito
     if @solicitud.update(params_solicitud_circuito)
@@ -157,7 +133,10 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   def params_solicitud_circuito
-    params.require(:solicitud).permit(:id,circuitos_attributes: [:id,:tipo_circuito,:descripcion_ruta])
+    params.require(:solicitud).permit(:id,circuitos_attributes: [:id,:tipo_circuito,:descripcion_ruta,
+                                                                 documentos_attributes:
+                                                                     [:id, :documentos_requisitos_por_vista_id,:doc]
+                                         ])
   end
 
   def params_circuito_documento
