@@ -1,13 +1,17 @@
 = render 'shared/error_messages', object: @circuito, model: 'Circuito de Manejo'
 = render  'shared/show_modelo_modals_documentos_paginados',vista: :registro_circuitos_manejo,modelo: @circuito
-
-.row
-  .col-sm-12
-    .ibox.float-e-margins
-      .ibox-content
-        .row
-          .col-sm-9.col-sm-offset-4
-            = link_to  escuela_transportes_guardar_documentos_circuito_path(id: @circuito.id),
-            class: "btn btn-info " do
-              Guardar Documentos
-              %i.fa.fa-save
+-if show
+  .row
+    .col-sm-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .col-sm-9.col-sm-offset-4
+              = link_to  escuela_transportes_guardar_documentos_circuito_path(id: @circuito.id),
+              class: "btn btn-info " do
+                Guardar Documentos
+                %i.fa.fa-save
+-else
+  %br
+  %br
+  %br

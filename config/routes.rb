@@ -170,8 +170,8 @@ Rails.application.routes.draw do
          as: :guardar_documentos_circuito
     post 'guardar_circuito_manejo/:id', to:'circuitos_manejo#guardar_circuito',
          as: :guardar_circuito
-    # patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
-    #       as: :actualizar_circuito
+    patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
+          as: :actualizar_circuito
 
     delete '/eliminar_circuito/:id',
            to: 'circuitos_manejo#eliminar_circuito',

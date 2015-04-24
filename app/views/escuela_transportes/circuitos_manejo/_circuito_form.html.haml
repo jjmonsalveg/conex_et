@@ -1,7 +1,7 @@
 = render 'shared/error_messages', object: @solicitud, model: 'Circuito de Manejo'
 = form_for @solicitud,
            url: url,method: method,
-           html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general',:multipart => true},remote:true do |solicitud|
+           html: {class: 'form-horizontal m-t-md', id: 'form-informacion-general',:multipart => true},remote:remote  do |solicitud|
   =solicitud.fields_for :circuitos ,@circuito do |circuito|
     .row.col-sm-12
       .form-group.col-sm-6

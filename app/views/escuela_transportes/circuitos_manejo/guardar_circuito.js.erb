@@ -7,7 +7,7 @@ $('.deshabilitar-condition').prop( 'disabled', true );
 $('.document-lock').html(
         '<label class="col-sm-3 control-label">Permiso circulación en vías públicas:<span class="fa fa-asterisk red"></span></label><p><%= @circuito.documentos.last.nombre_documento %></p>')
 $('#div-reload-or-save-circuitos').html('<%= link_to 'Editar' , escuela_transportes_editar_circuito_path(id:@escuela_transporte, circuito_id: @circuito)%>');
-$('#form-documentos-circuito-solicitud-<%=@solicitud.id%>').html('<%= j render('escuela_transportes/circuitos_manejo/documentos_circuitos') %>');
+$('#form-documentos-circuito-solicitud-<%=@solicitud.id%>').html('<%= j render('escuela_transportes/circuitos_manejo/documentos_circuitos',show:true) %>');
 <% else %>
 $('#form-circuito-solicitud-<%=@solicitud.id %>').html('<%= j render('escuela_transportes/circuitos_manejo/circuito_form',url:escuela_transportes_guardar_circuito_path(@solicitud), method: :post)%>');
 <% end %>

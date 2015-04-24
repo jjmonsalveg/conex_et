@@ -29,7 +29,7 @@
             Datos del circuito
         .ibox-content
           .row{id: "form-circuito-solicitud-#{@solicitud.id}"}
-            =render 'escuela_transportes/circuitos_manejo/circuito_form',url:url, method: method
+            =render 'escuela_transportes/circuitos_manejo/circuito_form',url:url, method: method, remote: remote
   #flash-circuito-creado
   %div{id: "form-documentos-circuito-solicitud-#{@solicitud.id}"}
 -#.row
