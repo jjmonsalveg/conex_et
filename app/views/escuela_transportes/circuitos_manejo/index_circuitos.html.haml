@@ -48,18 +48,18 @@
             %table.table.table-striped.table-bordered.table-condensed
               %thead
                 %tr
-                  %th Tipo De Circuito
-                  %th Descripción
-                  %th Carga de Documentos Lista
+                  %th.text-center Tipo De Circuito
+                  %th.text-center Descripción
+                  %th.text-center Carga de Documentos Lista
                   %th.text-center{:colspan => '3'}
                     Acciones
 
               %tbody
               - @solicitud.circuitos.each do |circuito|
                 %tr
-                  %td= circuito.tipo_circuito
-                  %td= circuito.descripcion_ruta
-                  %td
+                  %td.text-center= circuito.tipo_circuito
+                  %td.text-center= circuito.descripcion_ruta
+                  %td.text-center
                     -if circuito.documentos_registro_circuito_completos?
                       %i.fa.fa-check
                     -else
@@ -72,24 +72,3 @@
                     = link_to  escuela_transportes_eliminar_circuito_path(id: circuito.id) , method: :delete,
                       data: { confirm:'¿Seguro que desea Borrar Circuito de manejo?' } do
                       %i.fa.fa-trash-o
-
-                  -#%td.text-center
-                  -#  - unless DocumentosRequisitosPorVista.vista_completa?(:registro_inicial,operadora_escuela_transporte)
-                  -#    = link_to escuela_transportes_cargar_documentos_registro_path(id: operadora_escuela_transporte) do
-                  -#      Terminar Registro
-                  -#      %span.fa.fa-file-image-o
-                  -#    = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
-                  -#      data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
-                  -#      %i.fa.fa-trash-o
-                  -#  - else
-                  -#    = link_to representante_legal_escuela_transporte_path(@representante_legal, operadora_escuela_transporte) do
-                  -#      %i.fa.fa-search
-                  -#    - if operadora_escuela_transporte.solicituds_lockeds.empty?
-                  -#      = link_to edit_representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) do
-                  -#        %i.fa.fa-pencil-square-o
-                  -#      = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
-                  -#      data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
-                  -#        %i.fa.fa-trash-o
-                  -#    - else
-                  -#      = link_to edit_escuela_transportes_update_rif_path(id: operadora_escuela_transporte) do
-                  -#        Actualizar RIF

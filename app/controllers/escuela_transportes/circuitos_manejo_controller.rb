@@ -19,6 +19,8 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   def show
+    @circuito = @solicitud.circuitos.find_by(id: params[:circuito_id])
+    check_circuito
   end
 
   def editar_circuito

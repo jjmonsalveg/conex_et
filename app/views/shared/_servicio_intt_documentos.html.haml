@@ -1,23 +1,25 @@
-.row
-  .col-md-12.col-md-offset-0
-    .ibox.float-e-margins
-      .ibox-title
-        %h3
-          Documentos
-          %small
-            (No Páginados)
-      .ibox-content
-        .row
-          .col-md-12
-            - model.documentos_vista(nombre_vista).each_with_index  do |documento,index|
-              - if (index) % 4 == 0
-                .row.col-sm-12
-              = render 'shared/previsualizar_documento', documento: documento
+-lista_no_paginado = model.documentos_vista(nombre_vista_param)
+-if not lista_no_paginado.empty?
+  .row
+    .col-md-12.col-md-offset-0
+      .ibox.float-e-margins
+        .ibox-title
+          %h3
+            Documentos
+            %small
+              (No Páginados)
+        .ibox-content
+          .row
+            .col-md-12
+              - lista_no_paginado.each_with_index  do |documento,index|
+                - if (index) % 4 == 0
+                  .row.col-sm-12
+                = render 'shared/previsualizar_documento', documento: documento
 
 - new_group = nil
 - index_group = nil
 - name_group_documento_requisito = nil
-- list = model.documentos_paginados(nombre_vista)
+- list = model.documentos_paginados(nombre_vista_param)
 - list.each_with_index do |documento,index|
 
   - documento_requisito =  documento.documentos_requisitos_por_vista.documento_requisito
