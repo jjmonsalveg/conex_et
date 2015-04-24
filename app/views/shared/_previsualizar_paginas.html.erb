@@ -32,8 +32,8 @@
                     </div>
                      <div class="ibox-content">
 <% end %>
-<%= render 'shared/documento_for_group', documento: documento, documento_requisito: documento_requisito,
-           index_group: index_group , close: (not (index==0)),len: len,index: index%>
+<%= render 'shared/documento_for_group',index_histogram:index_histogram, histogram:histogram, documento: documento, documento_requisito: documento_requisito,
+           index_group: index_group , close: (not (index==0))%>
 <% if index == len-1 %>
     </div>
     </div>

@@ -20,6 +20,8 @@
 - index_group = nil
 - name_group_documento_requisito = nil
 - list = model.documentos_paginados(nombre_vista_param)
+- histogram      = list.group_by{ |v| v.documentos_requisitos_por_vista_id }.map{ |k, v| v.size }
+- index_histogram= 0
 - list.each_with_index do |documento,index|
 
   - documento_requisito =  documento.documentos_requisitos_por_vista.documento_requisito
@@ -31,9 +33,10 @@
   - if index > 0 and not name_group_documento_requisito == documento_requisito.nombre
     - new_group = true
     - index_group = 0
+    - index_histogram+=1
     - name_group_documento_requisito = documento_requisito.nombre
 
-  = render 'shared/previsualizar_paginas',index:index, len: list.length, documento: documento, documento_requisito: documento_requisito, new_group: new_group,index_group:index_group
+  = render 'shared/previsualizar_paginas',histogram:histogram,index_histogram:index_histogram,index:index, len: list.length, documento: documento, documento_requisito: documento_requisito, new_group: new_group,index_group:index_group
   -new_group   = false
   -index_group += 1
 
