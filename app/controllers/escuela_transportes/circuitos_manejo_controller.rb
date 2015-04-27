@@ -11,6 +11,20 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
 
   def index_circuitos
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    centinel =  @solicitud.circuitos.empty? ? true : false
+
+    @solicitud.circuitos.each_with_index  do  |circuito,index|
+      if not circuito.documentos_registro_circuito_completos?
+        centinel =true
+        break
+      end
+    end
+
+    if centinel
+      @solicitud.update_index_mask(4,false)
+    else
+      @solicitud.update_index_mask(4)
+    end
   end
 
   def new
@@ -32,6 +46,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def guardar_circuito
     respond_to do |format|
       @guardo = @solicitud.update(params_solicitud_circuito)
+      @solicitud.update_index_mask(4,false) if @guardo
       flash[:success]='Circuito de manejo Guardado exitosamente, a continuacion suba los siguientes documentos' if @guardo
       @circuito =  @solicitud.circuitos.last
       format.js
@@ -49,10 +64,12 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     end
 
     if @circuito.documentos_registro_circuito_completos?
+      @circuito.solicitud.update_index_mask(4)
       flash[:success]= 'Documentos de Circuito Guardados Satisfactoriamente'
       redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
       return
     else
+      @circuito.solicitud.update_index_mask(4,false)
       flash[:danger]= 'Debe cargar los Documentos Paginados, intente denuevo '
       redirect_to escuela_transportes_editar_circuito_path(id:@escuela_transporte, circuito_id: @circuito)
     end
@@ -60,14 +77,14 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
 
   def actualizar_circuito
     @circuito =  @solicitud.circuitos.find_by(id:params[:solicitud][:circuitos_attributes]['0'][:id])
-    p @circuito
     check_circuito
     if @solicitud.update(params_solicitud_circuito)
       if @circuito.documentos_registro_circuito_completos?
-
+        @solicitud.update_index_mask(4)
         flash[:success]='Circuito de manejo Guardado exitosamente'
         redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
       else
+        @solicitud.update_index_mask(4,false)
         flash[:danger]= 'Debe cargar los Documentos Paginados, intente denuevo '
         redirect_to escuela_transportes_editar_circuito_path(id:@escuela_transporte, circuito_id: @circuito)
       end
@@ -86,7 +103,13 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
         redirect_to root_path
       else
         circuito.destroy
+        solicitud = Solicitud.includes(:circuitos).find_by(id: circuito.solicitud.id)
         flash[:success] = 'Circuito de Manejo Eliminado con exito'
+
+        if solicitud.circuitos.empty?
+          solicitud.update_index_mask(4,false)
+        end
+        
         redirect_to escuela_transportes_index_circuitos_path(id: escuela.id)
       end
     else
