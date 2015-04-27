@@ -8,5 +8,6 @@ class CreateCircuitos < ActiveRecord::Migration
 
       t.timestamps
     end
+    add_index :circuitos, [:tipo_circuito,:solicitud_id,:descripcion_ruta], unique: true,name: 'index_circuitos_manejo_unique'
   end
 end

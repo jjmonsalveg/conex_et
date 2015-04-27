@@ -1,2 +1,11 @@
 =render 'escuela_transportes/circuitos_manejo/circuito_view', url: escuela_transportes_actualizar_circuito_path, method: :patch, remote: false
 =render 'escuela_transportes/circuitos_manejo/documentos_circuitos', show: false
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        .row
+          .col-sm-2
+            = link_to 'Listar Circuitos',
+                escuela_transportes_index_circuitos_path(id: @escuela_transporte.id),
+                class: "btn btn-info"

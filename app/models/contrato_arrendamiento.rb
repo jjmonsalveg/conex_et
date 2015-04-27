@@ -2,18 +2,20 @@
 #
 # Table name: contrato_arrendamientos
 #
-#  id                  :integer          not null, primary key
-#  nombre_arrendatario :string(255)
-#  rif                 :string(255)
-#  fecha               :date
-#  duracion            :integer
-#  tomo                :integer
-#  folio               :integer
-#  notaria             :string(255)
-#  nombre_arrendador   :string(255)
-#  vehiculo_pre_id     :integer
-#  created_at          :datetime
-#  updated_at          :datetime
+#  id                          :integer          not null, primary key
+#  nombre_arrendatario         :string(255)
+#  rif                         :string(255)
+#  fecha                       :date
+#  duracion                    :integer
+#  tomo                        :integer
+#  folio                       :integer
+#  notaria                     :string(255)
+#  nombre_arrendador           :string(255)
+#  contrato_arrendamiento_file :string(255)
+#  vehiculo_pre_id             :integer
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#  rif_arrendatario            :string(255)
 #
 # Indexes
 #

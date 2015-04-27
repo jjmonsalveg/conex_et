@@ -16,15 +16,14 @@
 #  uso                        :string(255)
 #  propietario                :string(255)
 #  identificacion_propietario :string(255)
-#  escuela_transporte_id      :integer
 #  created_at                 :datetime
 #  updated_at                 :datetime
+#  solicitud_id               :integer
 #
 # Indexes
 #
-#  index_vehiculo_pres_on_escuela_transporte_id  (escuela_transporte_id)
-#  index_vehiculo_pres_on_placa                  (placa) UNIQUE
-#  index_vehiculo_pres_on_s_carroceria           (s_carroceria) UNIQUE
+#  index_vehiculo_pres_on_placa         (placa) UNIQUE
+#  index_vehiculo_pres_on_s_carroceria  (s_carroceria) UNIQUE
 #
 
 class VehiculoPre < ActiveRecord::Base

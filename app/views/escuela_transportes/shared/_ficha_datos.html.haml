@@ -30,8 +30,8 @@
                   = text_field_tag :solicitud ,
                     @escuela_transporte.solicituds.any? ? @escuela_transporte.solicitud(nombre_solicitud).id : '' ,
                     disabled: true,class:'form-control'
-
-        = render 'shared/document_info'
+        -show = show.nil? ? true: show
+        = render 'shared/document_info' if show
         - sol = @escuela_transporte.solicitud(nombre_solicitud)
         - if sol.estado?(:preparada) and sol.numero_planilla.present?
           .row

@@ -1,125 +1,42 @@
 = provide(:title, 'Visualizar Circuito de Manejo')
-.row
+= render :partial => 'breadcrum_circuito_manejo'
+.row.animated.fadeInRight
+  = render 'escuela_transportes/shared/ficha_datos', show: false
+
+.row.animated.fadeInRight
   .col-md-12.col-md-offset-0
     .ibox.float-e-margins
       .ibox-title
         %h3
-          Circuito de manejo
+          Datos del Circuito de manejo
       .ibox-content
-        .col-lg-12
-          %h3
-            Datos
-= render 'shared/servicio_intt_documentos', model: @circuito, nombre_vista_param: :registro_circuitos_manejo
-= render 'shared/servicio_intt_documentos', model: @circuito, nombre_vista_param: :registro_circuitos_manejo_abierto
--#        %table.table.table-striped.table-bordered.table-condensed
--#          %thead
--#            %tr
--#              %th
--#                Razón Social
--#              %th
--#                Rif
--#              %th
--#                Teléfono Fijo
--#              %th
--#                Teléfono Móvil
--#              %th
--#                Email
--#              %th
--#                Dirección Página Web
--#            %tbody
--#              %tr
--#                %td
--#                  #{@escuela_transporte.razonSocial}
--#                %td
--#                  #{@escuela_transporte.rif}
--#                %td
--#                  #{@escuela_transporte.telefono}
--#                %td
--#                  #{@escuela_transporte.movil}
--#                %td
--#                  #{@escuela_transporte.email}
--#                %td
--#                  #{@escuela_transporte.url}
--#
--#.row
--#  .col-md-12.col-md-offset-0
--#    .ibox.float-e-margins
--#      .ibox-content
--#        .col-lg-12
--#          %h3
--#            Ubicación
--#        %table.table.table-striped.table-bordered.table-condensed
--#          %thead
--#            %tr
--#              %th
--#                Estado
--#              %th
--#                Municipio
--#              %th
--#                Ciudad
--#              %th
--#                Parroquia
--#            %tbody
--#              %tr
--#                %td
--#                  #{@escuela_transporte.ciudad.estado.nombre}
--#                %td
--#                  #{@escuela_transporte.parroquia.municipio.nombre}
--#                %td
--#                  #{@escuela_transporte.ciudad.nombre}
--#                %td
--#                  #{@escuela_transporte.parroquia.nombre}
--#
--#.row
--#  .col-md-12.col-md-offset-0
--#    .ibox.float-e-margins
--#      .ibox-content
--#        .col-lg-12
--#          %h3
--#            Dirección
--#        %table.table.table-striped.table-bordered.table-condensed
--#          %thead
--#            %tr
--#              %th
--#                Avenida
--#              %th
--#                Calle
--#              %th
--#                Sector-Urb.
--#              %th
--#                Edificio/CC
--#              %th
--#                Local
--#              %th
--#                Piso
--#            %tbody
--#              %tr
--#                %td
--#                  #{@escuela_transporte.avenida}
--#                %td
--#                  #{@escuela_transporte.calle}
--#                %td
--#                  #{@escuela_transporte.urbanizacion}
--#                %td
--#                  #{@escuela_transporte.edificio_cc}
--#                %td
--#                  #{@escuela_transporte.local}
--#                %td
--#                  #{@escuela_transporte.piso}
--#
--#
--#= render 'shared/servicio_intt_documentos', model: @escuela_transporte
--#
--#.row
--#  .col-md-12
--#    .ibox.float-e-margins
--#      .ibox-content
--#        .row
--#          .col-sm-2
--#            = link_to 'Listar Escuelas',
--#            representante_legal_escuela_transportes_path(@representante_legal),
--#            class: "btn btn-info"
--#%br
--#%br
--#%br
-%br
+        .row
+          %table.table.table-striped.table-bordered.table-condensed
+            %thead
+              %tr
+                %th.text-center
+                  Tipo de circuito
+                %th.text-center
+                  Descripción y/o Ubicación de la ruta
+              %tbody
+                %tr
+                  %td.text-center
+                    #{@circuito.tipo_circuito}
+                  %td.text-center
+                    #{@circuito.descripcion_ruta}
+
+.row.animated.fadeInRight
+  = render 'shared/servicio_intt_documentos', model: @circuito, nombre_vista_param: :registro_circuitos_manejo
+  = render 'shared/servicio_intt_documentos', model: @circuito, nombre_vista_param: :registro_circuitos_manejo_abierto
+  .row
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .col-sm-2
+              = link_to 'Listar Circuitos',
+              escuela_transportes_index_circuitos_path(id: @escuela_transporte.id),
+              class: "btn btn-info"
+  %br
+  %br
+  %br
