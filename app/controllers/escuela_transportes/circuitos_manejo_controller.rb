@@ -109,7 +109,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
         if solicitud.circuitos.empty?
           solicitud.update_index_mask(4,false)
         end
-        
+
         redirect_to escuela_transportes_index_circuitos_path(id: escuela.id)
       end
     else

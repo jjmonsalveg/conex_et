@@ -70,7 +70,7 @@ class UsuarioSput < ActiveRecord::Base
                      message: 'El formato del campo Número Cédula es inválido'},
             :length => {  maximum: 8,
                           message:
-                              'Apellido debe contener máximo 50 caracteres'
+                              'El campo Número Cédula máximo 8 caracteres'
             }
   validates :telefono_local ,
             format: {with: TELEFONO_LOCAL_REGEX,

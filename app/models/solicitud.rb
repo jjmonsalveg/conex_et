@@ -21,6 +21,11 @@
 
 class Solicitud < ActiveRecord::Base
 
+  #associations Particularizadas por proyecto
+  has_many :circuitos, dependent: :destroy
+  accepts_nested_attributes_for :circuitos, allow_destroy: true
+  has_one :seguro
+  has_many :personals, dependent: :destroy
 
   #config/includes
   include PgSearch
@@ -34,12 +39,8 @@ class Solicitud < ActiveRecord::Base
   has_many :traza_solicitud_funcionarios
   has_many :vehiculo_pres, dependent: :destroy
 
-  #associations Particularizadas por proyecto
-  has_many :circuitos, dependent: :destroy
-  accepts_nested_attributes_for :circuitos, allow_destroy: true
 
   #modulos genericos J&J
-  has_one :seguro
 
   #config/includes
   include ModeloGeneral::ManageDocument
