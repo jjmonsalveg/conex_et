@@ -81,6 +81,22 @@ module ApplicationHelper
   end
 
   #METODOS DE LOGICA Y COMPARACIÓN
+  def concatenar_cadenas(cad1,cad2)
+    if cad1.nil?
+      if cad2.nil?
+        return ''
+      else
+        return cad2
+      end
+    else
+      if cad2.nil?
+        return cad1
+      else
+        cad1 << ' '<< cad2
+      end
+    end
+  end
+
   def menor_edad? (fecha_nacimiento)
     ( (Date.today - fecha_nacimiento).to_f/365.25).to_i < 18
   end

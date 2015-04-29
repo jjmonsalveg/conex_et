@@ -189,11 +189,11 @@ Rails.application.routes.draw do
     #6.7 Trabajadores
     get 'listar_personal/:id',to: 'personals#index', as: :listar_personals ,constraints: {id: /\d+/}
     get 'find/:id', to:'personals#find',as: :encontrar_personal
-    post 'personals/found/:id', to: 'personals#found', as: :encontro_personal
+    post 'found/:id', to: 'personals#found', as: :encontro_personal
+    post 'save/:id', to: 'personals#save', as: :guardar_personal
     # get 'personals/edit'
     # get 'personals/update'
     # get 'personals/remove'
-    # get 'personals/save'
 
   end
 end

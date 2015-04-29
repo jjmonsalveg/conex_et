@@ -211,21 +211,6 @@ class SessionUsers::RegistrationsController < Devise::RegistrationsController
     usuario_sput.build_representante_legal
   end
 
-  def concatenar_cadenas(cad1,cad2)
-    if cad1.nil?
-      if cad2.nil?
-        return ''
-      else
-        return cad2
-      end
-    else
-      if cad2.nil?
-        return cad1
-      else
-        cad1 << ' '<< cad2
-      end
-    end
-  end
 end
 
 
