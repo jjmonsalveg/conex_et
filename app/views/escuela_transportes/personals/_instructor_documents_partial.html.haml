@@ -1,2 +1,2 @@
 = fields_for Personal.new do |personal|
-  =render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores_instructores, personal.object,true)
+  =render 'shared/show_modelo_documentos_no_paginados', model: personal, indice_documento: 1,list_documents: load_documentos(:trabajadores_instructores, personal.object,true)

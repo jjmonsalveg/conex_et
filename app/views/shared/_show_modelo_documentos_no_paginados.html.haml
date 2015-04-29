@@ -1,5 +1,6 @@
 -#partial para documentos NO paginados
-= model.fields_for :documentos, list_documents do |documento|
+-indice_documento||= 0
+= model.fields_for :documentos, list_documents,child_index: indice_documento  do |documento|
   %div{id: ""}
     = documento.hidden_field :documentos_requisitos_por_vista_id, value: documento.object.documentos_requisitos_por_vista_id
     .form-group.doc-feedback
@@ -15,3 +16,5 @@
           = render 'shared/file_upload_generic',f: documento,
                       field: :doc,
                       name_file: documento.object.doc
+
+  -documento.options[:child_index] += 1
