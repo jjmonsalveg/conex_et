@@ -151,7 +151,7 @@ jQuery(document).ready ($) ->
           html_municipio_select.append new Option(data_each.label, data_each.id)
 
   $('.direccion').keyup ->
-    $('#escuela_transporte_form').bootstrapValidatacioor('revalidateField', $(this))
+    $('#escuela_transporte_form').bootstrapValidator('revalidateField', $(this))
     return
 
 #    event.preventDefault()
