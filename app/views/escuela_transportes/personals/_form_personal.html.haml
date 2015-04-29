@@ -5,6 +5,7 @@
         .row.form-horizontal
           = form_for @personal, url:  escuela_transportes_guardar_personal_path(@escuela_transporte),
             html: {method: :post, multipart: true}, remote: true do |personal|
+            = render 'shared/error_messages', object: personal.object, model: 'Trabajador'
             .row.col-sm-12
               .form-group.col-sm-4
                 =personal.label :nombre,'Nombre:' , class: 'col-sm-4 control-label'
@@ -42,7 +43,8 @@
             #document-trabajadores
               =render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores, @personal,true)
             #document-trabajadores-intructores
-              -#=render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores_instructores, @personal,true)
+              - if @personal.instructor?
+                =render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores_instructores, @personal,true)
             %br
             %br
             .form-group
