@@ -44,7 +44,7 @@
               =render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores, @personal,true)
             #document-trabajadores-intructores
               - if @personal.instructor?
-                =render 'shared/show_modelo_documentos_no_paginados', model: personal, list_documents: load_documentos(:trabajadores_instructores, @personal,true)
+                =render 'shared/show_modelo_documentos_no_paginados',indice_documento:1, model: personal, list_documents: load_documentos(:trabajadores_instructores, @personal,true)
             %br
             %br
             .form-group

@@ -196,7 +196,6 @@ Rails.application.routes.draw do
     post 'save/:id', to: 'personals#save', as: :guardar_personal
     delete 'remove/:id', to: 'personals#remove', as: :eliminar_personal
 
-
   end
 end
 

@@ -31,7 +31,7 @@
         %h3
           Datos del Trabajador
       .ibox-content
-        = render 'escuela_transportes/personals/form_personal', remote: false, method: :patch,url:escuela_transportes_actualizar_personal_path(@escuela_transporte)
+        = render 'escuela_transportes/personals/form_personal', remote: false, method: :patch,url:escuela_transportes_actualizar_personal_path(id:@escuela_transporte,personal_id:@personal)
 .row.animated.fadeInRight
   .col-md-12
     .ibox.float-e-margins

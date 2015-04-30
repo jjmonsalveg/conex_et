@@ -95,9 +95,9 @@ class EscuelaTransportes::PersonalsController < ApplicationController
   def update
 
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    @personal = @solicitud.personals.find_by(params[:personal][:id])
+    @personal = @solicitud.personals.find_by(id: params[:personal_id])
 
-    if @personal.update(params_personal)
+    if @personal.update(params_edit_personal)
       flash[:success]= 'Trabajador Guardado Satisfactoriamente'
       @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
      redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
@@ -138,26 +138,6 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   private
 
-  # def check_circuito
-  #   if @circuito.nil?
-  #     flash[:danger]='Circuito No existente'
-  #     redirect_to root_path
-  #   end
-  # end
-  # def cargar_solicitud_escuela
-  #   @solicitud = Solicitud.includes(:servicio_intt).find_by(id: params[:id])
-  #   if @solicitud.nil? or (not @solicitud.servicio_intt_type == 'EscuelaTransporte')
-  #     flash[:danger]='Solicitud no Existente'
-  #     redirect_to root_path
-  #   else
-  #     @escuela_transporte = @representante_legal.escuela_transportes.find_by(id:@solicitud.servicio_intt.id)
-  #     if @escuela_transporte.nil?
-  #       flash[:danger]='Solicitud no le pertenece a ninguna de sus Escuelas'
-  #       redirect_to root_path
-  #     end
-  #   end
-  # end
-
   def cargar_rif
     #TODO Arreglar el RIF de representante legal, o este rif
     @rif = @representante_legal.rif[0]
@@ -171,13 +151,15 @@ class EscuelaTransportes::PersonalsController < ApplicationController
     @representante_legal =  current_session_user.representante_legal
   end
 
-  def params_personal
-    params.require(:personal).permit(:id,:nombre,:apellido,:cedula,:nacionalidad,:tipo_personal,
+  def params_new_personal
+    params.require(:personal).permit(:nombre,:apellido,:cedula,:nacionalidad,:tipo_personal,
                                      documentos_attributes:
                                          [:id, :documentos_requisitos_por_vista_id,:doc])
   end
 
-  # def params_circuito_documento
-  #   params.require(:circuito).permit(:id,documentos_attributes: [:id, :documentos_requisitos_por_vista_id,:doc])
-  # end
+  def params_edit_personal
+    params.require(:personal).permit(:tipo_personal, documentos_attributes: [:id, :documentos_requisitos_por_vista_id,
+                                                                             :doc ])
+  end
+
 end
