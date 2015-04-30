@@ -4,7 +4,6 @@ class EscuelaTransportes::PersonalsController < ApplicationController
   before_action :set_escuela_transporte_preinscripcion ,only:[:index, :find,:found,:save,:edit, :update]
   before_action :cargar_representante
   before_action :cargar_rif
-  # before_action :cargar_solicitud_escuela#VER, only: [:actualizar_circuito,:guardar_circuito,:show]
   helper_method :nombre_solicitud
   helper_method :reload_documents?
 
@@ -69,8 +68,8 @@ class EscuelaTransportes::PersonalsController < ApplicationController
           @error = true
         else
           @personal= Personal.new(nombre: concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2),
-          apellido: concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2),
-          cedula: ciudadano.ccedula, nacionalidad: ciudadano.dnacionalidad)
+                                  apellido: concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2),
+                                  cedula: ciudadano.ccedula, nacionalidad: ciudadano.dnacionalidad)
         end
 
       else
@@ -81,14 +80,39 @@ class EscuelaTransportes::PersonalsController < ApplicationController
   end
 
   def save
-    init_solicitud(nombre_solicitud,@escuela_transporte)
-    @personal = @solicitud.personals.build(params_personal)
+    ciudadano = Tciudadano.find_cedula(params[:personal][:cedula])
 
-    if @personal.save
-      flash[:success]= 'Trabajador Guardado Satisfactoriamente'
-      @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
-      render js: "window.location = '#{escuela_transportes_listar_personals_path(id: @escuela_transporte.id)}'"
-      return
+    if ciudadano.nil?
+      flash[:danger]= 'Cédula no encontrada'
+    else
+      nacionalidad = params[:personal][:nacionalidad]
+
+      if nacionalidad == ciudadano.dnacionalidad
+
+        if menor_edad?(ciudadano.ffecha_nac.to_date)
+          flash[:danger]=
+              'El ciudadano debe ser mayor de edad '
+        else
+          init_solicitud(nombre_solicitud,@escuela_transporte)
+
+          params[:personal][:nombre]       = concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2)
+          params[:personal][:apellido]     = concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2)
+          params[:personal][:cedula]       = ciudadano.ccedula
+          params[:personal][:nacionalidad] = ciudadano.dnacionalidad
+
+          @personal = @solicitud.personals.build(params_new_personal)
+
+          if @personal.save
+            flash[:success]= 'Trabajador Guardado Satisfactoriamente'
+            @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
+            render js: "window.location = '#{escuela_transportes_listar_personals_path(id: @escuela_transporte.id)}'"
+            return
+          end
+        end
+
+      else
+        flash[:danger]= 'Combinación de campos no Existente, verifique sus datos '
+      end
     end
   end
 
@@ -100,7 +124,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
     if @personal.update(params_edit_personal)
       flash[:success]= 'Trabajador Guardado Satisfactoriamente'
       @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
-     redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
+      redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
     else
       render 'escuela_transportes/personals/edit'
     end
