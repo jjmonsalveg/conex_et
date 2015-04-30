@@ -53,3 +53,7 @@
                  data: { disable_with: 'Guardando ...' }) do
                   Guardar Trabajador
                   %i.fa.fa-save
+:javascript
+  $("#new_personal").bind("submit", function() {
+    $(this).find(":input").removeAttr("disabled");
+  });

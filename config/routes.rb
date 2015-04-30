@@ -192,10 +192,10 @@ Rails.application.routes.draw do
     get 'instructor_documents/', to: 'personals#instructor_documents'
     post 'found/:id', to: 'personals#found', as: :encontro_personal
     post 'save/:id', to: 'personals#save', as: :guardar_personal
+    delete 'remove/:id', to: 'personals#remove', as: :eliminar_personal
 
     # get 'personals/edit'
     # get 'personals/update'
-    # get 'personals/remove'
 
   end
 end
