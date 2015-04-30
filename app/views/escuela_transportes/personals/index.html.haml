@@ -1,0 +1,97 @@
+= provide(:title, 'Preinscripcion Escuelas de Transporte')
+
+= render 'escuela_transportes/shared/ficha_datos', show: false
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %h2
+            Registro de los Trabajadores
+            %i.fa.fa-users
+          %ol.breadcrumb
+            %li
+              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+            %li
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            %li
+              = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
+            %li
+              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+            %li
+              = link_to 'Registro Circuitos de Manejo', escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+            %li
+              Registro de Trabajadores
+
+
+  .row.animated.fadeInRight
+    .col-md-12.col-md-offset-0
+      %ul.text-muted.leyenda
+        %li.text-justify
+          Puede registrar un Trabajador haciendo click en
+          %span.verde-button-primary
+            Agregar Trabajador
+  - if @solicitud.personals.empty?
+    .ibox-content.text-center.animated.fadeInRight
+      %h3.font-bold No posee Trabajadores para esta Solicitud
+      =link_to escuela_transportes_encontrar_personal_path(@escuela_transporte) ,
+      class: 'btn btn-primary  pull-center' do
+        Agregar Trabajador
+        %i.fa.fa-user-plus
+
+  - else
+    .row
+      .col-md-12.col-md-offset-0
+        .ibox.float-e-margins
+          .ibox-content
+            =link_to escuela_transportes_encontrar_personal_path(@escuela_transporte) ,
+              class: 'btn btn-primary  pull-center' do
+              Agregar Trabajador
+              %i.fa.fa-user-plus
+            %table.table.table-striped.table-bordered.table-condensed
+              %thead
+                %tr
+                  %th.text-center Nombre
+                  %th.text-center Apellido
+                  %th.text-center Cedúla
+                  %th.text-center Tipo de Personal
+                  %th.text-center Documentos Completos
+                  %th.text-center{:colspan => '3'}
+                    Acciones
+
+              %tbody
+              - @solicitud.personals.order(:tipo_personal).each do |personal|
+                %tr
+                  %td.text-center= personal.nombre
+                  %td.text-center= personal.apellido
+                  %td.text-center= personal.cedula
+                  %td.text-center= personal.tipo_personal
+                  %td.text-center
+                    -if personal.documentos_registro_completos?
+                      %i.fa.fa-check
+                    -else
+                      Debe Completar Carga Documentos
+                  %td.text-center
+                    -#= link_to escuela_transportes_ver_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
+                    -#  %i.fa.fa-search
+                    = link_to escuela_transportes_editar_personal_path(id: @escuela_transporte, personal_id: personal.id) do
+                      %i.fa.fa-pencil-square-o
+                    = link_to  escuela_transportes_eliminar_personal_path(id: personal.id) , method: :delete,
+                      data: { confirm:'¿Seguro que desea Borrar Trabajador?' } do
+                      %i.fa.fa-trash-o
+
+  %br
+  .row
+    .col-sm-12
+      .ibox.float-e-margins
+        .ibox-content
+          .row
+            .col-sm-2
+              = link_to  escuela_transportes_index_circuitos_path(id: @escuela_transporte.id),
+              class: "btn btn-info" do
+                volver a circuitos
+                %i.fa.fa-road
+            .col-sm-3.col-lg-offset-7
+              = link_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id) ,  class: 'btn btn-success btn-block' do
+                Enviar Solicitud
+                %i.fa.fa-paper-plane

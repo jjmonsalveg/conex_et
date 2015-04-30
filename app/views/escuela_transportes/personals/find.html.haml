@@ -1,0 +1,86 @@
+= provide(:title, 'Registro de Trabajadores de Escuela Transporte')
+
+= render 'escuela_transportes/shared/ficha_datos'
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %h2
+            Registro de Trabajadores
+          %ol.breadcrumb
+            %li
+              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+            %li
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            %li
+              = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
+            %li
+              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+            %li
+              = link_to 'Registro de Circuitos de Manejo', escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+            %li
+              = link_to 'Registro de trabajadores', escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
+
+  .row.col-md-12#flash-error-busqueda-personal
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h5
+          Datos del Trabajador
+      .ibox-content
+        .row{id: "form-personal-solicitud-#{@solicitud.id}"}
+          -#= render 'shared/error_messages', object: @personal, model: 'Circuito de Manejo'
+          = form_for :trabajador, url: escuela_transportes_encontro_personal_path(@escuela_transporte), method: :post,
+            html: {class: 'form-horizontal m-t-md', id:'search-trabajador-form'},remote: true do |trabajador|
+            .form-group
+              = trabajador.label :cedula , 'Documento:', class:'control-label col-sm-5 'do
+                Documento:
+                %span.glyphicon-asterisk.red
+              .col-sm-7
+                .row
+                  .col-sm-3
+                    = trabajador.select :nacionalidad,  options_for_select({'E' => 'E','V'=> 'V'}, selected: 'V'),
+                     {id: 'select-documento'}, {class: 'form-control '}
+                  .col-sm-3
+                    = trabajador.text_field :cedula, class: 'form-control',
+                     autofocus: true, id: 'documento-trabajador-saime',
+                     maxlength: 8
+            %br/
+            %br/
+            .form-inline.col-sm-offset-4
+              .form-group
+                = trabajador.label :fecha_nacimiento, class:'col-sm-10 'do
+                  Fecha Nacimiento:
+                  %span.glyphicon-asterisk.red
+              .form-group
+                = trabajador.date_select :fecha_nacimiento,
+                options = { start_year: Date.today.year - 98,
+                            end_year: Date.today.year-18,
+                            use_two_digit_numbers: true,
+                            selected:Date.today.year-18},
+                html_options = { class: 'form-control',
+                                 format: :default}
+            .row.col-sm-12
+              .col-sm-3.col-lg-offset-9
+                = trabajador.button(type: 'submit', class: 'btn btn-success btn-block',
+                           data: { disable_with: 'Buscando Trabajador' }, disabled:true) do
+                  Buscar Trabajador
+                  %i.fa.fa-search
+
+#document-trabajadores
+%div{id: "form-documentos-personal-solicitud-#{@solicitud.id}"}
+
+
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        .row
+          .col-sm-2
+            = link_to  escuela_transportes_listar_personals_path(id: @escuela_transporte.id),class: "btn btn-info" do
+              Listar Trabajadores
+              %i.fa.fa-users
+

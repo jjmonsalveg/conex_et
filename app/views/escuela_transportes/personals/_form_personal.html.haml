@@ -3,8 +3,8 @@
     .ibox.float-e-margins
       .ibox-content
         .row.form-horizontal
-          = form_for @personal, url:  escuela_transportes_guardar_personal_path(@escuela_transporte),
-            html: {method: :post, multipart: true}, remote: true do |personal|
+          = form_for @personal, url: url,
+            html: {method: method, multipart: true,id:'form_trabajador_registro'}, remote: remote do |personal|
             = render 'shared/error_messages', object: personal.object, model: 'Trabajador'
             .row.col-sm-12
               .form-group.col-sm-4
@@ -49,11 +49,15 @@
             %br
             .form-group
               .col-sm-3.col-sm-offset-9
-                = personal.button(type: 'submit', class: 'btn btn-success btn-block',
+                = personal.button(type: 'submit', class: 'btn btn-success btn-block',id:'button_trabajador_registro',
                  data: { disable_with: 'Guardando ...' }) do
                   Guardar Trabajador
                   %i.fa.fa-save
 :javascript
-  $("#new_personal").bind("submit", function() {
+  $("#form_trabajador_registro").bind("submit", function() {
     $(this).find(":input").removeAttr("disabled");
+    //$('#button_trabajador_registro').remove();
+
   });
+
+

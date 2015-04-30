@@ -1,0 +1,44 @@
+= provide(:title, 'Edición de Trabajador de Escuela de transporte')
+
+= render 'escuela_transportes/shared/ficha_datos'
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        .ibox-content
+          %h2
+            Registro de Trabajadores
+          %ol.breadcrumb
+            %li
+              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+            %li
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            %li
+              = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
+            %li
+              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+            %li
+              = link_to 'Registro de Circuitos de Manejo', escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
+            %li
+              = link_to 'Registro de trabajadores', escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
+
+  .row.col-md-12#flash-error-busqueda-personal
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-title
+        %h3
+          Datos del Trabajador
+      .ibox-content
+        = render 'escuela_transportes/personals/form_personal', remote: false, method: :patch,url:escuela_transportes_actualizar_personal_path(@escuela_transporte)
+.row.animated.fadeInRight
+  .col-md-12
+    .ibox.float-e-margins
+      .ibox-content
+        .row
+          .col-sm-2
+            = link_to  escuela_transportes_listar_personals_path(id: @escuela_transporte.id),class: "btn btn-info" do
+              Listar Trabajadores
+              %i.fa.fa-users
+

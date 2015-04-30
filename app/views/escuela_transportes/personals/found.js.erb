@@ -1,0 +1,9 @@
+<% if @error %>
+    $('#flash-error-busqueda-personal').html('<%= j render('layouts/flash_message') %>');
+    <% flash.discard %>
+<% else %>
+    $('#flash-error-busqueda-personal').html('');
+    <% flash.discard %>
+    <% init_solicitud(nombre_solicitud,@escuela_transporte)%>
+    $('#document-trabajadores').html('<%= j render('escuela_transportes/personals/form_personal', remote:true, method: :post,url: escuela_transportes_guardar_personal_path(@escuela_transporte)) %>');
+<% end  %>
