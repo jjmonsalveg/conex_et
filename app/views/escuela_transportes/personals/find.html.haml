@@ -32,7 +32,6 @@
           Datos del Trabajador
       .ibox-content
         .row{id: "form-personal-solicitud-#{@solicitud.id}"}
-          -#= render 'shared/error_messages', object: @personal, model: 'Circuito de Manejo'
           = form_for :trabajador, url: escuela_transportes_encontro_personal_path(@escuela_transporte), method: :post,
             html: {class: 'form-horizontal m-t-md', id:'search-trabajador-form'},remote: true do |trabajador|
             .form-group
@@ -64,7 +63,7 @@
                 html_options = { class: 'form-control',
                                  format: :default}
             .row.col-sm-12
-              .col-sm-3.col-lg-offset-9
+              .col-sm-3.col-lg-offset-9#div-button-encontrar
                 = trabajador.button(type: 'submit', class: 'btn btn-success btn-block',
                            data: { disable_with: 'Buscando Trabajador' }, disabled:true) do
                   Buscar Trabajador

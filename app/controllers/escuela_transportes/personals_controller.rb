@@ -40,43 +40,50 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def found
     #buscamos en saime si este ciudadano existe
-    ciudadano = Tciudadano.find_cedula(params[:trabajador][:cedula])
     @error = nil
-    if ciudadano.nil?
-      flash[:danger]= 'Cédula no encontrada'
-      @error = true
+    if Personal.find_by(cedula: params[:trabajador][:cedula]).present?
+      flash[:danger]=
+          'Trabajador Pertenece a otra Escuela de Transporte'
+      @error =true
     else
-      nacionalidad = params[:trabajador][:nacionalidad]
+      ciudadano = Tciudadano.find_cedula(params[:trabajador][:cedula])
+      if ciudadano.nil?
+        flash[:danger]= 'Cédula no encontrada'
+        @error = true
+      else
+        nacionalidad = params[:trabajador][:nacionalidad]
 
-      begin
-        fecha =  (params[:trabajador]["fecha_nacimiento(3i)"]).to_s+
-            "/" + (params[:trabajador]["fecha_nacimiento(2i)"]).to_s +
-            "/" + (params[:trabajador]["fecha_nacimiento(1i)"]).to_s
-        fecha = fecha.to_date
-      rescue
-        flash[:danger]=
-            'Fecha introducida en formato inválido'
-        @error =true
-      end
-
-      if( nacionalidad == ciudadano.dnacionalidad and
-          fecha == ciudadano.ffecha_nac.to_date)
-
-        if menor_edad?(fecha)
+        begin
+          fecha =  (params[:trabajador]["fecha_nacimiento(3i)"]).to_s+
+              "/" + (params[:trabajador]["fecha_nacimiento(2i)"]).to_s +
+              "/" + (params[:trabajador]["fecha_nacimiento(1i)"]).to_s
+          fecha = fecha.to_date
+        rescue
           flash[:danger]=
-              'El ciudadano debe ser mayor de edad '
-          @error = true
-        else
-          @personal= Personal.new(nombre: concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2),
-                                  apellido: concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2),
-                                  cedula: ciudadano.ccedula, nacionalidad: ciudadano.dnacionalidad)
+              'Fecha introducida en formato inválido'
+          @error =true
         end
 
-      else
-        flash[:danger]= 'Combinación de campos no Existente, verifique sus datos '
-        @error = true
+        if( nacionalidad == ciudadano.dnacionalidad and
+            fecha == ciudadano.ffecha_nac.to_date)
+
+          if menor_edad?(fecha)
+            flash[:danger]=
+                'El ciudadano debe ser mayor de edad '
+            @error = true
+          else
+            @personal= Personal.new(nombre: concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2),
+                                    apellido: concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2),
+                                    cedula: ciudadano.ccedula, nacionalidad: ciudadano.dnacionalidad)
+          end
+
+        else
+          flash[:danger]= 'Combinación de campos no Existente, verifique sus datos '
+          @error = true
+        end
       end
     end
+
   end
 
   def save
@@ -117,18 +124,21 @@ class EscuelaTransportes::PersonalsController < ApplicationController
   end
 
   def update
-
     init_solicitud(nombre_solicitud,@escuela_transporte)
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
 
     if @personal.update(params_edit_personal)
+      if !@personal.instructor?
+        @personal.documentos_vista(:trabajadores_instructores).each do  |documento|
+          documento.destroy
+        end
+      end
       flash[:success]= 'Trabajador Guardado Satisfactoriamente'
       @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
       redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
     else
       render 'escuela_transportes/personals/edit'
     end
-
   end
 
   def remove

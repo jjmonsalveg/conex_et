@@ -5,5 +5,9 @@
     $('#flash-error-busqueda-personal').html('');
     <% flash.discard %>
     <% init_solicitud(nombre_solicitud,@escuela_transporte)%>
+    $('#div-button-encontrar').html('<%= link_to 'Buscar otro Trabajador' , escuela_transportes_encontrar_personal_path(id:@escuela_transporte)%>');
+    $('#documento-trabajador-saime').prop( "disabled", true );
+    $('#trabajador_nacionalidad').prop( "disabled", true );
+    $("[id^='trabajador_fecha_nacimiento_']").prop( "disabled", true );
     $('#document-trabajadores').html('<%= j render('escuela_transportes/personals/form_personal', remote:true, method: :post,url: escuela_transportes_guardar_personal_path(@escuela_transporte)) %>');
 <% end  %>
