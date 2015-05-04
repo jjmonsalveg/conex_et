@@ -31,7 +31,6 @@ class Solicitud < ActiveRecord::Base
   belongs_to :estado, class_name: "EstadosWorkFlow", foreign_key: "estados_work_flow_id"
   has_many :funcionarios , through: :traza_solicitud_funcionarios
   has_many :traza_solicitud_funcionarios
-  has_many :vehiculo_pres, dependent: :destroy
 
 
   #modulos genericos J&J
@@ -51,6 +50,7 @@ class Solicitud < ActiveRecord::Base
   has_many :personals, dependent: :destroy
   has_many :circuitos, dependent: :destroy
   accepts_nested_attributes_for :circuitos, allow_destroy: true
+  has_many :vehiculo_pres, dependent: :destroy
   has_one :seguro
 
   #callback declaration
@@ -67,6 +67,7 @@ class Solicitud < ActiveRecord::Base
 
   end
 
+  #particularizados!
   def seguro_update_or_create(attributes)
     if self.seguro.present?
       self.seguro.update(attributes) ? (return true, self.seguro) : (return false, self.seguro)
@@ -76,7 +77,19 @@ class Solicitud < ActiveRecord::Base
     end
   end
 
+  def seguro_por_vehiculo?
+    not VehiculoPre.joins(:seguro).where(seguros: {solicitud_id: self.id}).empty?
+  end
 
+  def seguro_por_flota?
+    self.seguro.present?
+  end
+
+  def seguro_not_save?
+   ( not self.seguro_por_flota?) && (not seguro.seguro_por_vehiculo?) or seguro_por_flota?
+  end
+  #FIN_particularizados!
+  
   #helps methods
   def number_vistas_same_index
     ActiveRecord::Base.connection.execute("SELECT COUNT(DISTINCT vistas.index) as numero_vistas FROM vistas  WHERE vistas.tipo_solicitud_id = #{self.tipo_solicitud.id};")[0]['numero_vistas'].to_i

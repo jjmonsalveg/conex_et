@@ -10,9 +10,13 @@
             Carga de Documentos de los Vehículos para Practicas
           %ol.breadcrumb
             %li
-              = link_to 'Carga de Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
             %li
-              = link_to 'Vehiculos Registrados', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
+              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
+            -if @escuela_transporte.solicitud(nombre_solicitud).seguro_not_save?
+              %li
+                = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
             %li
-              Carga de Documentos de Vehículos
+              = link_to 'Vehículos Registrados',  escuela_transportes_vehiculos_path(id: @escuela_transporte)
+
   = render partial: 'vehiculos'
