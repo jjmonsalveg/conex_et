@@ -1,7 +1,7 @@
 class EscuelaTransportes::PersonalsController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
-  before_action :set_escuela_transporte_preinscripcion ,only:[:index, :find,:found,:save,:edit, :update]
+  before_action :set_escuela_transporte_preinscripcion ,only:[:index, :show,:find,:found,:save,:edit, :update]
   before_action :cargar_representante
   before_action :cargar_rif
   helper_method :nombre_solicitud
@@ -23,6 +23,11 @@ class EscuelaTransportes::PersonalsController < ApplicationController
     else
       @solicitud.update_index_mask(5)
     end
+  end
+
+  def show
+    init_solicitud(nombre_solicitud,@escuela_transporte)
+    @personal = @solicitud.personals.find_by(id: params[:personal_id])
   end
 
   def edit

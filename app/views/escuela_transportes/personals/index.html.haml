@@ -72,8 +72,8 @@
                     -else
                       Debe Completar Carga Documentos
                   %td.text-center
-                    -#= link_to escuela_transportes_ver_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
-                    -#  %i.fa.fa-search
+                    = link_to  escuela_transportes_ver_personal_path(id:@escuela_transporte,personal_id: personal.id) do
+                      %i.fa.fa-search
                     = link_to escuela_transportes_editar_personal_path(id: @escuela_transporte, personal_id: personal.id) do
                       %i.fa.fa-pencil-square-o
                     = link_to  escuela_transportes_eliminar_personal_path(id: personal.id) , method: :delete,

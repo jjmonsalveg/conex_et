@@ -191,6 +191,7 @@ Rails.application.routes.draw do
     get 'find/:id', to:'personals#find',as: :encontrar_personal
     get 'instructor_documents/', to: 'personals#instructor_documents'
     get 'editar_trabajador/:id', to: 'personals#edit', as: :editar_personal
+    get 'ver_trabajador/:id', to: 'personals#show', as: :ver_personal
     patch 'update/:id', to: 'personals#update', as: :actualizar_personal
     post 'found/:id', to: 'personals#found', as: :encontro_personal
     post 'save/:id', to: 'personals#save', as: :guardar_personal
