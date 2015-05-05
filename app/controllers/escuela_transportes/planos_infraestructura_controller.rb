@@ -18,7 +18,7 @@ class EscuelaTransportes::PlanosInfraestructuraController < ApplicationControlle
   def create
     init_solicitud(nombre_solicitud,@escuela_transporte)
     if @escuela_transporte.update(escuela_transporte_doc_params)
-      @solicitud.update_index_mask(1)
+      # @solicitud.update_index_mask(1)
       flash[:success]= 'Planos de la infraestructura cargados satisfactoriamente'
       redirect_to new_escuela_transportes_seguro_path(id: @escuela_transporte.id)
     else

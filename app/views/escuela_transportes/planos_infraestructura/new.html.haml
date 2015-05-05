@@ -1,48 +1,26 @@
 = provide(:title, 'Planos de la Infraestructura')
 
-= render 'escuela_transportes/shared/ficha_datos'
-
 
 .wrapper.wrapper-content
+  .row.animated.fadeInRight
+    = render 'escuela_transportes/shared/ficha_datos'
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Carga de Documentos de Infraestructura',solicitud: @solicitud, icon: '<i class="fa fa-building-o"></i>'
+
   .row.animated.fadeInRight
     .col-md-12
       .ibox.float-e-margins
         .ibox-content
-          %h2
-            Carga de Documentos de Infraestructura
-          %ol.breadcrumb
-            %li
-              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              Planos de Infraestructura
+          = form_for @escuela_transporte,
+           url: escuela_transportes_guardar_planos_path(@escuela_transporte),
+           method: :post ,
+           html: {class: 'form-horizontal m-t-md'} do |f|
+            .form-group
+              = render 'shared/error_messages', object: f.object, model: 'Planos Infraestructura'
+            = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
 
-  .row
-    .col-md-12.col-md-offset-0
-      %ul.text-muted.leyenda
-        %strong.text-navy Ayuda:
-        %li.text-justify
-          Los Campos con
-          %span.fa.fa-asterisk.red
-          son obligatorios.
-          Los campos con
-          %span.fa.fa-asterisk.verde
-          indican que se debe ingresar al menos uno de esos documentos
-
-.row.animated.fadeInRight
-  .col-md-12
-    .ibox.float-e-margins
-      .ibox-content
-        = form_for @escuela_transporte,
-         url: escuela_transportes_guardar_planos_path(@escuela_transporte),
-         method: :post ,
-         html: {class: 'form-horizontal m-t-md'} do |f|
-          .form-group
-            = render 'shared/error_messages', object: f.object, model: 'Planos Infraestructura'
-          = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
-
-          = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom', f:f ,
-            text_prev:'Volver a Informacion General',
-            clase_prev: '<i class="fa fa-database"></i>',
-            url_prev:  escuela_transportes_informacion_general_new_path(id: @escuela_transporte.id),
-            text_next: 'Guardar Planos',
-            clase_next: '<i class="fa fa-floppy-o"></i>'
+            = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom', f:f ,
+              text_prev:'Volver a Informacion General',
+              clase_prev: '<i class="fa fa-database"></i>',
+              url_prev:  escuela_transportes_informacion_general_new_path(id: @escuela_transporte.id),
+              text_next: 'Guardar Planos',
+              clase_next: '<i class="fa fa-floppy-o"></i>'

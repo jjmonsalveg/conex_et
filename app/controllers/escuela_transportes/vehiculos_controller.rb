@@ -35,7 +35,7 @@ class EscuelaTransportes::VehiculosController < ApplicationController
           @vehiculo = VehiculoPre.build_vehiculo_intt(vehiculo_intt, contrato_arrendamiento_params, create_vehiculo_documentos_params, @escuela_transporte.solicitud(nombre_solicitud))
           @vehiculo.build_documentos(create_vehiculo_documentos_params[:documentos_attributes])
           if @vehiculo.save
-            @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3)
+            # @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(3)
             format.html { redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id),
                                       notice: 'El vehículo fue guardado con éxito.' }
           else
@@ -61,9 +61,9 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   def destroy
     @vehiculo  = @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.find_by(placa: ActionController::Parameters.new(vh: params[:vh]).permit(:vh)[:vh])
     @vehiculo.destroy
-    unless @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.any?
-      @escuela.solicitud(nombre_solicitud).update_index_mask(3, false)
-    end
+    # unless @escuela_transporte.solicitud(nombre_solicitud).vehiculo_pres.any?
+    #   @escuela.solicitud(nombre_solicitud).update_index_mask(3, false)
+    # end
     flash[:success]= 'Vehículo eliminado con éxito'
     redirect_to escuela_transportes_vehiculos_path(id: @escuela) and return
   end

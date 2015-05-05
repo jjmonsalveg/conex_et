@@ -9,20 +9,20 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def index
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    centinel =  @solicitud.personals.empty? ? true : false
-
-    @solicitud.personals.each do  |personal|
-      if not personal.documentos_registro_completos?
-        centinel =true
-        break
-      end
-    end
-
-    if centinel
-      @solicitud.update_index_mask(5,false)
-    else
-      @solicitud.update_index_mask(5)
-    end
+    # centinel =  @solicitud.personals.empty? ? true : false
+    #
+    # @solicitud.personals.each do  |personal|
+    #   if not personal.documentos_registro_completos?
+    #     centinel =true
+    #     break
+    #   end
+    # end
+    #
+    # if centinel
+    #   @solicitud.update_index_mask(5,false)
+    # else
+    #   @solicitud.update_index_mask(5)
+    # end
   end
 
   def show
@@ -116,7 +116,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
           if @personal.save
             flash[:success]= 'Trabajador Guardado Satisfactoriamente'
-            @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
+            # @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
             render js: "window.location = '#{escuela_transportes_listar_personals_path(id: @escuela_transporte.id)}'"
             return
           end
@@ -139,7 +139,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
         end
       end
       flash[:success]= 'Trabajador Guardado Satisfactoriamente'
-      @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
+      # @escuela_transporte.solicitud(nombre_solicitud).update_index_mask(5)
       redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
     else
       render 'escuela_transportes/personals/edit'
@@ -155,12 +155,12 @@ class EscuelaTransportes::PersonalsController < ApplicationController
         redirect_to root_path
       else
         personal.destroy
-        solicitud = Solicitud.includes(:personals).find_by(id: personal.solicitud.id)
         flash[:success] = 'Trabajador Eliminado con exito'
-
-        if solicitud.personals.empty?
-          solicitud.update_index_mask(5,false)
-        end
+        #
+        # solicitud = Solicitud.includes(:personals).find_by(id: personal.solicitud.id)
+        # if solicitud.personals.empty?
+        #   solicitud.update_index_mask(5,false)
+        # end
 
         redirect_to escuela_transportes_listar_personals_path(id: escuela.id)
       end

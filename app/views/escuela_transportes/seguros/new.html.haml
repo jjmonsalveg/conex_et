@@ -1,22 +1,8 @@
 = provide(:title, 'Preinscripcion Escuela Transporte')
-
-= render 'escuela_transportes/shared/ficha_datos'
-
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Registro de Vehículos de Enseñanza - Seguro RCV
-            %i.fa.fa-automobile
-          %ol.breadcrumb
-            %li
-              = link_to 'Carga de Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              = link_to 'Planos de Infraestructura', escuela_transportes_cargar_planos_path(@escuela_transporte)
-            %li
-              Vehículos - Seguro RCV
-  = render 'form_seguro_flota'
+    = render 'escuela_transportes/shared/ficha_datos'
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Registro de Vehículos de Enseñanza - Seguro RCV',solicitud: @solicitud, icon: '<i class="fa fa-automobile"></i>'
+    = render 'form_seguro_flota'
 
 

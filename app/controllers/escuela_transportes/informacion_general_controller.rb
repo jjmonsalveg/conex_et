@@ -19,7 +19,7 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
     respond_to do |format|
       init_solicitud(nombre_solicitud,@escuela_transporte)
       if @escuela_transporte.update(escuela_transporte_doc_params) and @escuela_transporte.documento_requisito_paginados_completos?(nombre_vista,@solicitud)
-        @solicitud.update_index_mask(0)
+        # @solicitud.update_index_mask(0)
         format.html { redirect_to escuela_transportes_cargar_planos_path(id: @escuela_transporte),
                                   notice: 'Se ha actualizado la Información General de la escuela de transporte satisfactoriamente.' }
 
@@ -51,7 +51,7 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
 
   def check_list_registradas
     if current_session_user.escuelas_registradas.empty?
-      flash[:warning] = 'No posee escuelas registradas en el sistema para poder Preincribirlas'
+      flash[:warning] = 'No posee escuelas registradas en el sistema para poder Preinscribirlas'
       redirect_to root_path
     end
   end

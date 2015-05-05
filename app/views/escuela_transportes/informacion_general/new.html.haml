@@ -1,17 +1,7 @@
 = provide(:title, 'Preinscripcion Escuela Transporte')
 
-= render 'escuela_transportes/shared/ficha_datos'
-
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Carga de Información General de la Escuela de Transporte
-            %i.fa.fa-database
-          %ol.breadcrumb
-            %li
-              Información General
-
-  = render 'informacion_general'
+    = render 'escuela_transportes/shared/ficha_datos'
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:' Carga de Información General de la Escuela de Transporte',solicitud: @solicitud, icon: '<i class="fa fa-database"></i>'
+    = render 'informacion_general'

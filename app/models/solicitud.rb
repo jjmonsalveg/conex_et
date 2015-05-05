@@ -86,7 +86,7 @@ class Solicitud < ActiveRecord::Base
   end
 
   def seguro_not_save?
-   ( not self.seguro_por_flota?) && (not seguro.seguro_por_vehiculo?) or seguro_por_flota?
+   ( not self.seguro_por_flota?) && (not self.seguro_por_vehiculo?) or seguro_por_flota?
   end
   #FIN_particularizados!
   

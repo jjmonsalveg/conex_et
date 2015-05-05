@@ -1,30 +1,9 @@
 = provide(:title, 'Registro de Trabajadores de Escuela Transporte')
-
-= render 'escuela_transportes/shared/ficha_datos'
-
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Registro de Trabajadores
-          %ol.breadcrumb
-            %li
-              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
-            -if @solicitud.seguro_not_save?
-              %li
-                = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
-            %li
-              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
-            %li
-              = link_to 'Registro de Circuitos de Manejo', escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
-            %li
-              = link_to 'Registro de trabajadores', escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
-
-  .row.col-md-12#flash-error-busqueda-personal
+    = render 'escuela_transportes/shared/ficha_datos'
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Registro de Trabajador',solicitud: @solicitud, icon: '<i class="fa fa-user"></i>'
+.row.col-md-12#flash-error-busqueda-personal
 .row.animated.fadeInRight
   .col-md-12
     .ibox.float-e-margins

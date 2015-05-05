@@ -1,211 +1,194 @@
 = provide(:title, 'Preinscripcion Escuela Transporte')
-= render 'escuela_transportes/shared/ficha_datos'
-
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
+    = render 'escuela_transportes/shared/ficha_datos'
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Vehículo Registrado para Practicas de Escuela de Transporte',solicitud: @escuela_transporte.solicitud(nombre_solicitud)
+  .row
+    .col-md-12.col-md-offset-0
       .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Vehículo Registrado para Practicas de Escuela de Transporte
-          %ol.breadcrumb
-            %li
-              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
-            -if @escuela_transporte.solicitud(nombre_solicitud).seguro_not_save?
-              %li
-                = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
-            %li
-              = link_to 'Vehículos Registrados',  escuela_transportes_vehiculos_path(id: @escuela_transporte)
-            %li
-              Ver Vehículo
-.row
-  .col-md-12.col-md-offset-0
-    .ibox.float-e-margins
-      .ibox-title
-        %h3
-          Vehículos / Datos del Vehículo
-      .ibox-content
-        .col-lg-12
+        .ibox-title
           %h3
-            Vehículo
-        %table.table.table-striped.table-bordered.table-condensed
-          %thead
-            %tr
-              %th
-                Placa
-              %th
-                Serial de Carroceria
-              %th
-                Modelo
-              %th
-                Marca
-              %th
-                Año
-            %tbody
-              %tr
-                %td
-                  #{@vehiculo.placa}
-                %td
-                  #{@vehiculo.s_carroceria}
-                %td
-                  #{@vehiculo.modelo}
-                %td
-                  #{@vehiculo.marca}
-                %td
-                  #{@vehiculo.ano}
-          %thead
-            %tr
-              %th
-                Color
-              %th
-                Serial de Motor
-              %th
-                Uso
-              %th
-                Tipo
-              %th
-                Capacidad
-            %tbody
-              %tr
-                %td
-                  #{@vehiculo.color}
-                %td
-                  #{@vehiculo.serial_motor}
-                %td
-                  #{@vehiculo.uso}
-                %td
-                  #{@vehiculo.tipo_vehiculo}
-                %td
-                  #{@vehiculo.puesto}
+            Vehículos / Datos del Vehículo
+        .ibox-content
+          .col-lg-12
+            %h3
+              Vehículo
+          %table.table.table-striped.table-bordered.table-condensed
             %thead
               %tr
-                %th{colspan:3}
-                  Propietario
-                %th{colspan:2}
-                  C.I/RIF
+                %th
+                  Placa
+                %th
+                  Serial de Carroceria
+                %th
+                  Modelo
+                %th
+                  Marca
+                %th
+                  Año
               %tbody
                 %tr
-                  %td{colspan:3}
-                    = @vehiculo.propietario
-                  %td{colspan:2}
-                    = @vehiculo.identificacion_propietario
-        %br/
-    - if @seguro.nil?
-      -#seguro particular
-      .row
-        .col-md-12.col-md-offset-0
-          .ibox.float-e-margins
-            .ibox-content
-              .col-lg-12
-                %h3
-                  Seguro Vehículo
-              %table.table.table-striped.table-bordered.table-condensed
-                %thead
+                  %td
+                    #{@vehiculo.placa}
+                  %td
+                    #{@vehiculo.s_carroceria}
+                  %td
+                    #{@vehiculo.modelo}
+                  %td
+                    #{@vehiculo.marca}
+                  %td
+                    #{@vehiculo.ano}
+            %thead
+              %tr
+                %th
+                  Color
+                %th
+                  Serial de Motor
+                %th
+                  Uso
+                %th
+                  Tipo
+                %th
+                  Capacidad
+              %tbody
+                %tr
+                  %td
+                    #{@vehiculo.color}
+                  %td
+                    #{@vehiculo.serial_motor}
+                  %td
+                    #{@vehiculo.uso}
+                  %td
+                    #{@vehiculo.tipo_vehiculo}
+                  %td
+                    #{@vehiculo.puesto}
+              %thead
+                %tr
+                  %th{colspan:3}
+                    Propietario
+                  %th{colspan:2}
+                    C.I/RIF
+                %tbody
                   %tr
-                    %th
-                      Aseguradora
-                    %th
-                      Rif
-                    %th
-                      Número de Póliza
-                    %th
-                      Fecha de Vencimiento
-                  %tbody
-                    %tr
-                      %td
-                        #{@vehiculo.seguro_vehiculo.aseguradora.nombre}
-                      %td
-                        #{@vehiculo.seguro_vehiculo.aseguradora.rif}
-                      %td
-                        #{@vehiculo.seguro_vehiculo.num_poliza}
-                      %td
-                        #{@vehiculo.seguro_vehiculo.fecha_vencimiento}
-    - else
-      -#seguro colectivo
-      .row
-        .col-md-12.col-md-offset-0
-          .ibox.float-e-margins
-            .ibox-content
-              .col-lg-12
-                %h3
-                  Seguro Vehículo
-              %table.table.table-striped.table-bordered.table-condensed
-                %thead
-                  %tr
-                    %th
-                      Aseguradora
-                    %th
-                      Rif
-                    %th
-                      Número de Póliza
-                    %th
-                      Fecha de Vencimiento
-                  %tbody
-                    %tr
-                      %td
-                        #{@seguro.aseguradora.nombre}
-                      %td
-                        #{@seguro.aseguradora.rif}
-                      %td
-                        #{@seguro.num_poliza}
-                      %td
-                        #{@seguro.fecha_vencimiento}
+                    %td{colspan:3}
+                      = @vehiculo.propietario
+                    %td{colspan:2}
+                      = @vehiculo.identificacion_propietario
           %br/
-    - unless @vehiculo.contrato_arrendamiento.nil?
-      -#contrato de arrendamiento
-      .row
-        .col-md-12.col-md-offset-0
-          .ibox.float-e-margins
-            .ibox-content
-              .col-lg-12
-                %h3
-                  Contrato de arrendamiento
-              %table.table.table-striped.table-bordered.table-condensed
-                %thead
-                  %tr
-                    %th
-                      Año(s) de Duración del Contrato
-                    %th
-                      Fecha del Contrato
-                    %th
-                      Nº Tomo
-                    %th
-                      Nº Folio
-                    %th
-                      Notaria
-                  %tbody
-                    %tr
-                      %td
-                        #{@vehiculo.contrato_arrendamiento.duracion}
-                      %td
-                        #{@vehiculo.contrato_arrendamiento.fecha}
-                      %td
-                        #{@vehiculo.contrato_arrendamiento.tomo}
-                      %td
-                        #{@vehiculo.contrato_arrendamiento.folio}
-                      %td
-                        #{@vehiculo.contrato_arrendamiento.notaria}
+      - if @seguro.nil?
+        -#seguro particular
+        .row
+          .col-md-12.col-md-offset-0
+            .ibox.float-e-margins
+              .ibox-content
+                .col-lg-12
+                  %h3
+                    Seguro Vehículo
+                %table.table.table-striped.table-bordered.table-condensed
                   %thead
                     %tr
-                      %th{colspan: 3} Nombre / Razón Social Arrendatario
-                      %th{colspan: 2} Identificación Arrendatario
-                  %tbody
+                      %th
+                        Aseguradora
+                      %th
+                        Rif
+                      %th
+                        Número de Póliza
+                      %th
+                        Fecha de Vencimiento
+                    %tbody
+                      %tr
+                        %td
+                          #{@vehiculo.seguro_vehiculo.aseguradora.nombre}
+                        %td
+                          #{@vehiculo.seguro_vehiculo.aseguradora.rif}
+                        %td
+                          #{@vehiculo.seguro_vehiculo.num_poliza}
+                        %td
+                          #{@vehiculo.seguro_vehiculo.fecha_vencimiento}
+      - else
+        -#seguro colectivo
+        .row
+          .col-md-12.col-md-offset-0
+            .ibox.float-e-margins
+              .ibox-content
+                .col-lg-12
+                  %h3
+                    Seguro Vehículo
+                %table.table.table-striped.table-bordered.table-condensed
+                  %thead
                     %tr
-                      %td{colspan: 3}
-                        #{@vehiculo.contrato_arrendamiento.nombre_arrendatario}
-                      %td{colspan: 2}
-                        #{@vehiculo.contrato_arrendamiento.rif_arrendatario}
-                %br/
+                      %th
+                        Aseguradora
+                      %th
+                        Rif
+                      %th
+                        Número de Póliza
+                      %th
+                        Fecha de Vencimiento
+                    %tbody
+                      %tr
+                        %td
+                          #{@seguro.aseguradora.nombre}
+                        %td
+                          #{@seguro.aseguradora.rif}
+                        %td
+                          #{@seguro.num_poliza}
+                        %td
+                          #{@seguro.fecha_vencimiento}
+            %br/
+      - unless @vehiculo.contrato_arrendamiento.nil?
+        -#contrato de arrendamiento
+        .row
+          .col-md-12.col-md-offset-0
+            .ibox.float-e-margins
+              .ibox-content
+                .col-lg-12
+                  %h3
+                    Contrato de arrendamiento
+                %table.table.table-striped.table-bordered.table-condensed
+                  %thead
+                    %tr
+                      %th
+                        Año(s) de Duración del Contrato
+                      %th
+                        Fecha del Contrato
+                      %th
+                        Nº Tomo
+                      %th
+                        Nº Folio
+                      %th
+                        Notaria
+                    %tbody
+                      %tr
+                        %td
+                          #{@vehiculo.contrato_arrendamiento.duracion}
+                        %td
+                          #{@vehiculo.contrato_arrendamiento.fecha}
+                        %td
+                          #{@vehiculo.contrato_arrendamiento.tomo}
+                        %td
+                          #{@vehiculo.contrato_arrendamiento.folio}
+                        %td
+                          #{@vehiculo.contrato_arrendamiento.notaria}
+                    %thead
+                      %tr
+                        %th{colspan: 3} Nombre / Razón Social Arrendatario
+                        %th{colspan: 2} Identificación Arrendatario
+                    %tbody
+                      %tr
+                        %td{colspan: 3}
+                          #{@vehiculo.contrato_arrendamiento.nombre_arrendatario}
+                        %td{colspan: 2}
+                          #{@vehiculo.contrato_arrendamiento.rif_arrendatario}
+                  %br/
 
-  .row
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          .row
-            .col-sm-3
-              = link_to 'Regresar', escuela_transportes_vehiculos_path(id: @seguro.solicitud.servicio_intt.id), class: "btn btn-primary btn-block"
-            .col-sm-6
-            .col-sm-3
-              = link_to 'Editar', edit_escuela_transportes_vehiculo_path(id: @seguro.solicitud.servicio_intt.id, vh: @vehiculo.placa), class: "btn btn-success btn-block"
+    .row
+      .col-md-12
+        .ibox.float-e-margins
+          .ibox-content
+            .row
+              .col-sm-3
+                = link_to 'Regresar', escuela_transportes_vehiculos_path(id: @seguro.solicitud.servicio_intt.id), class: "btn btn-primary btn-block"
+              .col-sm-6
+              .col-sm-3
+                = link_to 'Editar', edit_escuela_transportes_vehiculo_path(id: @seguro.solicitud.servicio_intt.id, vh: @vehiculo.placa), class: "btn btn-success btn-block"

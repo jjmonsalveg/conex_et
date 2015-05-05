@@ -4,34 +4,27 @@ class EscuelaTransportes::SegurosController < ApplicationController
   before_action :set_escuela_transporte_preinscripcion, only: [:new, :create]
 
   def new
-    @seguro = @escuela_transporte.solicitud(nombre_solicitud).seguro || Seguro.new
-    solicitud = @escuela_transporte.solicitud(nombre_solicitud)
-    if (not solicitud.seguro_por_flota?) && solicitud.seguro_por_vehiculo?
-      solicitud.update_index_mask(2)
+    @solicitud = @escuela_transporte.solicitud(nombre_solicitud)
+    @seguro = @solicitud.seguro || Seguro.new
+    if (not @solicitud.seguro_por_flota?) && @solicitud.seguro_por_vehiculo?
       redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id) and return
     end
     load_documentos(:rcv_flota, @seguro)
   end
 
   def create
-    solicitud= @escuela_transporte.solicitud(nombre_solicitud)
+    @solicitud= @escuela_transporte.solicitud(nombre_solicitud)
 
-    if (not solicitud.seguro_por_flota?) && solicitud.seguro_por_vehiculo?
-      solicitud.update_index_mask(2)
+    if (not @solicitud.seguro_por_flota?) && @solicitud.seguro_por_vehiculo?
       redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id) and return
     end
 
-    flag, @seguro = solicitud.seguro_update_or_create(seguro_params)
+    flag, @seguro = @solicitud.seguro_update_or_create(seguro_params)
     respond_to do |format|
       if flag
-        if DocumentosRequisitosPorVista.vista_completa?(:rcv_flota,@seguro)
-          solicitud.update_index_mask(2)
+         # DocumentosRequisitosPorVista.vista_completa?(:rcv_flota,@seguro)
+         #  solicitud.update_index_mask(2)
           format.html { redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id), notice: 'Seguro RCV guardado exitosamente'  and return }
-        else
-          load_documentos(:rcv_flota, @seguro,true)
-          format.html { render :new }
-        end
-
       else
         load_documentos(:rcv_flota, @seguro,true)
         format.html { render :new }

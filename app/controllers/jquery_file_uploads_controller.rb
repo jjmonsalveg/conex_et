@@ -1,6 +1,6 @@
 class JqueryFileUploadsController < ApplicationController
   #TODO usuario autenticado es decir hay peos de seguridad
-  after_action :check_mask_solicitud, only: [:destroy,:destroy_no_paginado,:create]
+  # after_action :check_mask_solicitud, only: [:destroy,:destroy_no_paginado,:create]
 
   def index
     @documentos = Documento.find_documentos(modelo_id_params,modelo_type_params, documentos_requisito_por_vista_params)
@@ -64,12 +64,12 @@ class JqueryFileUploadsController < ApplicationController
   end
 
   #SOLO PARA WIZARD CONEX-ET muy estatico!!
-  def check_mask_solicitud
-    if @documento.modelo_type == Solicitud.to_s
-      solicitud    = Solicitud.find_by(id: @documento.modelo_id)
-      vista        = @documento.documentos_requisitos_por_vista.vista
-      completa     = DocumentosRequisitosPorVista.vista_completa?(vista.nombre,solicitud)
-      solicitud.update_index_mask(vista.index,completa) if vista.index.present?
-    end
-  end
+  # def check_mask_solicitud
+  #   if @documento.modelo_type == Solicitud.to_s
+  #     solicitud    = Solicitud.find_by(id: @documento.modelo_id)
+  #     vista        = @documento.documentos_requisitos_por_vista.vista
+  #     completa     = DocumentosRequisitosPorVista.vista_completa?(vista.nombre,solicitud)
+  #     solicitud.update_index_mask(vista.index,completa) if vista.index.present?
+  #   end
+  # end
 end

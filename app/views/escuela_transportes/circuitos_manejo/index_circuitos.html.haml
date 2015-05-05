@@ -1,92 +1,71 @@
 = provide(:title, 'Preinscripcion Escuelas de Transporte')
-
-= render 'escuela_transportes/shared/ficha_datos', show: false
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Registro de Circuitos de Manejo
-            %i.fa.fa-road
-          %ol.breadcrumb
-            %li
-              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
-            -if @escuela_transporte.solicitud(nombre_solicitud).seguro_not_save?
-              %li
-                = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
-            %li
-              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
-            %li
-              Registro de Circuitos de Manejo
-
-  .row.animated.fadeInRight
+    = render 'escuela_transportes/shared/ficha_datos', show: false
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Registro de Circuitos de Manejo',solicitud: @solicitud, icon: '<i class="fa fa-road"></i>'
     .col-md-12.col-md-offset-0
       %ul.text-muted.leyenda
         %li.text-justify
           Puede registrar un Circuito de Manejo haciendo click en
           %span.verde-button-primary
             Agregar Circuito de Manejo
-  - if @solicitud.circuitos.empty?
-    .ibox-content.text-center.animated.fadeInRight
-      %h3.font-bold No posee Circuitos de Manejo
-      =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
-      class: 'btn btn-primary  pull-center' do
-        Agregar Circuito de Manejo
-        %i.fa.fa-road
+    - if @solicitud.circuitos.empty?
+      .ibox-content.text-center.animated.fadeInRight
+        %h3.font-bold No posee Circuitos de Manejo
+        =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
+        class: 'btn btn-primary  pull-center' do
+          Agregar Circuito de Manejo
+          %i.fa.fa-road
+    - else
+      .row
+        .col-md-12.col-md-offset-0
+          .ibox.float-e-margins
+            .ibox-content
+              =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
+              class: 'btn btn-primary  pull-center' do
+                Agregar Circuito de Manejo
+                %i.fa.fa-road
+              %br/
+              %table.table.table-striped.table-bordered.table-condensed
+                %thead
+                  %tr
+                    %th.text-center Tipo De Circuito
+                    %th.text-center Descripción
+                    %th.text-center Carga de Documentos Lista
+                    %th.text-center{:colspan => '3'}
+                      Acciones
 
-  - else
+                %tbody
+                - @solicitud.circuitos.each do |circuito|
+                  %tr
+                    %td.text-center= circuito.tipo_circuito
+                    %td.text-center= circuito.descripcion_ruta
+                    %td.text-center
+                      -if circuito.documentos_registro_circuito_completos?
+                        %i.fa.fa-check
+                      -else
+                        Debe Completar Carga Documentos
+                    %td.text-center
+                      = link_to escuela_transportes_ver_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
+                        %i.fa.fa-search
+                      = link_to escuela_transportes_editar_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
+                        %i.fa.fa-pencil-square-o
+                      = link_to  escuela_transportes_eliminar_circuito_path(id: circuito.id) , method: :delete,
+                        data: { confirm:'¿Seguro que desea Borrar Circuito de manejo?' } do
+                        %i.fa.fa-trash-o
+    %br
+    %br
     .row
-      .col-md-12.col-md-offset-0
+      .col-sm-12
         .ibox.float-e-margins
           .ibox-content
-            =link_to escuela_transportes_crear_circuito_path(@escuela_transporte) ,
-            class: 'btn btn-primary  pull-center' do
-              Agregar Circuito de Manejo
-              %i.fa.fa-road
-            %br/
-            %table.table.table-striped.table-bordered.table-condensed
-              %thead
-                %tr
-                  %th.text-center Tipo De Circuito
-                  %th.text-center Descripción
-                  %th.text-center Carga de Documentos Lista
-                  %th.text-center{:colspan => '3'}
-                    Acciones
-
-              %tbody
-              - @solicitud.circuitos.each do |circuito|
-                %tr
-                  %td.text-center= circuito.tipo_circuito
-                  %td.text-center= circuito.descripcion_ruta
-                  %td.text-center
-                    -if circuito.documentos_registro_circuito_completos?
-                      %i.fa.fa-check
-                    -else
-                      Debe Completar Carga Documentos
-                  %td.text-center
-                    = link_to escuela_transportes_ver_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
-                      %i.fa.fa-search
-                    = link_to escuela_transportes_editar_circuito_path(id:@escuela_transporte,circuito_id: circuito.id) do
-                      %i.fa.fa-pencil-square-o
-                    = link_to  escuela_transportes_eliminar_circuito_path(id: circuito.id) , method: :delete,
-                      data: { confirm:'¿Seguro que desea Borrar Circuito de manejo?' } do
-                      %i.fa.fa-trash-o
-  %br
-  %br
-  .row
-    .col-sm-12
-      .ibox.float-e-margins
-        .ibox-content
-          .row
-            .col-sm-2
-              = link_to  escuela_transportes_vehiculos_path(id: @escuela_transporte.id),
-              class: "btn btn-info" do
-                volver a vehiculos
-                %i.fa.fa-car
-            .col-sm-3.col-lg-offset-7
-              = link_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id) ,  class: 'btn btn-success btn-block' do
-                Ir a Trabajadores
-                %i.fa.fa-users
+            .row
+              .col-sm-2
+                = link_to  escuela_transportes_vehiculos_path(id: @escuela_transporte.id),
+                class: "btn btn-info" do
+                  volver a vehiculos
+                  %i.fa.fa-car
+              .col-sm-3.col-lg-offset-7
+                = link_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id) ,  class: 'btn btn-success btn-block' do
+                  Ir a Trabajadores
+                  %i.fa.fa-users
