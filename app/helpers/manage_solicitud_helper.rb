@@ -17,7 +17,9 @@ module ManageSolicitudHelper
   ########## FUNCIONA PARA CUALQUIER MODELO ASOCIADO A SOLICITUD ########################
   #######################################################################################
   def init_solicitud(nombre_solicitud, modelo)
-
+    if @solicitud.present?
+      return
+    end
     solicitud = modelo.solicituds.joins(:tipo_solicitud).find_by(tipo_solicituds: {nombre: nombre_solicitud})
 
     if solicitud.blank?

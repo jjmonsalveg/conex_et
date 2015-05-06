@@ -1,10 +1,12 @@
 class EscuelaTransportes::SegurosController < ApplicationController
+  include SolicitudConstruccionEscuelaHelper
+
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion, only: [:new, :create]
+  before_action :only_creada_solicitud
 
   def new
-    @solicitud = @escuela_transporte.solicitud(nombre_solicitud)
     @seguro = @solicitud.seguro || Seguro.new
     if (not @solicitud.seguro_por_flota?) && @solicitud.seguro_por_vehiculo?
       redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id) and return
@@ -13,7 +15,6 @@ class EscuelaTransportes::SegurosController < ApplicationController
   end
 
   def create
-    @solicitud= @escuela_transporte.solicitud(nombre_solicitud)
 
     if (not @solicitud.seguro_por_flota?) && @solicitud.seguro_por_vehiculo?
       redirect_to escuela_transportes_vehiculos_path(id: @escuela_transporte.id) and return

@@ -85,8 +85,12 @@ class Solicitud < ActiveRecord::Base
     self.seguro.present?
   end
 
-  def seguro_not_save?
+  def seguro_nil_or_por_flota?
    ( not self.seguro_por_flota?) && (not self.seguro_por_vehiculo?) or seguro_por_flota?
+  end
+
+  def seguro_nil?
+    ( not self.seguro_por_flota?) && (not self.seguro_por_vehiculo?)
   end
   #FIN_particularizados!
   
@@ -152,7 +156,7 @@ class Solicitud < ActiveRecord::Base
       errors.add(:base,"No existe Transición asociada al evento #{nombre_evento} para el estado de solicitud (#{current_status})")
     else
       self.estados_work_flow_id = estado_prox #estado actual
-      # save!
+      save!
     end
 
   end
@@ -169,19 +173,7 @@ class Solicitud < ActiveRecord::Base
   private
 
   def init_workflow
-    self.estado = self.tipo_solicitud.work_flow.estados_work_flows.first rescue nil
+    self.estado ||= self.tipo_solicitud.work_flow.estados_work_flows.first rescue nil
   end
-
-
-  # def check_status
-  #   if self.mask_grupo_requisitos =~ /0/
-  #     self.creada!
-  #   elsif self.completa?
-  #     self.modificada!
-  #   elsif !self.modificada?
-  #     self.preparada!
-  #   end
-  # end
-
 end
 

@@ -14,7 +14,7 @@
               = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
             %li
               = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
-            -if @solicitud.seguro_not_save?
+            -if @solicitud.seguro_nil_or_por_flota?
               %li
                 = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
             %li

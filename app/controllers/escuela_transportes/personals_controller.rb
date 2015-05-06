@@ -1,4 +1,5 @@
 class EscuelaTransportes::PersonalsController < ApplicationController
+  include SolicitudConstruccionEscuelaHelper
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion ,only:[:index, :show,:find,:found,:save,:edit, :update]
@@ -9,6 +10,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def index
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
     # centinel =  @solicitud.personals.empty? ? true : false
     #
     # @solicitud.personals.each do  |personal|
@@ -27,16 +29,20 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def show
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
+
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
   end
 
   def edit
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
   end
 
   def find
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
   end
 
   def instructor_documents
@@ -106,6 +112,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
               'El ciudadano debe ser mayor de edad '
         else
           init_solicitud(nombre_solicitud,@escuela_transporte)
+          only_creada_solicitud
 
           params[:personal][:nombre]       = concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2)
           params[:personal][:apellido]     = concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2)
@@ -130,6 +137,8 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def update
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
+
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
 
     if @personal.update(params_edit_personal)
@@ -149,8 +158,10 @@ class EscuelaTransportes::PersonalsController < ApplicationController
   def remove
     personal= Personal.includes(:solicitud).find_by(id: params[:id])
     if personal.present?
-      escuela = @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: personal.solicitud.id}).last
-      if  escuela.nil?
+      @escuela_transporte = @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: personal.solicitud.id}).last
+      only_creada_solicitud
+
+      if  @escuela_transporte.nil?
         flash[:danger] = 'Este Trabajador no existe para ninguna de sus Escuelas'
         redirect_to root_path
       else
@@ -162,7 +173,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
         #   solicitud.update_index_mask(5,false)
         # end
 
-        redirect_to escuela_transportes_listar_personals_path(id: escuela.id)
+        redirect_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id)
       end
     else
       flash[:danger] = 'Este Trabajador no existe'

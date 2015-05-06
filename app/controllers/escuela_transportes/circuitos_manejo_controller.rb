@@ -1,16 +1,20 @@
 class EscuelaTransportes::CircuitosManejoController < ApplicationController
+  include SolicitudConstruccionEscuelaHelper
+
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion,only:[:index_circuitos, :new, :editar_circuito]
   before_action :cargar_representante
   before_action :cargar_rif
   before_action :cargar_solicitud_escuela, only: [:actualizar_circuito,:guardar_circuito,:show]
+
   helper_method :nombre_solicitud
   helper_method :nombre_vista
   helper_method :reload_documents?
 
   def index_circuitos
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
     # centinel =  @solicitud.circuitos.empty? ? true : false
 
     # @solicitud.circuitos.each_with_index  do  |circuito,index|
@@ -29,22 +33,26 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
 
   def new
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
     @circuito = @solicitud.circuitos.build
   end
 
   def show
     @circuito = @solicitud.circuitos.find_by(id: params[:circuito_id])
+    only_creada_solicitud
     check_circuito
   end
 
   def editar_circuito
     init_solicitud(nombre_solicitud,@escuela_transporte)
+    only_creada_solicitud
     @circuito = @solicitud.circuitos.find_by(id: params[:circuito_id])
     check_circuito
   end
 
   def guardar_circuito
     respond_to do |format|
+      only_creada_solicitud
       @guardo = @solicitud.update(params_solicitud_circuito)
       # @solicitud.update_index_mask(4,false) if @guardo
       flash[:success]='Circuito de manejo Guardado exitosamente, a continuacion suba los siguientes documentos' if @guardo
@@ -57,7 +65,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
     @circuito =  Circuito.includes(:solicitud).find_by(id: params[:id])
     check_circuito
     @escuela_transporte= @representante_legal.escuela_transportes.joins(solicituds: :circuitos).where(circuitos: {id: @circuito.id} ).last
-
+    only_creada_solicitud
     if @escuela_transporte.nil?
       redirect_to root_path
       return
@@ -76,6 +84,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   end
 
   def actualizar_circuito
+    only_creada_solicitud
     @circuito =  @solicitud.circuitos.find_by(id:params[:solicitud][:circuitos_attributes]['0'][:id])
     check_circuito
     if @solicitud.update(params_solicitud_circuito)
@@ -97,8 +106,10 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
   def eliminar_circuito
     circuito= Circuito.includes(:solicitud).find_by(id: params[:id])
     if circuito.present?
-      escuela = @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: circuito.solicitud.id}).last
-      if  escuela.nil?
+
+      @escuela_transporte= @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: circuito.solicitud.id}).last
+      only_creada_solicitud
+      if  @escuela_transporte.nil?
         flash[:danger] = 'Este circuito no existe para ninguna de sus Escuelas'
         redirect_to root_path
       else
@@ -110,7 +121,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
         #   solicitud.update_index_mask(4,false)
         # end
 
-        redirect_to escuela_transportes_index_circuitos_path(id: escuela.id)
+        redirect_to escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
       end
     else
       flash[:danger] = 'Este circuito no existe'
@@ -144,6 +155,7 @@ class EscuelaTransportes::CircuitosManejoController < ApplicationController
       flash[:danger]='Solicitud no Existente'
       redirect_to root_path
     else
+      only_creada_solicitud
       @escuela_transporte = @representante_legal.escuela_transportes.find_by(id:@solicitud.servicio_intt.id)
       if @escuela_transporte.nil?
         flash[:danger]='Solicitud no le pertenece a ninguna de sus Escuelas'

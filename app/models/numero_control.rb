@@ -16,7 +16,7 @@
 class NumeroControl < ActiveRecord::Base
 
   def self.set_last(nombre)
-    NumeroControl.create!(nombre: nombre, numero: NumeroControl.last.numero + 1)
+    NumeroControl.create!(nombre: nombre, numero: NumeroControl.where(nombre:nombre).last.numero + 1)
   end
 
 end

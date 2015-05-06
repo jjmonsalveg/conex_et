@@ -5,7 +5,8 @@
   .row.animated.fadeInRight
     = render 'escuela_transportes/shared/ficha_datos'
     = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Carga de Documentos de Infraestructura',solicitud: @solicitud, icon: '<i class="fa fa-building-o"></i>'
-
+  = render 'shared/error_messages', object: @escuela_transporte, model: 'Planos Infraestructura'
+  = render  'shared/show_modelo_modals_documentos_paginados',vista: :planos_infraestructura,modelo: @solicitud
   .row.animated.fadeInRight
     .col-md-12
       .ibox.float-e-margins
@@ -14,8 +15,6 @@
            url: escuela_transportes_guardar_planos_path(@escuela_transporte),
            method: :post ,
            html: {class: 'form-horizontal m-t-md'} do |f|
-            .form-group
-              = render 'shared/error_messages', object: f.object, model: 'Planos Infraestructura'
             = render 'shared/solicitud_documents',f:f, list_documents: @lista_documentos
 
             = render 'escuela_transportes/escuela_transportes/shared/buttons_bottom', f:f ,

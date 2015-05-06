@@ -1,7 +1,9 @@
 class EscuelaTransportes::PlanosInfraestructuraController < ApplicationController
+  include SolicitudConstruccionEscuelaHelper
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion
+  before_action :only_creada_solicitud
   before_action :cargar_representante
   helper_method :nombre_solicitud
 
@@ -17,8 +19,7 @@ class EscuelaTransportes::PlanosInfraestructuraController < ApplicationControlle
 
   def create
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    if @escuela_transporte.update(escuela_transporte_doc_params)
-      # @solicitud.update_index_mask(1)
+    if @escuela_transporte.update(escuela_transporte_doc_params)and @escuela_transporte.documento_requisito_paginados_completos?(nombre_vista,@solicitud)
       flash[:success]= 'Planos de la infraestructura cargados satisfactoriamente'
       redirect_to new_escuela_transportes_seguro_path(id: @escuela_transporte.id)
     else

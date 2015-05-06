@@ -1,29 +1,8 @@
 = provide(:title, 'Preinscripcion Escuelas de Transporte')
-
-= render 'escuela_transportes/shared/ficha_datos', show: false
 .wrapper.wrapper-content
   .row.animated.fadeInRight
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          %h2
-            Registro de los Trabajadores
-            %i.fa.fa-users
-          %ol.breadcrumb
-            %li
-              = link_to 'Información General', escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
-            %li
-              = link_to 'Planos Infraestructura',escuela_transportes_cargar_planos_path(id: @escuela_transporte)
-            -if @solicitud.seguro_not_save?
-              %li
-                = link_to 'Datos del Seguro RCV', new_escuela_transportes_seguro_path(id: @escuela_transporte)
-            %li
-              = link_to 'Documentos de Vehiculos', escuela_transportes_vehiculos_path(id: @escuela_transporte.id)
-            %li
-              = link_to 'Registro Circuitos de Manejo', escuela_transportes_index_circuitos_path(id: @escuela_transporte.id)
-            %li
-              Registro de Trabajadores
-
+    = render 'escuela_transportes/shared/ficha_datos', show: false
+    = render 'escuela_transportes/shared/breadcrum_wizard_solicitud_adecuacion',title:'Registro de Trabajadores',solicitud: @solicitud, icon: '<i class="fa fa-users"></i>'
 
   .row.animated.fadeInRight
     .col-md-12.col-md-offset-0
@@ -93,6 +72,6 @@
                 volver a circuitos
                 %i.fa.fa-road
             .col-sm-3.col-lg-offset-7
-              = link_to escuela_transportes_listar_personals_path(id: @escuela_transporte.id) ,  class: 'btn btn-success btn-block' do
+              = link_to new_escuela_transportes_solicitud_final_path(id: @escuela_transporte) ,  class: 'btn btn-success btn-block' do
                 Enviar Solicitud
                 %i.fa.fa-paper-plane

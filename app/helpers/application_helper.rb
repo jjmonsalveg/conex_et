@@ -109,20 +109,6 @@ module ApplicationHelper
     espacios_blancos_l_r(cad1).casecmp(espacios_blancos_l_r(cad2)) == 0
   end
 
-  ## METODO PARA REDIRECCIONAR EL USUARIO EN EL
-  ## GRUPO DE REQUISITOS FALTANTE PARA LA SOLICITUD PREINSCRIPCION
-  def grupo_requisito_faltante(solicitud)
-    if solicitud.mask_grupo_requisitos[0] == '0'
-      return escuela_transportes_informacion_general_new_get_path(id: solicitud.servicio_intt)
-    elsif solicitud.mask_grupo_requisitos[1] == '0'
-      return escuela_transportes_vehiculos_path(id: solicitud.servicio_intt)
-    elsif solicitud.mask_grupo_requisitos[2] == '0'
-      return escuela_transportes_cargar_planos_path(solicitud.servicio_intt)
-    elsif solicitud.mask_grupo_requisitos[3] == '0'
-      return escuela_transportes_cargar_planillas_path(solicitud.servicio_intt)
-    end
-    return escuela_transportes_informacion_general_new_get_path(id: solicitud.servicio_intt)
-  end
 
   def pdf_preview(pdf)
     require 'RMagick'

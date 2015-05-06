@@ -9,6 +9,7 @@
 #  cedula        :string(10)       not null
 #  tipo_personal :integer          not null
 #  status        :integer          default(0), not null
+#  solicitud_id  :integer
 #  created_at    :datetime
 #  updated_at    :datetime
 #

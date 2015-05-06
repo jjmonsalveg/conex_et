@@ -1,253 +1,254 @@
-.row.wrapper.border-bottom.white-bg.page-heading
-  .row
-    .col-md-2
-      = image_tag('logo_ministerio.jpg', size: '150x150')
-    .col-md-8
-      .row
-        .col-md-6.text-left
-          %br
-          %p
-            %strong
-              República Bolivariana de Venezuela
-              %br
-              Ministerio del Poder Popular para Relaciones
-              Interiores, Justicia y Paz
-              %br
-              Instituto Nacional de Transporte Terrestre
-        .col-md-6
-          %br
-          %p.text-right
-            %strong
-              Fecha de Emisión:
-              = @escuela_transporte.solicitud(nombre_solicitud).planilla_time.strftime("%d/%m/%Y")
-      .row
-        .col-md-12.text-center
-          %br
-          %h3
-            Planilla Única de Trámite
-
-      -#%br
-      -#%h2
-      -#  Planilla Única de Tramite
-      -#%h3
-      -#  Solicitud de Autorización de Adecuación
-      -#%p.text-center
-      -#  %br
-      -#    Número de Trámite:
-      -#    %strong
-      -#      = sprintf '%012d', @escuela_transporte.solicitud(nombre_solicitud).id
-      -#  %br
-      -#    Número de Planilla:
-      -#    %strong
-      -#      = sprintf '%013d', @escuela_transporte.solicitud(nombre_solicitud).numero_planilla
-      -#  %br
-      -#  Fecha:
-      -#  %strong
-      -#    = @escuela_transporte.solicitud(nombre_solicitud).planilla_time.strftime("%d/%m/%Y")
-      -#    = Time.at(@escuela_transporte.solicitud(nombre_solicitud).planilla_time).strftime("%l:%M %p")
-    .col-md-2
-      = image_tag('logo_planillas.png', size: '150x150')
-
-.wrapper.wrapper-content.animated.fadeInRight
-  .row
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          .table-responsive.border_tabla
-            %table.table
-              %tbody
-                %tr
-                  %td
-                    %strong
-                      Código de Barras
-                    = image_tag "/Barcodes/Code128B_#{@solicitud.numero_planilla}.png"
-                  %td{style: "vertical-align:middle;"}
-                    %strong
-                      Número de Planilla:
-                    = sprintf '%013d', @solicitud.numero_planilla
-  .row
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          .table-responsive.border_tabla
-            %table.table.sin_border
-              %caption.gris-bg
-                .row
-                  .col-md-4
-                    %h3
-                      Datos del Solicitante
-              %tbody
-                %tr
-                  %td
-                    %b
-                      Nombre y Apellido:
-                    = current_session_user.nombre + ' ' + current_session_user.apellido
-                  %td
-                    %b
-                      Identificación:
-                    = current_session_user.numero_doc
-                %tr
-                  %td
-                    %b
-                      Teléfonos:
-                    = current_session_user.telefono_show + ' ' + current_session_user.movil_show
-                  %td
-                    %b
-                      Correo Electrónico:
-                    = current_session_user.email
-                %tr
-                  %td{colspan: 2}
-                    %b
-                      Dirección:
-                    = '-'
-            %table.table.table-striped
-              %caption.gris-bg
-                .row
-                  .col-md-4
-                    %h3
-                      Trámites Solicitados
-              %thead
-                %tr
-                  %th
-                    Trámite
-                  %th
-                    Número de Trámite
-              %tbody
-                %tr
-                  %td
-                    = @solicitud.tipo_solicitud.descripcion
-                  %td
-                    = sprintf '%012d', @solicitud.id
-            %table.table.sin_border
-              %caption.gris-bg
-                .row
-                  .col-md-4
-                    %h3
-                      Datos de la Operadora
-              %tbody
-                %tr
-                  %td
-                    %b
-                      Nombre:
-                    = @escuela_transporte.razonSocial
-                  %td
-                    %b
-                      Rif:
-                    = @escuela_transporte.rif_show
-                %tr
-                  %td
-                    %b
-                      Teléfono:
-                    = @escuela_transporte.telefono_show
-                  %td
-                    %b
-                      Teléfono Móvil:
-                    = @escuela_transporte.movil_show
-                %tr
-                  %td{colspan: 2}
-                    %b
-                      Dirección Fiscal:
-                    = @escuela_transporte.direccion
-
-            %table.table.table-bordered
-              %thead
-                %tr
-                  %th
-                    Solicitante
-                  %th
-                    Funcionario Receptor
-              %tbody
-                %tr
-                  %td{width: "50%"}
-                    .row
-                      .col-sm-8.text-justify
-                        %font{size: 1}
-                          %strong
-                            Firma:
-                            %br
-                            %br
-                            Cédula:
-                            %br
-                            %br
-                            Fecha:
-                            %br
-                            %br
-                      .col-sm-4
-                        %font{size: 1}
-                          %strong
-                            Pulgar Derecho:
-                    .row
-                      .col-sm-12
-                        %p.text-justify
-                          %font{size: 1}
-                            Declaro que todos los datos suministrados en este
-                            formulario son verdaderos y exactos por lo que
-                            dejo a juicio de las autoridades competentes la
-                            verificación de los mismos, responsabilizándome
-                            por cualquier irregularidad existente.
-                  %td
-                    .row
-                      .col-sm-8.text-justify
-                        %font{size: 1}
-                          %strong
-                            Firma:
-                            %br
-                            %br
-                            Cédula:
-                            %br
-                            %br
-                            Fecha:
-                            %br
-                            %br
-                      .col-sm-4
-                        %font{size: 1}
-                          %strong
-                            Sello:
-
-  .row
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          .table-responsive.border_tabla
-            %table.table.sin_border
-              %caption.gris-bg
-                .row
-                  .col-md-4
-                    %h3
-                      Flota (Vehículos)
-              %tbody
-                - @escuela_transporte.vehiculo_pres.each do |vehiculo |
-                  %tr
-                    %td
-                      %strong
-                        Placa:
-                      = vehiculo.placa
-                    %td
-                      %strong
-                        Modelo:
-                      = vehiculo.modelo
-                    %td
-                      %strong
-                        Marca:
-                      = vehiculo.marca
-                    %td
-                      %strong
-                        Año:
-                      = vehiculo.ano
-                    %td
-                      %strong
-                        Serial de Carroceria
-                      = vehiculo.s_carroceria
-  .row
-    .col-md-12
-      .ibox.float-e-margins
-        .ibox-content
-          .row
-
-            .col-sm-8
-            .col-sm-2
-              = link_to  escuela_transportes_print_path(format: :pdf, id: @escuela_transporte), class: 'btn btn-success btn-block' do
-                %i.fa.fa-file-pdf-o
-                Bajar a PDF
-            .col-sm-2
-              = link_to 'Salir', representante_legal_escuela_transportes_path(@escuela_transporte.representante_legal), class: "btn btn-primary btn-block"
+hola
+-#.row.wrapper.border-bottom.white-bg.page-heading
+-#  .row
+-#    .col-md-2
+-#      = image_tag('logo_ministerio.jpg', size: '150x150')
+-#    .col-md-8
+-#      .row
+-#        .col-md-6.text-left
+-#          %br
+-#          %p
+-#            %strong
+-#              República Bolivariana de Venezuela
+-#              %br
+-#              Ministerio del Poder Popular para Relaciones
+-#              Interiores, Justicia y Paz
+-#              %br
+-#              Instituto Nacional de Transporte Terrestre
+-#        .col-md-6
+-#          %br
+-#          %p.text-right
+-#            %strong
+-#              Fecha de Emisión:
+-#              = @escuela_transporte.solicitud(nombre_solicitud).planilla_time.strftime("%d/%m/%Y")
+-#      .row
+-#        .col-md-12.text-center
+-#          %br
+-#          %h3
+-#            Planilla Única de Trámite
+-#
+-#      -#%br
+-#      -#%h2
+-#      -#  Planilla Única de Tramite
+-#      -#%h3
+-#      -#  Solicitud de Autorización de Adecuación
+-#      -#%p.text-center
+-#      -#  %br
+-#      -#    Número de Trámite:
+-#      -#    %strong
+-#      -#      = sprintf '%012d', @escuela_transporte.solicitud(nombre_solicitud).id
+-#      -#  %br
+-#      -#    Número de Planilla:
+-#      -#    %strong
+-#      -#      = sprintf '%013d', @escuela_transporte.solicitud(nombre_solicitud).numero_planilla
+-#      -#  %br
+-#      -#  Fecha:
+-#      -#  %strong
+-#      -#    = @escuela_transporte.solicitud(nombre_solicitud).planilla_time.strftime("%d/%m/%Y")
+-#      -#    = Time.at(@escuela_transporte.solicitud(nombre_solicitud).planilla_time).strftime("%l:%M %p")
+-#    .col-md-2
+-#      = image_tag('logo_planillas.png', size: '150x150')
+-#
+-#.wrapper.wrapper-content.animated.fadeInRight
+-#  .row
+-#    .col-md-12
+-#      .ibox.float-e-margins
+-#        .ibox-content
+-#          .table-responsive.border_tabla
+-#            %table.table
+-#              %tbody
+-#                %tr
+-#                  %td
+-#                    %strong
+-#                      Código de Barras
+-#                    = image_tag "/Barcodes/Code128B_#{@solicitud.numero_planilla}.png"
+-#                  %td{style: "vertical-align:middle;"}
+-#                    %strong
+-#                      Número de Planilla:
+-#                    = sprintf '%013d', @solicitud.numero_planilla
+-#  .row
+-#    .col-md-12
+-#      .ibox.float-e-margins
+-#        .ibox-content
+-#          .table-responsive.border_tabla
+-#            %table.table.sin_border
+-#              %caption.gris-bg
+-#                .row
+-#                  .col-md-4
+-#                    %h3
+-#                      Datos del Solicitante
+-#              %tbody
+-#                %tr
+-#                  %td
+-#                    %b
+-#                      Nombre y Apellido:
+-#                    = current_session_user.nombre + ' ' + current_session_user.apellido
+-#                  %td
+-#                    %b
+-#                      Identificación:
+-#                    = current_session_user.numero_doc
+-#                %tr
+-#                  %td
+-#                    %b
+-#                      Teléfonos:
+-#                    = current_session_user.telefono_show + ' ' + current_session_user.movil_show
+-#                  %td
+-#                    %b
+-#                      Correo Electrónico:
+-#                    = current_session_user.email
+-#                %tr
+-#                  %td{colspan: 2}
+-#                    %b
+-#                      Dirección:
+-#                    = '-'
+-#            %table.table.table-striped
+-#              %caption.gris-bg
+-#                .row
+-#                  .col-md-4
+-#                    %h3
+-#                      Trámites Solicitados
+-#              %thead
+-#                %tr
+-#                  %th
+-#                    Trámite
+-#                  %th
+-#                    Número de Trámite
+-#              %tbody
+-#                %tr
+-#                  %td
+-#                    = @solicitud.tipo_solicitud.descripcion
+-#                  %td
+-#                    = sprintf '%012d', @solicitud.id
+-#            %table.table.sin_border
+-#              %caption.gris-bg
+-#                .row
+-#                  .col-md-4
+-#                    %h3
+-#                      Datos de la Operadora
+-#              %tbody
+-#                %tr
+-#                  %td
+-#                    %b
+-#                      Nombre:
+-#                    = @escuela_transporte.razonSocial
+-#                  %td
+-#                    %b
+-#                      Rif:
+-#                    = @escuela_transporte.rif_show
+-#                %tr
+-#                  %td
+-#                    %b
+-#                      Teléfono:
+-#                    = @escuela_transporte.telefono_show
+-#                  %td
+-#                    %b
+-#                      Teléfono Móvil:
+-#                    = @escuela_transporte.movil_show
+-#                %tr
+-#                  %td{colspan: 2}
+-#                    %b
+-#                      Dirección Fiscal:
+-#                    = @escuela_transporte.direccion
+-#
+-#            %table.table.table-bordered
+-#              %thead
+-#                %tr
+-#                  %th
+-#                    Solicitante
+-#                  %th
+-#                    Funcionario Receptor
+-#              %tbody
+-#                %tr
+-#                  %td{width: "50%"}
+-#                    .row
+-#                      .col-sm-8.text-justify
+-#                        %font{size: 1}
+-#                          %strong
+-#                            Firma:
+-#                            %br
+-#                            %br
+-#                            Cédula:
+-#                            %br
+-#                            %br
+-#                            Fecha:
+-#                            %br
+-#                            %br
+-#                      .col-sm-4
+-#                        %font{size: 1}
+-#                          %strong
+-#                            Pulgar Derecho:
+-#                    .row
+-#                      .col-sm-12
+-#                        %p.text-justify
+-#                          %font{size: 1}
+-#                            Declaro que todos los datos suministrados en este
+-#                            formulario son verdaderos y exactos por lo que
+-#                            dejo a juicio de las autoridades competentes la
+-#                            verificación de los mismos, responsabilizándome
+-#                            por cualquier irregularidad existente.
+-#                  %td
+-#                    .row
+-#                      .col-sm-8.text-justify
+-#                        %font{size: 1}
+-#                          %strong
+-#                            Firma:
+-#                            %br
+-#                            %br
+-#                            Cédula:
+-#                            %br
+-#                            %br
+-#                            Fecha:
+-#                            %br
+-#                            %br
+-#                      .col-sm-4
+-#                        %font{size: 1}
+-#                          %strong
+-#                            Sello:
+-#
+-#  .row
+-#    .col-md-12
+-#      .ibox.float-e-margins
+-#        .ibox-content
+-#          .table-responsive.border_tabla
+-#            %table.table.sin_border
+-#              %caption.gris-bg
+-#                .row
+-#                  .col-md-4
+-#                    %h3
+-#                      Flota (Vehículos)
+-#              %tbody
+-#                - @escuela_transporte.vehiculo_pres.each do |vehiculo |
+-#                  %tr
+-#                    %td
+-#                      %strong
+-#                        Placa:
+-#                      = vehiculo.placa
+-#                    %td
+-#                      %strong
+-#                        Modelo:
+-#                      = vehiculo.modelo
+-#                    %td
+-#                      %strong
+-#                        Marca:
+-#                      = vehiculo.marca
+-#                    %td
+-#                      %strong
+-#                        Año:
+-#                      = vehiculo.ano
+-#                    %td
+-#                      %strong
+-#                        Serial de Carroceria
+-#                      = vehiculo.s_carroceria
+-#  .row
+-#    .col-md-12
+-#      .ibox.float-e-margins
+-#        .ibox-content
+-#          .row
+-#
+-#            .col-sm-8
+-#            .col-sm-2
+-#              = link_to  escuela_transportes_print_path(format: :pdf, id: @escuela_transporte), class: 'btn btn-success btn-block' do
+-#                %i.fa.fa-file-pdf-o
+-#                Bajar a PDF
+-#            .col-sm-2
+-#              = link_to 'Salir', representante_legal_escuela_transportes_path(@escuela_transporte.representante_legal), class: "btn btn-primary btn-block"

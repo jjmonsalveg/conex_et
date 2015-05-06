@@ -1,15 +1,20 @@
 class EscuelaTransportes::InformacionGeneralController < ApplicationController
+
+  include SolicitudConstruccionEscuelaHelper
+
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion , only: [:new_get, :update]
   before_action :check_info, only: [:new]
   before_action :check_list_registradas , only: :index
 
+
   def index
   end
 
   def new
     @escuela_transporte = EscuelaTransporte.find_by(id: info_params[:escuela])
+    only_creada_solicitud
     @escuela_transporte.update_column(:tipo_escuela_id, TipoEscuela.find_by(id: info_params[:tipo_escuela]))
     @escuela_transporte.tipo_escuela = TipoEscuela.find_by(id: info_params[:tipo_escuela])
     load_solicitud @escuela_transporte
@@ -18,8 +23,9 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
   def update
     respond_to do |format|
       init_solicitud(nombre_solicitud,@escuela_transporte)
+      only_creada_solicitud
+
       if @escuela_transporte.update(escuela_transporte_doc_params) and @escuela_transporte.documento_requisito_paginados_completos?(nombre_vista,@solicitud)
-        # @solicitud.update_index_mask(0)
         format.html { redirect_to escuela_transportes_cargar_planos_path(id: @escuela_transporte),
                                   notice: 'Se ha actualizado la Información General de la escuela de transporte satisfactoriamente.' }
 
@@ -33,8 +39,10 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
 
   def new_get
     load_solicitud @escuela_transporte
+    only_creada_solicitud
+
     @representante_legal = current_session_user.representante_legal
-    render template: 'escuela_transportes/informacion_general/new'
+    render template: 'escuela_transportes/informacion_general/new' if @solicitud.estado?(:creada)
   end
 
   def nombre_solicitud

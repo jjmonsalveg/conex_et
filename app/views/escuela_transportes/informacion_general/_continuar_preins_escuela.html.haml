@@ -27,10 +27,10 @@
                   -#- if escuela.solicitud(nombre_solicitud).completa?
                 .row
                   .col-sm-6
-                    = link_to 'Modificar', grupo_requisito_faltante(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
+                    = link_to 'Modificar', route_completar_adecuacion_construccion(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
                   .col-sm-6
                     = link_to 'Ver Planilla', new_escuela_transportes_solicitud_final_path(id: escuela),class: 'btn btn-warning btn-block'
                   -#- else
-                = link_to 'Continuar Carga Documentos', grupo_requisito_faltante(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
+                = link_to 'Continuar Carga Documentos', route_completar_adecuacion_construccion(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
 
 
