@@ -17,20 +17,20 @@
           %tbody
             - current_session_user.escuelas_preinscritas.each do |escuela|
               %tr
-                -#%td
-                -#  = escuela.solicitud(nombre_solicitud).id
                 %td
                   = escuela.razonSocial
                 %td
                   = escuela.rif_show
                 %td
-                  -#- if escuela.solicitud(nombre_solicitud).completa?
-                .row
+                - solicitud = escuela.solicitud(nombre_solicitud)
+
+                -if solicitud.estado?(:preparada) or (solicitud.estado?(:completa) and (not solicitud.locked))
                   .col-sm-6
-                    = link_to 'Modificar', route_completar_adecuacion_construccion(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
+                    = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),class: 'btn btn-primary btn-block'
+                  -#.col-sm-6
+                  -#  = link_to 'Ver Planilla', new_escuela_transportes_solicitud_final_path(id: escuela),class: 'btn btn-warning btn-block'
+                - elsif solicitud.estado?(:creada)
                   .col-sm-6
-                    = link_to 'Ver Planilla', new_escuela_transportes_solicitud_final_path(id: escuela),class: 'btn btn-warning btn-block'
-                  -#- else
-                = link_to 'Continuar Carga Documentos', route_completar_adecuacion_construccion(escuela.solicitud(nombre_solicitud)),class: 'btn btn-primary btn-block'
+                    = link_to 'Continuar Carga Documentos', route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela),class: 'btn btn-primary btn-block'
 
 

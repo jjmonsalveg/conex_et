@@ -1,22 +1,34 @@
-class EscuelaTransportes::SolicitudFinalController < ApplicationController
+class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationController
   include SolicitudConstruccionEscuelaHelper
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_and_solicitud
-  before_action :check_solicitud_completa, only: :new
+  before_action :check_solicitud_completa, only: :preparar_solicitud
 
   require 'barby'
   require 'barby/barcode/code_128'
   require 'barby/outputter/png_outputter'
 
-  def new
-    puts 'llego'
+  def preparar_solicitud
+    p 'llegoooooooooo'
     # if @solicitud.preparada? || @solicitud.modificada?
     #   @solicitud.update(planilla_time: DateTime.now, numero_planilla: NumeroControl.set_last('solicitud').numero, status: Solicitud.statuses[:completa])
     # end
     # generate_barcodes(@solicitud.numero_planilla.to_s)
   end
 
+  def modificar_solicitud
+    if @solicitud.locked
+      flash[:danger] = 'Solicitud esta siendo procesada no puede ser editada'
+      redirect_to escuela_transportes_informacion_general_index_path
+    elsif @solicitud.estado?(:preparada) or @solicitud.estado?(:completa)
+      @solicitud.procesar_evento!(:modificar)
+      redirect_to escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
+    else
+      redirect_to escuela_transportes_informacion_general_index_path
+    end
+  end
+  
   def print
     respond_to do |format|
       format.pdf do
@@ -45,13 +57,15 @@ class EscuelaTransportes::SolicitudFinalController < ApplicationController
     if @solicitud.estado?(:creada)
       ruta = route_completar_adecuacion_construccion
       if ruta.present?
-        p 'falla'
         flash[:danger] = 'Solicitud incompleta. Complete los Campos que son Obligatorios'
         redirect_to ruta
+        return
       else
-        p 'TODObien'
         @solicitud.procesar_evento!(:preparar)
       end
+    else
+      flash[:danger] = 'Solicitud en estado no consistente con esta acción'
+      redirect_to root_path
     end
   end
 end

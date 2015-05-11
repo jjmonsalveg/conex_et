@@ -72,6 +72,7 @@
                 volver a circuitos
                 %i.fa.fa-road
             .col-sm-3.col-lg-offset-7
-              = link_to new_escuela_transportes_solicitud_final_path(id: @escuela_transporte) ,  class: 'btn btn-success btn-block' do
+              = link_to escuela_transportes_new_solicitud_adecuacion_path(id: @escuela_transporte) ,
+                class: 'btn btn-success btn-block' ,data: { disable_with: 'Guardando ...' } do
                 Enviar Solicitud
                 %i.fa.fa-paper-plane
