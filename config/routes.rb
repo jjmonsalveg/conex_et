@@ -183,9 +183,10 @@ Rails.application.routes.draw do
     post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
 
     #6.6 Planilla de Solicitud
-    get 'solicitud/preparar/:id',to:'solicitud_adecuacion_acciones#preparar_solicitud', as: :new_solicitud_adecuacion
+    get 'solicitud/preparar/:id',to:'solicitud_adecuacion_acciones#preparar_solicitud', as: :preparar_solicitud_adecuacion
     get 'solicitud/modificar/:id',to:'solicitud_adecuacion_acciones#modificar_solicitud', as: :modificar_solicitud_adecuacion
-    get 'solicitud/print', to: 'solicitud_final#print', as: :print
+    get 'solicitud/print', to: 'solicitud_final#print', as: :print_solicitud_adecuacion
+    get 'solicitud/ver', to: 'solicitud_final#ver', as: :ver_solicitud_adecuacion
 
     #6.7 Trabajadores
     get 'listar_personal/:id',to: 'personals#index', as: :listar_personals ,constraints: {id: /\d+/}

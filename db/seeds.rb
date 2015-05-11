@@ -2103,6 +2103,9 @@ TransicionesWorkFlow.create!(estado_fuente_id:st_preparada.id,estado_destino_id:
 #       st_preparada  --  ev_imprimir_planilla  -->st_completa
 TransicionesWorkFlow.create!(estado_fuente_id:st_preparada.id,estado_destino_id:st_completa.id,EventosWorkFlow_id:ev_imprimir_planilla.id)
 
+#       st_completa  --  ev_imprimir_planilla  -->st_completa
+TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id:st_completa.id,EventosWorkFlow_id:ev_imprimir_planilla.id)
+
 #       st_completa  --  ev_modificar -->st_creada
 TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id:st_creada.id,EventosWorkFlow_id:ev_modificar.id)
 

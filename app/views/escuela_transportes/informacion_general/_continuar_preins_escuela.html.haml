@@ -26,11 +26,15 @@
 
                 -if solicitud.estado?(:preparada) or (solicitud.estado?(:completa) and (not solicitud.locked))
                   .col-sm-6
-                    = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),class: 'btn btn-primary btn-block'
+                    = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),
+                     data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
+                    class: 'btn btn-primary btn-block'
                   -#.col-sm-6
                   -#  = link_to 'Ver Planilla', new_escuela_transportes_solicitud_final_path(id: escuela),class: 'btn btn-warning btn-block'
                 - elsif solicitud.estado?(:creada)
                   .col-sm-6
-                    = link_to 'Continuar Carga Documentos', route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela),class: 'btn btn-primary btn-block'
+                    = link_to 'Continuar Carga Documentos',
+                      (route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela)),
+                       class: 'btn btn-primary btn-block'
 
 

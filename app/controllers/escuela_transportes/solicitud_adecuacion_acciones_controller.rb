@@ -10,11 +10,13 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
   require 'barby/outputter/png_outputter'
 
   def preparar_solicitud
-    p 'llegoooooooooo'
-    # if @solicitud.preparada? || @solicitud.modificada?
-    #   @solicitud.update(planilla_time: DateTime.now, numero_planilla: NumeroControl.set_last('solicitud').numero, status: Solicitud.statuses[:completa])
-    # end
-    # generate_barcodes(@solicitud.numero_planilla.to_s)
+    @solicitud.update(planilla_time: DateTime.now, numero_planilla: NumeroControl.set_last('solicitud').numero)
+    generate_barcodes(@solicitud.numero_planilla.to_s)
+    render :summary_solicitud_view
+  end
+
+  def ver
+    render :summary_solicitud_view
   end
 
   def modificar_solicitud
@@ -28,7 +30,7 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
       redirect_to escuela_transportes_informacion_general_index_path
     end
   end
-  
+
   def print
     respond_to do |format|
       format.pdf do
