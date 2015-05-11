@@ -67,7 +67,7 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
       end
     else
       flash[:danger] = 'Solicitud en estado no consistente con esta acción'
-      redirect_to root_path
+      redirect_to root_path and return
     end
   end
 end
