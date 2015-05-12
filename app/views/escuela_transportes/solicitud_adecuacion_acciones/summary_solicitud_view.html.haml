@@ -3,10 +3,11 @@
     .ibox.float-e-margins
       .ibox-content
         .row
-          .col-sm-2
-            = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: @escuela_transporte),
-              data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
-              class: 'btn btn-primary btn-block'
+          -if @solicitud.estado?(:preparada) or (@solicitud.estado?(:completa) and (not @solicitud.locked))
+            .col-sm-2
+              = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: @escuela_transporte),
+                data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
+                class: 'btn btn-primary btn-block'
           .col-sm-2.col-sm-offset-8
             = link_to  escuela_transportes_print_solicitud_adecuacion_path(format: :pdf, id: @solicitud), class: 'btn btn-success btn-block' do
               %i.fa.fa-file-pdf-o
@@ -93,7 +94,7 @@
           .row
             .col-md-4
               %h3.text-center
-                Datos de la Operadora
+                Datos de la Escuela de Transporte
         %tbody
           %tr
             %td{colspan: 2}
@@ -136,20 +137,20 @@
               %b
                 Dirección:
           %tr
-            %td
+            %td{colspan: 2}
               %b
                 Estado:
               =  @escuela_transporte.ciudad.estado.nombre
-            %td
+            %td{colspan: 2}
               %b
                 Ciudad:
               =  @escuela_transporte.ciudad.nombre
           %tr
-            %td
+            %td{colspan: 2}
               %b
                 Municipio:
               =  @escuela_transporte.parroquia.municipio.nombre
-            %td
+            %td{colspan: 2}
               %b
                 Parroquia:
               =  @escuela_transporte.parroquia.nombre

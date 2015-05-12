@@ -12,11 +12,11 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
   def preparar_solicitud
     @solicitud.update(planilla_time: DateTime.now, numero_planilla: NumeroControl.set_last('solicitud').numero)
     generate_barcodes(@solicitud.numero_planilla.to_s)
-    render :summary_solicitud_view
+    render :summary_solicitud_view and return
   end
 
   def ver
-    render :summary_solicitud_view
+    render :summary_solicitud_view and return
   end
 
   def modificar_solicitud
@@ -34,6 +34,7 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
   def print
     respond_to do |format|
       format.pdf do
+        @solicitud.procesar_evento!(:imprimir_planilla)
         pdf = SolicitudReport.new(@escuela_transporte, @solicitud, :page_size => "LETTER")
         send_data pdf.render, filename: "solicitud_final.pdf", type: 'application/pdf'
       end
