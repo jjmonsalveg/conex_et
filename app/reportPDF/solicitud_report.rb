@@ -12,6 +12,7 @@ class SolicitudReport < Prawn::Document
     @solicitud = solicitud
     @representante_legal = @escuela_transporte.representante_legal
     @usuario_sput = @representante_legal.usuario_sput
+    # stroke_axis # pintar ejes
     header
     planilla
     font_size 8
