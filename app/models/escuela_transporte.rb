@@ -234,11 +234,11 @@ class EscuelaTransporte < ActiveRecord::Base
 
     cad = String.new
     cad += 'Av. '+ self.avenida if self.avenida.present?
-    cad += 'Calle '+ self.calle if self.calle.present?
-    cad += 'Urb. '+ self.urbanizacion if self.urbanizacion.present?
-    cad += 'Edif. '+ self.edificio_cc if self.edificio_cc.present?
-    cad += 'Piso '+ self.piso if self.piso.present?
-    cad += 'Local '+ self.local if self.local.present?
+    cad += ' Calle: '+ self.calle if self.calle.present?
+    cad += ' Urb.: '+ self.urbanizacion if self.urbanizacion.present?
+    cad += ' Edif.: '+ self.edificio_cc if self.edificio_cc.present?
+    cad += ' Piso: '+ self.piso if self.piso.present?
+    cad += ' Local: '+ self.local if self.local.present?
 
     return cad
   end

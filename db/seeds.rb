@@ -16,7 +16,7 @@ administrador = Funcionario.create!(login:'intt_super_admin',
                                     email: 'super_admin@intt.gob.ve')
 puts '### ADMINISTRADOR CREADO ###'
 
-Rol.create!([{nombre:'Analista ET', funcion_sistemas: FuncionSistema.where(nombre: 'manage', clase_controlador: 'InteresadoCet')},
+Rol.create!([{nombre:'Analista ET', funcion_sistemas: FuncionSistema.where(nombre: 'manage', clase_controlador: [:InteresadoCet,:verificar_preinscripcion])},
              {nombre: 'Funcionario ET'},
              {nombre: 'Gerente Servicios Conexos'},
              {nombre:'Inspector ET'},

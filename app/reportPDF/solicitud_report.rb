@@ -15,7 +15,6 @@ class SolicitudReport < Prawn::Document
     header
     planilla
     font_size 8
-    start_new_page
     paginar
   end
 
@@ -126,8 +125,11 @@ class SolicitudReport < Prawn::Document
     end
   end
 
-  #dependiendo del tipo de solicitud escribe el cuadro correspondiente a cada tramite
-  def flota
+  def flota(list_flota)
+
+    return if list_flota.empty?
+
+    start_new_page if cursor <= 90
 
     indent(@@margin) do
       table_info = [
@@ -135,14 +137,14 @@ class SolicitudReport < Prawn::Document
       ]
       width_columns = [520]
       draw_table_titulos_columns(table_info, width_columns)
-      tabla_flota
+      tabla_flota(list_flota)
     end
   end
 
 
 
   #Dibuja la tabla de los vehiculos para la solicitud de aumento de cupo
-  def tabla_flota
+  def tabla_flota(list_flota)
     data = Array.new
     encabezado = make_table([ [{content: 'Placa', :width => 100, :size => 7},
                                {content: 'Modelo', :width => 100, :size => 7},
@@ -155,7 +157,7 @@ class SolicitudReport < Prawn::Document
                {content: encabezado, :colspan => 5, :width => 460, background_color: 'd7d7d7'},
                {content: "", :colspan => 1,:border_top_width => 0, :border_bottom_width => 0,  :width => 30}]
           ])
-    @solicitud.vehiculo_pres.each do |vehiculos|
+    list_flota.each_with_index do |vehiculos,index|
       data = make_table([ [{content: vehiculos.placa,:width => 100, :size => 7 },
                            {content: vehiculos.modelo, :width => 100, :size => 7},
                            {content: vehiculos.marca, :width => 100, :size => 7},
@@ -168,6 +170,13 @@ class SolicitudReport < Prawn::Document
                  {content: "", :colspan => 1, :border_top_width => 0, :border_bottom_width => 0, :width => 30} ]
 
             ])
+      if cursor <= 30
+        start_new_page
+        flota list_flota.slice(index,list_flota.length)
+        table([
+                  [{content: "", :colspan => 7, :border_top_width => 0, :width => 520}]
+              ])
+      end
     end
 
     table([
@@ -179,6 +188,7 @@ class SolicitudReport < Prawn::Document
 
   #Pie de la planilla para el solicitante  y el funcionario
   def pie_planilla
+
     sello = make_table([ [{content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 120}, {content: 'Sello:', :size => 6,  :border_bottom_width => 0 , :border_top_width => 1, :width => 100}, {content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 40}] ,
                          [{content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 120}, {content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 100}, {content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 40}],
                          [{content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 120}, {content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 100}, {content: '', :border_bottom_width => 0 , :border_top_width => 0, :width => 40}] ,
@@ -319,9 +329,10 @@ class SolicitudReport < Prawn::Document
     end
 
     # parte 5
-    flota
+    flota(@solicitud.vehiculo_pres)
 
     # parte 6
+    start_new_page if cursor <= 200
     indent(@@margin) do
       table_info = [
           [ 'Funcionario Receptor', 'Solicitante']
