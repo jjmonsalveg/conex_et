@@ -21,8 +21,9 @@
                   Fecha de la Solicitud
                 %th
                   Estado
-                - if @solicitud.completa? or @solicitud.diferida?
+                - if @solicitud.estado?(:completa) or @solicitud.estado?(:diferida)
                   %th
+                    Acciones
             %tbody
               %tr
                 %td
@@ -35,11 +36,11 @@
                   = @solicitud.servicio_intt.direccion
                 %td
                   = @solicitud.created_at.strftime("%d/%m/%Y")
-                %td
-                  = @solicitud.status.humanize
-                - if @solicitud.completa? or @solicitud.diferida?
-                  %td.text-center
-                    = link_to 'Verificar Solicitud', verificar_informacion_general_path(@solicitud.id), class: 'btn btn-primary'
+                -#%td
+                -#  = @solicitud.status.humanize
+                -#- if @solicitud.completa? or @solicitud.diferida?
+                -#  %td.text-center
+                -#    = link_to 'Verificar Solicitud', verificar_informacion_general_path(@solicitud.id), class: 'btn btn-primary'
       - else
         .ibox-content
           %p
