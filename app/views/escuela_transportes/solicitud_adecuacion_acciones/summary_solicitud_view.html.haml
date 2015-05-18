@@ -3,7 +3,7 @@
     .ibox.float-e-margins
       .ibox-content
         .row
-          -if @solicitud.estado?(:preparada) or (@solicitud.estado?(:completa) and (not @solicitud.locked))
+          -if (@solicitud.estado?(:registrada) and (not @solicitud.locked))
             .col-sm-2
               = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: @escuela_transporte),
                 data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},

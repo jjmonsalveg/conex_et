@@ -3,7 +3,7 @@ class EscuelaTransportes::PlanosInfraestructuraController < ApplicationControlle
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion
-  before_action :only_creada_solicitud
+  before_action :only_initial_solicitud
   before_action :cargar_representante
   helper_method :nombre_solicitud
 

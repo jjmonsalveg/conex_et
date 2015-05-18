@@ -10,7 +10,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def index
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    only_creada_solicitud
+    only_initial_solicitud
     # centinel =  @solicitud.personals.empty? ? true : false
     #
     # @solicitud.personals.each do  |personal|
@@ -29,20 +29,20 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def show
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    only_creada_solicitud
+    only_initial_solicitud
 
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
   end
 
   def edit
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    only_creada_solicitud
+    only_initial_solicitud
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
   end
 
   def find
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    only_creada_solicitud
+    only_initial_solicitud
   end
 
   def instructor_documents
@@ -112,7 +112,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
               'El ciudadano debe ser mayor de edad '
         else
           init_solicitud(nombre_solicitud,@escuela_transporte)
-          only_creada_solicitud
+          only_initial_solicitud
 
           params[:personal][:nombre]       = concatenar_cadenas(ciudadano.dnombre_1, ciudadano.dnombre_2)
           params[:personal][:apellido]     = concatenar_cadenas(ciudadano.dapellido_1,ciudadano.dapellido_2)
@@ -137,7 +137,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
 
   def update
     init_solicitud(nombre_solicitud,@escuela_transporte)
-    only_creada_solicitud
+    only_initial_solicitud
 
     @personal = @solicitud.personals.find_by(id: params[:personal_id])
 
@@ -159,7 +159,7 @@ class EscuelaTransportes::PersonalsController < ApplicationController
     personal= Personal.includes(:solicitud).find_by(id: params[:id])
     if personal.present?
       @escuela_transporte = @representante_legal.escuela_transportes.joins(:solicituds).where(solicituds:{id: personal.solicitud.id}).last
-      only_creada_solicitud
+      only_initial_solicitud
 
       if  @escuela_transporte.nil?
         flash[:danger] = 'Este Trabajador no existe para ninguna de sus Escuelas'

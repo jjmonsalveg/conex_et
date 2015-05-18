@@ -4,7 +4,7 @@ class EscuelaTransportes::VehiculosController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion , only: [:new, :create, :destroy,:index, :buscar_vehiculo_pre, :show, :edit, :update]
-  before_action :only_creada_solicitud , only: [:new, :create, :destroy,:index, :buscar_vehiculo_pre, :show, :edit, :update]
+  before_action :only_initial_solicitud , only: [:new, :create, :destroy,:index, :buscar_vehiculo_pre, :show, :edit, :update]
   before_action :set_vehiculo_placa, only: [:show, :edit, :update]
 
   def new

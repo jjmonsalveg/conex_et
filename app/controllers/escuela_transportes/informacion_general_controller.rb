@@ -14,7 +14,7 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
 
   def new
     @escuela_transporte = EscuelaTransporte.find_by(id: info_params[:escuela])
-    only_creada_solicitud
+    only_initial_solicitud
     @escuela_transporte.update_column(:tipo_escuela_id, TipoEscuela.find_by(id: info_params[:tipo_escuela]))
     @escuela_transporte.tipo_escuela = TipoEscuela.find_by(id: info_params[:tipo_escuela])
     load_solicitud @escuela_transporte
@@ -23,7 +23,7 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
   def update
     respond_to do |format|
       init_solicitud(nombre_solicitud,@escuela_transporte)
-      only_creada_solicitud
+      only_initial_solicitud
 
       if @escuela_transporte.update(escuela_transporte_doc_params) and @escuela_transporte.documento_requisito_paginados_completos?(nombre_vista,@solicitud)
         format.html { redirect_to escuela_transportes_cargar_planos_path(id: @escuela_transporte),
@@ -39,10 +39,10 @@ class EscuelaTransportes::InformacionGeneralController < ApplicationController
 
   def new_get
     load_solicitud @escuela_transporte
-    only_creada_solicitud
+    only_initial_solicitud
 
     @representante_legal = current_session_user.representante_legal
-    render template: 'escuela_transportes/informacion_general/new' if @solicitud.estado?(:creada)
+    render template: 'escuela_transportes/informacion_general/new' if @solicitud.estado?(:initial)
   end
 
   def nombre_solicitud

@@ -21,7 +21,7 @@
                   Fecha de la Solicitud
                 %th
                   Estado
-                - if @solicitud.estado?(:completa) or @solicitud.estado?(:diferida)
+                - if @solicitud.estado?(:registrada) or @solicitud.estado?(:diferida)
                   %th
                     Acciones
             %tbody
@@ -38,7 +38,7 @@
                   = @solicitud.created_at.strftime("%d/%m/%Y")
                 %td
                   = @solicitud.current_status.humanize
-                - if @solicitud.completa? or @solicitud.diferida?
+                - if @solicitud.estado?(:registrada) or @solicitud.estado?(:diferida)
                   %td.text-center
                     = link_to 'Verificar Solicitud', verificar_informacion_general_path(@solicitud.id), class: 'btn btn-primary'
       - else

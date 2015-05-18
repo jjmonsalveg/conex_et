@@ -56,7 +56,7 @@ class ApplicationController < ActionController::Base
         barcode = Barby::Code128B.new(data)
       end
       File.open(fname, 'w'){|f|
-            f.write barcode.to_png(height: 40, margin: 5)
+        f.write barcode.to_png(height: 40, margin: 5)
       }
     end
   end
@@ -100,7 +100,6 @@ class ApplicationController < ActionController::Base
 
   def set_escuela_transporte_preinscripcion
     @escuela_transporte = current_session_user.escuela_transportes.find_by(id: params_id)
-
     ## Si la escuela de transporte no pertenece al representante legal presente o ya la solicitud esta bloqueada
     if @escuela_transporte.nil? || @escuela_transporte.solicitud(nombre_solicitud).locked
       redirect_to root_path and return

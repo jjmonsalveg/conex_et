@@ -4,7 +4,7 @@ class SolicitudReport < Prawn::Document
   # Often-Used Constants
 
   @@interlineado            = 6
-  @@margin                  = 10
+  @@margin                  = 20
 
   def initialize(escuela_transporte, solicitud, default_options={})
     super(default_options)
@@ -126,13 +126,13 @@ class SolicitudReport < Prawn::Document
     end
   end
 
-  def flota(list_flota)
+  def flota(list_flota, recursive = false)
 
     return if list_flota.empty?
 
     start_new_page if cursor <= 90
 
-    indent(@@margin) do
+    indent(recursive ? 0 : @@margin) do
       table_info = [
           [{ content: "Flota (Vehículos)"}]
       ]
@@ -171,12 +171,13 @@ class SolicitudReport < Prawn::Document
                  {content: "", :colspan => 1, :border_top_width => 0, :border_bottom_width => 0, :width => 30} ]
 
             ])
-      if cursor <= 30
-        start_new_page
-        flota list_flota.slice(index,list_flota.length)
+      if cursor <= 40
         table([
                   [{content: "", :colspan => 7, :border_top_width => 0, :width => 520}]
               ])
+        start_new_page
+        flota list_flota.slice(index+1,list_flota.length), true if index+1 <= list_flota.length
+        return
       end
     end
 

@@ -23,7 +23,7 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
     if @solicitud.locked
       flash[:danger] = 'Solicitud esta siendo procesada no puede ser editada'
       redirect_to escuela_transportes_informacion_general_index_path
-    elsif @solicitud.estado?(:preparada) or @solicitud.estado?(:completa)
+    elsif @solicitud.estado?(:registrada)
       @solicitud.procesar_evento!(:modificar)
       redirect_to escuela_transportes_informacion_general_new_get_path(id: @escuela_transporte)
     else
@@ -34,7 +34,6 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
   def print
     respond_to do |format|
       format.pdf do
-        @solicitud.procesar_evento!(:imprimir_planilla)
         pdf = SolicitudReport.new(@escuela_transporte, @solicitud, :page_size => "LETTER")
         send_data pdf.render, filename: "solicitud_final.pdf", type: 'application/pdf'
       end
@@ -57,14 +56,14 @@ class EscuelaTransportes::SolicitudAdecuacionAccionesController < ApplicationCon
   end
 
   def check_solicitud_completa
-    if @solicitud.estado?(:creada)
+    if @solicitud.estado?(:initial)
       ruta = route_completar_adecuacion_construccion
       if ruta.present?
         flash[:danger] = 'Solicitud incompleta. Complete los Campos que son Obligatorios'
         redirect_to ruta
         return
       else
-        @solicitud.procesar_evento!(:preparar)
+        @solicitud.procesar_evento!(:registrar)
       end
     else
       flash[:danger] = 'Solicitud en estado no consistente con esta acción'

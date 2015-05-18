@@ -16,6 +16,7 @@
             %th
           %tbody
             - current_session_user.escuelas_preinscritas.each do |escuela|
+              -@escuela_transporte = escuela
               %tr
                 %td
                   = escuela.razonSocial
@@ -24,18 +25,19 @@
                 %td
                 - solicitud = escuela.solicitud(nombre_solicitud)
 
-                -if solicitud.estado?(:preparada) or (solicitud.estado?(:completa) and (not solicitud.locked))
+                -if solicitud.estado?(:registrada) and (not solicitud.locked)
                   .col-sm-6
                     = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),
                      data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
                     class: 'btn btn-primary btn-block'
-                -if solicitud.estado?(:preparada)  or solicitud.estado?(:completa)
+                -if solicitud.estado?(:registrada)
                   .col-sm-6
                     = link_to 'Ver Planilla', escuela_transportes_ver_solicitud_adecuacion_path(id: escuela),class: 'btn btn-warning btn-block'
-                - elsif solicitud.estado?(:creada)
+                - elsif solicitud.estado?(:initial)
                   .col-sm-6
                     = link_to 'Continuar Carga Documentos',
                       (route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela)),
                        class: 'btn btn-primary btn-block'
+
 
 

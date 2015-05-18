@@ -52,14 +52,10 @@ workflowPreinscripcion = WorkFlow.create!(nombre: 'WF_Preinscripcion',
 puts 'workflow preinscripción ET creado'
 # Creando Estados de Workflow Preincripcion
 
-st_creada       = EstadosWorkFlow.create!(nombre:'creada'   ,
+st_initial      = EstadosWorkFlow.create!(nombre:'initial'   ,
                                           Workflow_id: workflowPreinscripcion.id)
-st_preparada    = EstadosWorkFlow.create!(nombre:'preparada',
+st_registrada    = EstadosWorkFlow.create!(nombre:'registrada',
                                           Workflow_id: workflowPreinscripcion.id)
-st_completa     = EstadosWorkFlow.create!(nombre:'completa' ,
-                                          Workflow_id: workflowPreinscripcion.id)
-# st_modificada   = EstadosWorkFlow.create!(nombre:'modificada',
-#                                           Workflow_id: workflowPreinscripcion.id)
 st_para_estudio = EstadosWorkFlow.create!(nombre:'para_estudio',
                                           Workflow_id: workflowPreinscripcion.id)
 st_diferida     = EstadosWorkFlow.create!(nombre:'diferida'    ,
@@ -72,8 +68,7 @@ puts 'Estados de workflow preinscripción ET creado'
 
 # creando eventos de Workflow Preincripcion
 
-ev_preparar= EventosWorkFlow.create!(nombre:'preparar',Workflow_id: workflowPreinscripcion.id)
-ev_imprimir_planilla= EventosWorkFlow.create!(nombre:'imprimir_planilla',Workflow_id: workflowPreinscripcion.id)
+ev_registrar= EventosWorkFlow.create!(nombre:'registrar',Workflow_id: workflowPreinscripcion.id)
 ev_modificar= EventosWorkFlow.create!(nombre:'modificar',Workflow_id: workflowPreinscripcion.id)
 ev_hacer_inspeccion= EventosWorkFlow.create!(nombre:'hacer_inspeccion',Workflow_id: workflowPreinscripcion.id)
 ev_diferir= EventosWorkFlow.create!(nombre:'diferir',Workflow_id: workflowPreinscripcion.id)
@@ -83,30 +78,20 @@ ev_caducar= EventosWorkFlow.create!(nombre:'caducar',Workflow_id: workflowPreins
 puts 'Eventos de workflow preinscripción ET creado'
 
 # creando transiciones de workflow Preinscripcion
-#       st_creada  --  ev_preparar  -->st_preparada
-TransicionesWorkFlow.create!(estado_fuente_id:st_creada.id,estado_destino_id:st_preparada.id,EventosWorkFlow_id:ev_preparar.id)
+#       st_initial  --  ev_registrar  -->st_registrada
+TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id:st_registrada.id,EventosWorkFlow_id:ev_registrar.id)
 
-#       st_preparadas  --  ev_modificar  -->t_creada
-TransicionesWorkFlow.create!(estado_fuente_id:st_preparada.id,estado_destino_id:st_creada.id,EventosWorkFlow_id:ev_modificar.id)
+#       st_registada --  ev_modificar  -->t_initial
+TransicionesWorkFlow.create!(estado_fuente_id:st_registrada.id,estado_destino_id:st_initial.id,EventosWorkFlow_id:ev_modificar.id)
 
+#       st_initial --  ev_hacer_estudio -->st_para_estudio
+TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id: st_para_estudio.id,EventosWorkFlow_id: ev_hacer_estudio.id)
 
-#       st_preparada  --  ev_imprimir_planilla  -->st_completa
-TransicionesWorkFlow.create!(estado_fuente_id:st_preparada.id,estado_destino_id:st_completa.id,EventosWorkFlow_id:ev_imprimir_planilla.id)
+#       st_initial  --  ev_diferir  -->st_diferida
+TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id:st_diferida.id,EventosWorkFlow_id:ev_diferir.id)
 
-#       st_completa  --  ev_imprimir_planilla  -->st_completa
-TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id:st_completa.id,EventosWorkFlow_id:ev_imprimir_planilla.id)
-
-#       st_completa  --  ev_modificar -->st_creada
-TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id:st_creada.id,EventosWorkFlow_id:ev_modificar.id)
-
-#       st_completa  --  ev_hacer_estudio -->st_para_estudio
-TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id: st_para_estudio.id,EventosWorkFlow_id: ev_hacer_estudio.id)
-
-#       st_completa  --  ev_diferir  -->st_diferida
-TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id:st_diferida.id,EventosWorkFlow_id:ev_diferir.id)
-
-#       st_completa  --  ev_hacer_inspeccion  -->st_en_espera_de_inpeccion
-TransicionesWorkFlow.create!(estado_fuente_id:st_completa.id,estado_destino_id: st_en_espera_de_inpeccion.id,EventosWorkFlow_id: ev_hacer_inspeccion.id)
+#       st_initial  --  ev_hacer_inspeccion  -->st_en_espera_de_inpeccion
+TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id: st_en_espera_de_inpeccion.id,EventosWorkFlow_id: ev_hacer_inspeccion.id)
 
 #      st_diferida --  ev_caducar  -->st_caducada
 TransicionesWorkFlow.create!(estado_fuente_id:st_diferida.id,estado_destino_id:st_caducada.id,EventosWorkFlow_id:ev_caducar.id)
@@ -139,7 +124,7 @@ button_realizar_estudio    = Button.create!(helper_path:'estudiar_preinscripcion
 puts 'Asociaciones entre funcion sistemas y button creadas'
 
 #creando asociaciones entre Estados Work Flow y buttons
-st_creada.buttons.push( button_diferir_solicitud,
+st_initial.buttons.push( button_diferir_solicitud,
                         button_realizar_estudio,
                         button_realizar_inspeccion)
 

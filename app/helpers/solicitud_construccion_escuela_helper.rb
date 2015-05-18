@@ -1,7 +1,7 @@
 module SolicitudConstruccionEscuelaHelper
-  def only_creada_solicitud
+  def only_initial_solicitud
     init_solicitud(nombre_solicitud, @escuela_transporte)
-    unless @solicitud.estado?(:creada)
+    unless @solicitud.estado?(:initial)
       flash[:danger] = 'Debe Modificar datos de solicitud para ejecutar esta acción (haga click en Modificar)'
       redirect_to escuela_transportes_informacion_general_index_path and return
     end

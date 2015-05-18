@@ -4,7 +4,7 @@ class EscuelaTransportes::SegurosController < ApplicationController
   before_filter :autenticar_session_user!
   before_action :autorized_user
   before_action :set_escuela_transporte_preinscripcion, only: [:new, :create]
-  before_action :only_creada_solicitud, except:  :rif_aseguradora
+  before_action :only_initial_solicitud, except:  :rif_aseguradora
 
   def new
     @seguro = @solicitud.seguro || Seguro.new
