@@ -88,10 +88,10 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
 
 
   def block_solicitud
-    if @solicitud.creada? or @solicitud.preparada?
+    if @solicitud.estado?(:initial)
       flash[:danger]= 'Solicitud de Autorización de adecuación con este numero aún no puede ser verificada'
       redirect_to verificar_preinscripcions_path
-    elsif @solicitud.en_espera_de_inpeccion? or @solicitud.para_estudio?
+    elsif not (@solicitud.estado?(:registrada) or @solicitud.estado?(:diferida))
       redirect_to verificada_path(@solicitud)
     end
   end

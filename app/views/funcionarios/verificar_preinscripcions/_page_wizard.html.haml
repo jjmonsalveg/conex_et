@@ -14,7 +14,7 @@
 = render 'ayuda'
 
 .wrapper.wrapper-content
-  = render 'shared/servicio_intt_documentos', model: @solicitud.servicio_intt, nombre_tramite: nombre_tramite
+  = render 'shared/servicio_intt_documentos', model: @solicitud, nombre_vista_param: :informacion_general
   = render 'buttons_wizard',
             text_prev:text_prev,
             icon_prev: icon_prev,

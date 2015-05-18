@@ -124,7 +124,7 @@ button_realizar_estudio    = Button.create!(helper_path:'estudiar_preinscripcion
 puts 'Asociaciones entre funcion sistemas y button creadas'
 
 #creando asociaciones entre Estados Work Flow y buttons
-st_initial.buttons.push( button_diferir_solicitud,
+st_registrada.buttons.push( button_diferir_solicitud,
                         button_realizar_estudio,
                         button_realizar_inspeccion)
 

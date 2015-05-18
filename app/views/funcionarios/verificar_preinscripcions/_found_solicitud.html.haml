@@ -35,7 +35,7 @@
                 %td
                   = @solicitud.servicio_intt.direccion
                 %td
-                  = @solicitud.created_at.strftime("%d/%m/%Y")
+                  = @solicitud.planilla_time.strftime("%d/%m/%Y")
                 %td
                   = @solicitud.current_status.humanize
                 - if @solicitud.estado?(:registrada) or @solicitud.estado?(:diferida)
