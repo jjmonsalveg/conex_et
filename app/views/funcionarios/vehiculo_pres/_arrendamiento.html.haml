@@ -1,0 +1,75 @@
+.ibox.float-e-margins
+  .ibox-title
+    %h3
+      Contrato de arrendamiento
+  .ibox-content
+    %table.table.table-striped.table-bordered.table-condensed
+      %thead
+        %tr
+          %th
+            Año(s) de Duración del Contrato
+          %th
+            Fecha del Contrato
+          %th
+            Nº Tomo
+          %th
+            Nº Folio
+          %th
+            Notaria
+        %tbody
+          %tr
+            %td
+              #{vehiculo_pre.contrato_arrendamiento.duracion}
+            %td
+              #{vehiculo_pre.contrato_arrendamiento.fecha}
+            %td
+              #{vehiculo_pre.contrato_arrendamiento.tomo}
+            %td
+              #{vehiculo_pre.contrato_arrendamiento.folio}
+            %td
+              #{vehiculo_pre.contrato_arrendamiento.notaria}
+        %thead
+          %tr
+            %th{colspan: 3} Nombre / Razón Social Arrendatario
+            %th{colspan: 2} Identificación Arrendatario
+        %tbody
+          %tr
+            %td{colspan: 3}
+              #{vehiculo_pre.contrato_arrendamiento.nombre_arrendatario}
+            %td{colspan: 2}
+              #{vehiculo_pre.contrato_arrendamiento.rif_arrendatario}
+      %br/
+.box.float-e-margins
+  .ibox-title
+    %h3
+      Documentos del Arrendamiento
+  .ibox-content
+    - file = vehiculo_pre.contrato_arrendamiento.contrato_arrendamiento_file
+    .col-sm-3
+      .thumbnail.popUp
+        .file
+          -if file.to_s.split('/').last.split('.').last == 'pdf'
+            %a{'data-toggle'=>"modal" ,'data-target'=>"#showPdfModal",
+               'data-document' => file.url}
+              .icon
+                %i{class:'fa fa-file'}
+          -else
+            = link_to image_tag(file.url, size: '200x150'),
+             file.url, rel: 'lightbox',
+             "data-title" =>'Contrato de Arrendamiento del Vehículo'
+        .caption
+          %h3
+            Contrato de Arrendamiento Notariado
+          %h6
+            %strong Nombre:
+            =file.to_s.split('/').last
+          %h6
+            %strong Obligatorio:
+            Si
+        .po-content.hidden
+          .po-title
+            %strong Descripcion:
+          .po-body
+            %p.text-justify
+              %strong
+                Contrato de Arrendamiento del Vehículo

@@ -16,11 +16,12 @@
             Fecha de Vencimiento
         %tbody
           %tr
+            -seguro||= @solicitud.seguro
             %td.text-center
-              #{@solicitud.seguro.aseguradora.nombre}
+              #{seguro.aseguradora.nombre}
             %td.text-center
-              #{@solicitud.seguro.aseguradora.rif}
+              #{seguro.aseguradora.rif}
             %td.text-center
-              #{@solicitud.seguro.num_poliza}
+              #{seguro.num_poliza}
             %td.text-center
-              #{@solicitud.seguro.fecha_vencimiento.strftime("%d/%m/%Y")}
+              #{seguro.fecha_vencimiento.strftime("%d/%m/%Y")}

@@ -14,12 +14,66 @@
             #{vehiculo_pre.ano}
           %span{style:'color:#245F93',class:'col-sm-3'}
             Modelo:
-            #{vehiculo_pre.modelo}"
+            #{vehiculo_pre.modelo}
   .panel-collapse.collapse{"aria-labelledby" => "heading-#{vehiculo_pre.id}", :id => "collapse-#{vehiculo_pre.id}", :role => "tabpanel"}
     .panel-body
-      - vehiculo_pre.documentos.each_with_index do |documento, index|
-        - if index % 4 == 0
-          .row
-            .col-sm-12
-        =render 'shared/previsualizar_documento', documento: documento
+      .box.float-e-margins
+        .ibox-title
+          %h3
+            Datos del vehiculo
+        .ibox-content
+          %table.table.table-bordered.table-striped.table-condensed
+            %thead
+              %tr
+                %th
+                  Marca
+                %th
+                  Color
+                %th
+                  Capacidad
+                %th
+                  Uso
+                %th
+                  Nro Puestos
+                %th
+                  Tipo
+                %th
+                  Capacidad
+                %th
+                  Propietario
+                %th
+                  Rif/CI
+            %tbody
+
+              %tr
+                %td
+                  = vehiculo_pre.marca
+                %td
+                  = vehiculo_pre.color
+                %td
+                  = vehiculo_pre.capacidad
+                %td
+                  = vehiculo_pre.uso
+                %td
+                  = vehiculo_pre.puesto
+                %td
+                  = vehiculo_pre.tipo_vehiculo
+                %td
+                  = vehiculo_pre.capacidad
+                %td
+                  =vehiculo_pre.propietario
+                %td
+                  = vehiculo_pre.identificacion_propietario
+      = render 'funcionarios/verificar_preinscripcions/info_rcv_flota', seguro: vehiculo_pre.seguro if vehiculo_pre.seguro.present?
+      .box
+        .ibox-title
+          %h3
+            Documentos del Vehículo
+        .ibox-content
+          - vehiculo_pre.documentos.each_with_index do |documento, index|
+            - if index % 4 == 0
+              .row
+                .col-sm-12
+            =render 'shared/previsualizar_documento', documento: documento
+      = render 'funcionarios/vehiculo_pres/arrendamiento', vehiculo_pre:vehiculo_pre unless vehiculo_pre.contrato_arrendamiento.nil?
 

@@ -31,7 +31,7 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
   def wf_verificar_vehiculos
     @vehiculos = VehiculoPre.includes(:documentos,:seguro,:contrato_arrendamiento)
                      .where(solicitud_id:@solicitud)
-                     .order(id: :asc).paginate(page: params[:page] , per_page: 3)
+                     .order(id: :asc).paginate(page: params[:page] , per_page: 5)
   end
 
   def wf_verificar_circuirtos_manejo
