@@ -3,12 +3,13 @@
     .ibox.float-e-margins
       .ibox-content
         .row
-          -if (@solicitud.estado?(:registrada) and (not @solicitud.locked))
+          - booleanModificar =(@solicitud.estado?(:registrada) and (not @solicitud.locked))
+          -if booleanModificar
             .col-sm-2
               = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: @escuela_transporte),
                 data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
                 class: 'btn btn-primary btn-block'
-          .col-sm-2.col-sm-offset-8
+          .col-sm-2{class: booleanModificar ? 'col-sm-offset-8':'col-sm-offset-10'}
             = link_to  escuela_transportes_print_solicitud_adecuacion_path(format: :pdf, id: @solicitud), class: 'btn btn-success btn-block' do
               %i.fa.fa-file-pdf-o
               Imprimir a PDF

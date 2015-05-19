@@ -11,10 +11,12 @@
           = 'ayuda'
           %i.fa.fa-info-circle
 
-= render 'ayuda'
-
+  = render 'ayuda'
+-partial_middle_param ||= nil
+-model ||= @solicitud
 .wrapper.wrapper-content
-  = render 'shared/servicio_intt_documentos', model: @solicitud, nombre_vista_param: :informacion_general
+  = render partial_middle_param if partial_middle_param.present?
+  = render 'shared/servicio_intt_documentos', model: model, nombre_vista_param: nombre_vista
   = render 'buttons_wizard',
             text_prev:text_prev,
             icon_prev: icon_prev,

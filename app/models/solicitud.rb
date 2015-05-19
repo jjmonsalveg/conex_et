@@ -169,7 +169,15 @@ class Solicitud < ActiveRecord::Base
     return estado == current_status.to_sym
   end
   ###########FIN_WORKFLOW###############################
+  def lock!
+    self.locked = true
+    save!
+  end
 
+  def unlock!
+    self.locked = false
+    save!
+  end
   private
 
   def init_workflow

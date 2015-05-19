@@ -1,0 +1,26 @@
+.ibox.float-e-margins
+  .ibox-title
+    %h3
+      Datos Del Seguro
+  .ibox-content
+    %table.table.table-striped.table-bordered.table-condensed
+      %thead
+        %tr
+          %th.text-center
+            Aseguradora
+          %th.text-center
+            Rif Aseguradora
+          %th.text-center
+            Nº de poliza
+          %th.text-center
+            Fecha de Vencimiento
+        %tbody
+          %tr
+            %td.text-center
+              #{@solicitud.seguro.aseguradora.nombre}
+            %td.text-center
+              #{@solicitud.seguro.aseguradora.rif}
+            %td.text-center
+              #{@solicitud.seguro.num_poliza}
+            %td.text-center
+              #{@solicitud.seguro.fecha_vencimiento.strftime("%d/%m/%Y")}

@@ -23,6 +23,9 @@ class Seguro < ActiveRecord::Base
   belongs_to :solicitud
 
   #DOCUMENTOS - NESTED ES OBLIGATORIO
+  #config/includes
+  include ModeloGeneral::ManageDocument
+
   has_many :documentos,  dependent: :destroy, as: :modelo
   accepts_nested_attributes_for :documentos, allow_destroy: true
 end

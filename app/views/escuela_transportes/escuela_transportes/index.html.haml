@@ -70,6 +70,5 @@
                         = link_to  representante_legal_escuela_transporte_path(@representante_legal,operadora_escuela_transporte) , method: :delete,
                         data: { confirm:'¿Seguro que desea Borrar Escuela de transporte?' } do
                           %i.fa.fa-trash-o
-                      - else
                         = link_to edit_escuela_transportes_update_rif_path(id: operadora_escuela_transporte) do
                           Actualizar RIF

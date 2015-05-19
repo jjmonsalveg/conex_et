@@ -1,0 +1,6 @@
+=render 'page_wizard', partial: 'breadcrumb_rcv', nombre_vista: :rcv_flota,
+partial_middle_param:'info_rcv_flota',model: @solicitud.seguro,
+url_prev: verificar_planos_path(@solicitud), url_next: verificar_vehiculos_path(@solicitud),
+text_prev:'Regresar',icon_prev:  '<i class="fa  fa-step-backward"></i>',
+text_next: 'Continuar',icon_next: '<i class="fa fa-step-forward"></i>',
+is_final_page:false

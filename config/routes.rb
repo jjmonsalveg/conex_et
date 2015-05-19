@@ -40,19 +40,24 @@ Rails.application.routes.draw do
         to: 'verificar_preinscripcions#wf_verificar_informacion_general',
         as: :verificar_informacion_general
 
-    get 'verificar_preinscripcion_escuela/vehiculos/:id',
-        to: 'verificar_preinscripcions#wf_verificar_vehiculos',
-        as: :verificar_vehiculos
-
     get 'verificar_preinscripcion_escuela/planos_infraestructura/:id',
         to: 'verificar_preinscripcions#wf_verificar_planos',
         as: :verificar_planos
 
-    get 'verificar_preinscripcion_escuela/planillas_manejo/:id',
-        to: 'verificar_preinscripcions#wf_verificar_planillas_manejo',
-        as: :verificar_planillas
+    get 'verificar_preinscripcion_escuela/rcv/:id',
+        to: 'verificar_preinscripcions#wf_verificar_rcv_flota',
+        as: :verificar_rcv
 
-    #1.2.1.3 Acciones sobre las Preeinscripciones
+
+    get 'verificar_preinscripcion_escuela/vehiculos/:id',
+        to: 'verificar_preinscripcions#wf_verificar_vehiculos',
+        as: :verificar_vehiculos
+
+    get 'verificar_preinscripcion_escuela/circuitos_manejo/:id',
+        to: 'verificar_preinscripcions#wf_verificar_circuitos_manejo',
+        as: :verificar_circuitos
+
+    #1.2.1.3 Acciones sobre Verificaciones de Solicitud Adecuacion y construccion
     get 'diferir_preinscripcion_escuela/:id',
         to: 'verificar_preinscripcions#wf_diferir_solicitud',
         as: :diferir_preinscripcion_escuela
@@ -64,6 +69,10 @@ Rails.application.routes.draw do
     get 'estudiar_preinscripcion_escuela/:id',
         to: 'verificar_preinscripcions#wf_realizar_estudio',
         as: :estudiar_preinscripcion_escuela
+
+    get 'cancelar_preinscripcion_escuela/:id',
+        to: 'verificar_preinscripcions#wf_cancelar_inspeccion',
+        as: :cancelar_preinscripcion_escuela
 
     get 'solicitud_procesada/:id',
         to: 'verificar_preinscripcions#wf_solitud_procesada',
@@ -137,26 +146,35 @@ Rails.application.routes.draw do
     #6.1 Editar el RIF en caso de que este vencido
     resources :update_rif, only: [:edit, :update]
 
-    #6.0 Documentos del Registro Inicial
+    #6.2 Documentos del Registro Inicial
     get 'cargar_documentos_registro/:id', to:'documentos_registros#new',as: :cargar_documentos_registro
     post 'documentos_registro/:id', to:'documentos_registros#create',as: :documentos_registro
 
-    #6.1 Informacion General e Inicio
+    #6.3 WIZARD
+    #6.3.1 Informacion General e Inicio
     resources :informacion_general, only: [:index, :create, :update, :edit]
     post 'informacion_general/new', to: 'informacion_general#new', as: 'informacion_general_new'
     get 'informacion_general/new', to: 'informacion_general#new_get', as: 'informacion_general_new_get'
 
-    #6.2 Documentos de Vehiculos
-    resources :vehiculos
-    post 'vehiculos/buscar_vehiculo_pre', to: 'vehiculos#buscar_vehiculo_pre'
-
-    #6.3 Documentos Planos de Infraestructura
+    #6.3.2 Documentos Planos de Infraestructura
     get  'cargar_planos_infraestructura/:id', to:'planos_infraestructura#new',
          as: :cargar_planos
     post 'guardar_planos_infraestructura/:id', to:'planos_infraestructura#create',
          as: :guardar_planos
 
-    #6.4 Modelos de Planillas para practica de manejo
+    #6.3.3 Seguro RCV
+    resources :seguros, only: [:new, :create]
+    patch '/seguros/', to: 'seguros#create'
+    post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
+
+    #6.3.4 Documentos de Vehiculos
+    resources :vehiculos
+    post 'vehiculos/buscar_vehiculo_pre', to: 'vehiculos#buscar_vehiculo_pre'
+    delete '/eliminar_circuito/:id',
+           to: 'circuitos_manejo#eliminar_circuito',
+           as: :eliminar_circuito
+
+    #6.3.5 Circuitos de manejo
     get  'listar_circuitos_manejo/:id', to: 'circuitos_manejo#index_circuitos',
          as: :index_circuitos
     get  'ver_circuito_manejo/:id', to: 'circuitos_manejo#show',
@@ -172,23 +190,7 @@ Rails.application.routes.draw do
     patch 'actualizar_circuito_manejo/:id', to:'circuitos_manejo#actualizar_circuito',
           as: :actualizar_circuito
 
-    delete '/eliminar_circuito/:id',
-           to: 'circuitos_manejo#eliminar_circuito',
-           as: :eliminar_circuito
-
-
-    #6.5 Seguro RCV
-    resources :seguros, only: [:new, :create]
-    patch '/seguros/', to: 'seguros#create'
-    post '/rif/', to: 'seguros#rif_aseguradora', as: :rif_a
-
-    #6.6 Planilla de Solicitud
-    get 'solicitud/preparar/:id',to:'solicitud_adecuacion_acciones#preparar_solicitud', as: :preparar_solicitud_adecuacion
-    get 'solicitud/modificar/:id',to:'solicitud_adecuacion_acciones#modificar_solicitud', as: :modificar_solicitud_adecuacion
-    get 'solicitud/print', to: 'solicitud_adecuacion_acciones#print', as: :print_solicitud_adecuacion
-    get 'solicitud/ver', to: 'solicitud_adecuacion_acciones#ver', as: :ver_solicitud_adecuacion
-
-    #6.7 Trabajadores
+    #6.3.6 Trabajadores
     get 'listar_personal/:id',to: 'personals#index', as: :listar_personals ,constraints: {id: /\d+/}
     get 'find/:id', to:'personals#find',as: :encontrar_personal
     get 'instructor_documents/', to: 'personals#instructor_documents'
@@ -198,6 +200,13 @@ Rails.application.routes.draw do
     post 'found/:id', to: 'personals#found', as: :encontro_personal
     post 'save/:id', to: 'personals#save', as: :guardar_personal
     delete 'remove/:id', to: 'personals#remove', as: :eliminar_personal
+
+
+    #6.3.7 Planilla de Solicitud
+    get 'solicitud/preparar/:id',to:'solicitud_adecuacion_acciones#preparar_solicitud', as: :preparar_solicitud_adecuacion
+    get 'solicitud/modificar/:id',to:'solicitud_adecuacion_acciones#modificar_solicitud', as: :modificar_solicitud_adecuacion
+    get 'solicitud/print', to: 'solicitud_adecuacion_acciones#print', as: :print_solicitud_adecuacion
+    get 'solicitud/ver', to: 'solicitud_adecuacion_acciones#ver', as: :ver_solicitud_adecuacion
 
   end
 end

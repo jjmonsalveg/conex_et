@@ -22,17 +22,19 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
   def wf_verificar_informacion_general
   end
 
-  def wf_verificar_vehiculos
-    @vehiculos = VehiculoPre.includes(:documentos).where(escuela_transporte_id:
-                                                             @solicitud
-                                                                 .servicio_intt_id)
-                     .order(id: :asc).paginate(page: params[:page] , per_page: 10)
-  end
-
   def wf_verificar_planos
   end
 
-  def wf_verificar_planillas_manejo
+  def wf_verificar_rcv_flota
+  end
+
+  def wf_verificar_vehiculos
+    @vehiculos = VehiculoPre.includes(:documentos,:seguro,:contrato_arrendamiento)
+                     .where(solicitud_id:@solicitud)
+                     .order(id: :asc).paginate(page: params[:page] , per_page: 3)
+  end
+
+  def wf_verificar_circuirtos_manejo
   end
 
   #Acciones tomadas sobre la solicitud
@@ -47,6 +49,11 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
 
   def wf_realizar_estudio
     establecer_nuevo_estado(:para_estudio)
+  end
+
+  def wf_cancelar_inspeccion
+    @solicitud.unlock!
+    redirect_to verificar_preinscripcions_path
   end
 
   def wf_solitud_procesada
@@ -91,8 +98,10 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
     if @solicitud.estado?(:initial)
       flash[:danger]= 'Solicitud de Autorización de adecuación con este numero aún no puede ser verificada'
       redirect_to verificar_preinscripcions_path
-    elsif not (@solicitud.estado?(:registrada) or @solicitud.estado?(:diferida))
+    elsif not ( @solicitud.estado?(:registrada) or @solicitud.estado?(:diferida) )
       redirect_to verificada_path(@solicitud)
+    elsif @solicitud.estado?(:registrada) or @solicitud.estado?(:diferida)
+      @solicitud.lock!
     end
   end
 

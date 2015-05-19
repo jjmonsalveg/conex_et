@@ -4,40 +4,43 @@
       Continuar Preinscripción de Escuela de Transporte
   .ibox-content
     .row
-      .col-md-12
+      .col-sm-12
         %table.table.table-striped
           %thead
-            %th
-              Número de Trámite
-            %th
+            %th.col-sm-3.text-center
               Razón Social de la Escuela de Transporte
-            %th
+            %th.col-sm-2.text-center
               RIF
-            %th
+            %th.col-sm-2.text-center
+              Estado
+            %th.col-sm-5.text-center
+              Acciones
           %tbody
             - current_session_user.escuelas_preinscritas.each do |escuela|
               -@escuela_transporte = escuela
               %tr
-                %td
+                %td.col-sm-3.text-center
                   = escuela.razonSocial
-                %td
+                %td.col-sm-2.text-center
                   = escuela.rif_show
-                %td
-                - solicitud = escuela.solicitud(nombre_solicitud)
+                %td.col-sm-2.text-center
+                  =escuela.solicitud(:preinscripcion).current_status
+                %td.col-sm-5.text-center
+                  - solicitud = escuela.solicitud(nombre_solicitud)
 
-                -if solicitud.estado?(:registrada) and (not solicitud.locked)
-                  .col-sm-6
-                    = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),
-                     data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
-                    class: 'btn btn-primary btn-block'
-                -if solicitud.estado?(:registrada)
-                  .col-sm-6
-                    = link_to 'Ver Planilla', escuela_transportes_ver_solicitud_adecuacion_path(id: escuela),class: 'btn btn-warning btn-block'
-                - elsif solicitud.estado?(:initial)
-                  .col-sm-6
-                    = link_to 'Continuar Carga Documentos',
-                      (route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela)),
-                       class: 'btn btn-primary btn-block'
+                  -if solicitud.estado?(:registrada) and (not solicitud.locked)
+                    .col-sm-6.text-center
+                      = link_to 'Modificar',escuela_transportes_modificar_solicitud_adecuacion_path(id: escuela),
+                       data:{confirm:'Al modificar se creara una nueva solicitud y está debe imprimirse. ¿Desea Modificar?'},
+                      class: 'btn btn-primary btn-block'
+                  -if solicitud.estado?(:registrada)
+                    .col-sm-6.text-center
+                      = link_to 'Ver Planilla', escuela_transportes_ver_solicitud_adecuacion_path(id: escuela),class: 'btn btn-warning btn-block'
+                  - elsif solicitud.estado?(:initial)
+                    .col-sm-12.text-center
+                      = link_to 'Continuar Carga Documentos',
+                        (route_completar_adecuacion_construccion(solicitud)||escuela_transportes_listar_personals_path(id: escuela)),
+                         class: 'btn btn-primary btn-block'
 
 
 
