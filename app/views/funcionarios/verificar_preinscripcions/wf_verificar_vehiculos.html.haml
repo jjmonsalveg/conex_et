@@ -6,11 +6,12 @@
           Verificación de Solicitud de Autorización Adecuación
         %ol.breadcrumb
           %li
-            = link_to 'Inicio', root_url
+            = link_to 'Información General',verificar_informacion_general_path(@solicitud)
           %li
-            = link_to 'Consultar otra Solicitud',verificar_preinscripcions_path
-          %li
-            = link_to 'Información General',verificar_informacion_general_path
+            = link_to 'Planos de Infraestructura',verificar_planos_path(@solicitud)
+          -if @solicitud.seguro_por_flota?
+            %li
+              =link_to 'Seguro RCV por Flota',verificar_rcv_path(@solicitud)
           %li
             %strong
               Vehículos Registrados
@@ -32,12 +33,13 @@
           =render 'funcionarios/vehiculo_pres/show_vehiculos'
 
   = render 'shared/show_modal_pdf'
+  -url = @solicitud.seguro_por_flota? ? verificar_rcv_path(@solicitud) : verificar_planos_path(@solicitud)
 
   = render 'buttons_wizard',
             text_prev:'Regresar',
             icon_prev: '<i class="fa  fa-step-backward"></i>',
-            url_prev: verificar_informacion_general_path(@solicitud) ,
+            url_prev: url,
             text_next: 'Continuar',
             icon_next: '<i class="fa fa-step-forward"></i>',
-            url_next: verificar_planos_path(@solicitud),
+            url_next: verificar_circuitos_path(@solicitud),
             is_final_page:false

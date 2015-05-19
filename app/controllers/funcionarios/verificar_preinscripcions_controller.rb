@@ -34,7 +34,7 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
                      .order(id: :asc).paginate(page: params[:page] , per_page: 5)
   end
 
-  def wf_verificar_circuirtos_manejo
+  def wf_verificar_circuitos_manejo
   end
 
   #Acciones tomadas sobre la solicitud
