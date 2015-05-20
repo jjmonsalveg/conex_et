@@ -1,0 +1,29 @@
+.panel.panel-default
+  .panel-heading{:id => "heading-#{personal.id}", :role => "tab"}
+    %h4.panel-title
+      .row
+        %a{"aria-controls" => "collapse-#{personal.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{personal.id}"}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Nombre:
+            #{personal.nombre}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Apellido:
+            #{personal.apellido}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Cedula:
+            #{personal.nacionalidad+ personal.cedula}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Tipo de personal:
+            #{personal.tipo_personal.to_s.capitalize}
+  .panel-collapse.collapse{"aria-labelledby" => "heading-#{personal.id}", :id => "collapse-#{personal.id}", :role => "tabpanel"}
+    .panel-body
+      .box
+        .ibox-title
+          %h3
+            Documentos del Trabajador
+        .ibox-content
+          - personal.documentos.each_with_index do |documento, index|
+            - if index % 4 == 0
+              .row
+                .col-sm-12
+            =render 'shared/previsualizar_documento', documento: documento

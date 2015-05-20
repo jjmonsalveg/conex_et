@@ -23,4 +23,4 @@
       .po-body
         %p.text-justify
           %strong
-            =documento.documentos_requisitos_por_vista.documento_requisito.descripcion.gsub(':','')
+            =documento.documentos_requisitos_por_vista.documento_requisito.descripcion.gsub(/:\z/,'')
