@@ -1,0 +1,24 @@
+.panel.panel-default
+  .panel-heading{:id => "heading-#{circuito.id}", :role => "tab"}
+    %h4.panel-title
+      .row
+        %a{"aria-controls" => "collapse-#{circuito.id}", "aria-expanded" => "true", "data-parent" => "#accordion", "data-toggle" => "collapse", :href => "#collapse-#{circuito.id}"}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Tipo de circuito:
+            #{circuito.tipo_circuito.to_s.humanize}
+          %span{style:'color:#245F93',class:'col-sm-3'}
+            Descripción de Ruta:
+            #{circuito.descripcion_ruta}
+  .panel-collapse.collapse{"aria-labelledby" => "heading-#{circuito.id}", :id => "collapse-#{circuito.id}", :role => "tabpanel"}
+    .panel-body
+      .box
+        .ibox-title
+          %h3
+            Documentos del Circuito
+        .ibox-content
+          - circuito.documentos.each_with_index do |documento, index|
+            - if index % 4 == 0
+              .row
+                .col-sm-12
+            =render 'shared/previsualizar_documento', documento: documento
+

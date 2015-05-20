@@ -35,8 +35,15 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
   end
 
   def wf_verificar_circuitos_manejo
+    @circuitos = Circuito.includes(:documentos).where(solicitud_id: @solicitud)
+                     .order(id: :asc).paginate(page: params[:page] , per_page: 5)
   end
 
+  def wf_verificar_trabajadores
+    @trabajadores = Personal.includes(:documentos).where(solicitud_id: @solicitud)
+                        .order(id: :asc).paginate(page: params[:page] , per_page: 5)
+
+  end
   #Acciones tomadas sobre la solicitud
   def wf_diferir_solicitud
     establecer_nuevo_estado(:diferida)

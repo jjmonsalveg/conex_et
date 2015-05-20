@@ -1,0 +1,46 @@
+.row.wrapper.border-bottom.white-bg.page-heading
+  .col-sm-12
+    .row
+      .col-sm-10
+        %h2
+          Verificación de Solicitud de Autorización Adecuación
+        %ol.breadcrumb
+          %li
+            = link_to 'Información General',verificar_informacion_general_path(@solicitud)
+          %li
+            = link_to 'Planos de Infraestructura',verificar_planos_path(@solicitud)
+          -if @solicitud.seguro_por_flota?
+            %li
+              =link_to 'Seguro RCV por Flota',verificar_rcv_path(@solicitud)
+          %li
+            =link_to 'Vehiculos Registrados', verificar_vehiculos_path(@solicitud)
+          %li
+            %strong
+              Registro de Circuitos de Manejo
+      .col-sm-2.col-sm-offset-10
+        = link_to  "#", class: "btn btn-info", id: 'help-verificar-preinscripcion' do
+          = 'ayuda'
+          %i.fa.fa-info-circle
+
+= render 'ayuda'
+
+.wrapper.wrapper-content
+  .row.animated.fadeInRight
+    .col-md-12
+      .ibox.float-e-margins
+        - if @solicitud.nil?
+          .ibox-content
+            Error - No se ha encontrado la solicitud.
+        - else
+          =render 'funcionarios/circuitos/show_circuitos'
+
+  = render 'shared/show_modal_pdf'
+
+  = render 'buttons_wizard',
+            text_prev:'Regresar',
+            icon_prev: '<i class="fa  fa-step-backward"></i>',
+            url_prev: verificar_vehiculos_path(@solicitud),
+            text_next: 'Continuar',
+            icon_next: '<i class="fa fa-step-forward"></i>',
+            url_next: verificar_trabajadores_path(@solicitud),
+            is_final_page:false

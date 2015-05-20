@@ -57,6 +57,10 @@ Rails.application.routes.draw do
         to: 'verificar_preinscripcions#wf_verificar_circuitos_manejo',
         as: :verificar_circuitos
 
+    get 'verificar_preinscripcion_escuela/trabajadores/:id',
+        to: 'verificar_preinscripcions#wf_verificar_trabajadores',
+        as: :verificar_trabajadores
+    
     #1.2.1.3 Acciones sobre Verificaciones de Solicitud Adecuacion y construccion
     get 'diferir_preinscripcion_escuela/:id',
         to: 'verificar_preinscripcions#wf_diferir_solicitud',
