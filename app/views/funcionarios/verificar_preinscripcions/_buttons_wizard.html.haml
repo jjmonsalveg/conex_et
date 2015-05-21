@@ -9,10 +9,11 @@
               class: "btn btn-info" do
                 = icon_prev.html_safe
                 = text_prev
-          .col-sm-2.col-sm-offset-2
-            = link_to  diferir_preinscripcion_escuela_path,class: "btn btn-danger" do
-              %i.fa.fa-archive
-              Diferir Solicitud
+          -unless @solicitud.estado?(:diferir)
+            .col-sm-2.col-sm-offset-2
+              = link_to  diferir_preinscripcion_escuela_path,class: "btn btn-danger" do
+                %i.fa.fa-archive
+                Diferir Solicitud
           .col-sm-2
             = link_to  cancelar_preinscripcion_escuela_path(@solicitud), class: "btn btn-warning" do
               %i.fa.fa-history
@@ -20,14 +21,14 @@
           .col-sm-2.col-sm-offset-2
             - if is_final_page
               .row
-                = link_to  estudiar_preinscripcion_escuela_path,
+                = link_to  estudiar_preinscripcion_escuela_path(@solicitud),
                 class: "btn btn-success col-sm-12",
                 data:  { confirm:' ¿Esta seguro de enviar a estudio esta solicitud?',
                 disable_with: "Por favor  espere..."} do
                   %i.fa.fa-user
                   Hacer Estudio
               .row
-                = link_to  inspeccionar_preinscripcion_escuela_path,
+                = link_to  inspeccionar_preinscripcion_escuela_path(@solicitud),
                 class: "btn btn-success col-sm-12",
                 data:  { confirm:' ¿Esta seguro de enviar a inspección esta solicitud?',
                 disable_with: "Por favor  espere..."}  do

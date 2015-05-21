@@ -16,7 +16,9 @@ administrador = Funcionario.create!(login:'intt_super_admin',
                                     email: 'super_admin@intt.gob.ve')
 puts '### ADMINISTRADOR CREADO ###'
 
-Rol.create!([{nombre:'Analista ET', funcion_sistemas: FuncionSistema.where(nombre: 'manage', clase_controlador: [:InteresadoCet,:verificar_preinscripcion])},
+Rol.create!([{nombre:'Analista ET', funcion_sistemas:
+                 FuncionSistema.where(nombre: 'manage',
+                                      clase_controlador: [:InteresadoCet,:verificar_preinscripcion])},
              {nombre: 'Funcionario ET'},
              {nombre: 'Gerente Servicios Conexos'},
              {nombre:'Inspector ET'},
@@ -85,16 +87,22 @@ TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id:st
 TransicionesWorkFlow.create!(estado_fuente_id:st_registrada.id,estado_destino_id:st_initial.id,EventosWorkFlow_id:ev_modificar.id)
 
 #       st_initial --  ev_hacer_estudio -->st_para_estudio
-TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id: st_para_estudio.id,EventosWorkFlow_id: ev_hacer_estudio.id)
+TransicionesWorkFlow.create!(estado_fuente_id:st_registrada.id,estado_destino_id: st_para_estudio.id,EventosWorkFlow_id: ev_hacer_estudio.id)
 
 #       st_initial  --  ev_diferir  -->st_diferida
-TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id:st_diferida.id,EventosWorkFlow_id:ev_diferir.id)
+TransicionesWorkFlow.create!(estado_fuente_id:st_registrada.id,estado_destino_id:st_diferida.id,EventosWorkFlow_id:ev_diferir.id)
 
 #       st_initial  --  ev_hacer_inspeccion  -->st_en_espera_de_inpeccion
-TransicionesWorkFlow.create!(estado_fuente_id:st_initial.id,estado_destino_id: st_en_espera_de_inpeccion.id,EventosWorkFlow_id: ev_hacer_inspeccion.id)
+TransicionesWorkFlow.create!(estado_fuente_id:st_registrada.id,estado_destino_id: st_en_espera_de_inpeccion.id,EventosWorkFlow_id: ev_hacer_inspeccion.id)
 
 #      st_diferida --  ev_caducar  -->st_caducada
 TransicionesWorkFlow.create!(estado_fuente_id:st_diferida.id,estado_destino_id:st_caducada.id,EventosWorkFlow_id:ev_caducar.id)
+
+#      st_diferida --   ev_hacer_inspeccion   -->st_en_espera_de_inpeccion
+TransicionesWorkFlow.create!(estado_fuente_id:st_diferida.id,estado_destino_id:st_en_espera_de_inpeccion.id,EventosWorkFlow_id:ev_hacer_inspeccion.id)
+
+#      st_diferida -- ev_hacer_estudio -->st_para_estudio
+TransicionesWorkFlow.create!(estado_fuente_id:st_diferida.id,estado_destino_id:st_para_estudio.id,EventosWorkFlow_id:ev_hacer_estudio.id)
 puts 'Transiciones de workflow preinscripción ET creado'
 
 #cargando funcion sistemas asociadas con cambios de estados en Work flow

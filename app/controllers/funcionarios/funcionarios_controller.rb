@@ -1,7 +1,5 @@
 class Funcionarios::FuncionariosController < ApplicationController
   before_filter :autenticar_funcionario!
-  load_and_authorize_resource
-  before_filter :cargar_permisos
   def get_info
     if Funcionario.find_by_cedula(params[:cedula]).nil?
       @funcionario = Funcionario.saime_find(params[:prefijo],params[:cedula], fix_fecha_nacimiento)

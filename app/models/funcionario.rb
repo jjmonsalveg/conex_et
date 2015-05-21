@@ -126,7 +126,7 @@ class Funcionario < ActiveRecord::Base
     if persona.nil?
       "No se encontro un ciudadano con esa cédula."
     else
-      (persona.dnacionalidad == prefijo && persona.ffecha_nac == fecha_nacimiento)  ? Funcionario.new(nombre: persona.dnombre_1 + " "+ (persona.dnombre_2 || ""), apellido: persona.dapellido_1 + " "+ (persona.dapellido_2 || ""), nacionalidad: persona.dnacionalidad, cedula: persona.ccedula, sexo: persona.dsexo) : "No se encontro un ciudadano con esa cédula."
+      (persona.dnacionalidad == prefijo && persona.ffecha_nac.to_date == fecha_nacimiento)  ? Funcionario.new(nombre: persona.dnombre_1 + " "+ (persona.dnombre_2 || ""), apellido: persona.dapellido_1 + " "+ (persona.dapellido_2 || ""), nacionalidad: persona.dnacionalidad, cedula: persona.ccedula, sexo: persona.dsexo) : "No se encontro un ciudadano con esa cédula."
     end
   end
 

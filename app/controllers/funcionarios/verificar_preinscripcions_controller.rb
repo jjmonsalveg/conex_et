@@ -46,16 +46,16 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
   end
   #Acciones tomadas sobre la solicitud
   def wf_diferir_solicitud
-    establecer_nuevo_estado(:diferida)
+    disparar_evento_and_historial(:diferir)
   end
 
 
   def wf_realizar_inspeccion
-    establecer_nuevo_estado(:en_espera_de_inpeccion)
+    disparar_evento_and_historial(:hacer_inspeccion)
   end
 
   def wf_realizar_estudio
-    establecer_nuevo_estado(:para_estudio)
+    disparar_evento_and_historial(:hacer_estudio)
   end
 
   def wf_cancelar_inspeccion
@@ -69,34 +69,33 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
 
   private
 
-  def establecer_nuevo_estado(state)
+  def disparar_evento_and_historial(event)
+
+    if event == :diferir and @solicitud.estado?(:diferida)
+      redirect_to verificada_path(@solicitud)
+      return
+    end
+
     Solicitud.transaction do
       block_solicitud
 
-      if params[:observacion].blank? and state == :rechazada
-        flash[:danger]='El campo observación es obligatorio'
-        redirect_to verificar_informacion_general_path(@solicitud.id)
-      else
-        initial_status = @solicitud.status
-        @solicitud.status = state
-        if @solicitud.save!
-          array_status =Solicitud.statuses
-          TrazaSolicitudFuncionario.create!(
-              solicitud_id: @solicitud.id,
-              funcionario_id:current_usuario.id,
-              observacion: params[:observacion],
-              estado_inicial: array_status[initial_status.to_sym],
-              estado_final:   array_status[@solicitud.status.to_sym],
-              ip_funcionario: current_usuario.current_sign_in_ip
+      initial_status = @solicitud.estado
 
-          )
-          flash[:success]= "Solicitud cuyo numero de tramite es #{@solicitud.id} esta #{state.to_s.humanize} satisfactoriamente"
-          redirect_to verificar_preinscripcions_path
-        else
-          flash[:danger]= "Solicitud cuyo numero de tramite es #{@solicitud.id} no fue modificada de Estado Error del sistema"
-          redirect_to verificar_preinscripcions_path
-        end
+      if @solicitud.procesar_evento!(event)
+        TrazaSolicitudFuncionario.create!(
+            solicitud_id: @solicitud.id,
+            funcionario_id:current_usuario.id,
+            estado_inicial: initial_status.id,
+            estado_final:   @solicitud.estado.id,
+            ip_funcionario: current_usuario.current_sign_in_ip
+        )
+        flash[:success]= "Solicitud cuyo numero de tramite es #{@solicitud.id} esta #{@solicitud.current_status.to_s.humanize} satisfactoriamente"
+        redirect_to verificar_preinscripcions_path
+      else
+        flash[:danger]= "Solicitud cuyo numero de tramite es #{@solicitud.id} no fue modificada de Estado Error del sistema"
+        redirect_to verificar_preinscripcions_path
       end
+
     end
   end
 

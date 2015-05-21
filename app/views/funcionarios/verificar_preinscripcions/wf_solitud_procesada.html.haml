@@ -9,31 +9,33 @@
           .panel-body
             -@info.each do |traza|
               .row-col-sm-10
-                %p.text-justify
-                  %strong
-                    Procesada Por:
-                  = traza['funcionario']
-                %p.text-justify
-                  %strong
-                    Cedula:
-                  =traza['cedula']
-                %p.text-justify
-                  %strong
-                    Dirección Ip de acceso:
-                  =traza['ip_funcionario']
-                %p.text-justify
-                  %strong
-                    Respuesta a solicitud:
-                  = @solicitud.status.humanize.titleize
-                - datatime =traza['created_at'].to_datetime.strftime("%I:%M %P")
-                %p.text-justify
-                  %strong
-                    Fecha procesamiento:
-                  =datatime.split('T').first
-                %p.text-justify
-                  %strong
-                    Hora procesamiento:
-                  =datatime.split('+').first.split('T').last
+                .box
+                  .ibox-title.text-center
+                    %strong
+                      Respuesta a solicitud:
+                    = @solicitud.current_status.humanize.titleize
+                  .ibox-content
+                    %p.text-justify
+                      %strong
+                        Procesada Por:
+                      = traza['funcionario']
+                    %p.text-justify
+                      %strong
+                        Cedula:
+                      =traza['cedula']
+                    %p.text-justify
+                      %strong
+                        Dirección Ip de acceso:
+                      =traza['ip_funcionario']
+                    - datatime =traza['created_at'].to_datetime.strftime("%I:%M %P")
+                    %p.text-justify
+                      %strong
+                        Fecha procesamiento:
+                      =datatime.split('T').first
+                    %p.text-justify
+                      %strong
+                        Hora procesamiento:
+                      =datatime.split('+').first.split('T').last
 
     .row.col-sm-12.col-sm-offset-10
       =link_to 'Verificar Otra solicitud', verificar_preinscripcions_path,

@@ -124,7 +124,7 @@ class Solicitud < ActiveRecord::Base
        public.funcionarios as f
     WHERE
        s.id = ts.solicitud_id AND
-       f.id = ts.funcionario_id AND s.id= #{self.id} AND ts.estado_final IN (5,4)
+       f.id = ts.funcionario_id AND s.id= #{self.id} AND ts.estado_final BETWEEN 3 AND 6
     ORDER BY
        created_at;")
   end
@@ -154,11 +154,11 @@ class Solicitud < ActiveRecord::Base
 
     if estado_prox.nil?
       errors.add(:base,"No existe Transición asociada al evento #{nombre_evento} para el estado de solicitud (#{current_status})")
+      false
     else
       self.estados_work_flow_id = estado_prox #estado actual
       save!
     end
-
   end
 
   def proximos_estados
