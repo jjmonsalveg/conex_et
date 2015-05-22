@@ -26,5 +26,6 @@ module ConexEt
     config.time_zone = 'Caracas'
     config.active_record.default_timezone = :local
     config.autoload_paths += %W["#{config.root}/app/validators/"]
+    config.active_job.queue_adapter = :delayed_job
   end
 end

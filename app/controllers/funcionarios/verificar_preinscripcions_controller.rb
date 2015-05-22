@@ -82,6 +82,7 @@ class Funcionarios::VerificarPreinscripcionsController < ApplicationController
       initial_status = @solicitud.estado
 
       if @solicitud.procesar_evento!(event)
+        CaducarSolicitudPreinscripcionJob.set(wait: 120.seconds).perform_later(@solicitud) if event == :diferir
         TrazaSolicitudFuncionario.create!(
             solicitud_id: @solicitud.id,
             funcionario_id:current_usuario.id,
