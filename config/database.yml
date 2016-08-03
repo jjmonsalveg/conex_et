@@ -3,7 +3,7 @@ default: &default
    host: localhost
    adapter: postgresql
    username: postgres
-   password: 123456
+   password: postgres
 
 development:
   <<: *default
@@ -25,7 +25,7 @@ server_saime: &server_saime
   host: 192.168.0.103
   adapter: postgresql
   username: postgres
-  password: 123456
+  password: postgres
   schema_search_path: 'public'
 
 saime_development:
@@ -45,7 +45,7 @@ server_sput: &server_sput
   host: 192.168.0.103
   adapter: postgresql
   username: postgres
-  password: 123456
+  password: postgres
   schema_search_path: 'public'
 
 sput_development:
@@ -67,7 +67,7 @@ server_inttt: &server_inttt
   host: localhost
   adapter: postgresql
   username: postgres
-  password: 123456
+  password: postgres
   schema_search_path: 'public'
 
 inttt_database:

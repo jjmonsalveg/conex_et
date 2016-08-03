@@ -46,17 +46,17 @@ class SessionUser < ActiveRecord::Base
   include ShowAtributosHelper
 
   #validates
-  validates_presence_of :email_confirmation , on: :create
-  validates :email,:length => {  maximum: 50,
-                                 message:
-                                  'Email debe contener máximo 50 caracteres'
-            }
-  validates_format_of :email, with: VALID_EMAIL_REGEX
-  validates_confirmation_of :email,
-                            message: 'Correo y su confirmación no coincide'
-  validates :usuario_sput_id,
-            uniqueness: {message: 'Error del sistema, no duplicados de registro'}
-  validate :correos_diferentes
+  # validates_presence_of :email_confirmation , on: :create
+  # validates :email,:length => {  maximum: 50,
+  #                                message:
+  #                                 'Email debe contener máximo 50 caracteres'
+  #           }
+  # validates_format_of :email, with: VALID_EMAIL_REGEX
+  # validates_confirmation_of :email,
+  #                           message: 'Correo y su confirmación no coincide'
+  # validates :usuario_sput_id,
+  #           uniqueness: {message: 'Error del sistema, no duplicados de registro'}
+  # validate :correos_diferentes
 
   def correos_diferentes
     if self.usuario_sput.correo_alterno == self.email

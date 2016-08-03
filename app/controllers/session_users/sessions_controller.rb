@@ -18,15 +18,15 @@ class SessionUsers::SessionsController < Devise::SessionsController
     after_sign_in_path_modified(resource)
     # fin super
 
-    if resource.representante_legal.temporal?
-      flash[:warning]= 'Debes cambiar tu clave para activar tu cuenta'
-      redirect_to cambio_contrasena_session_user_path
-      return
-    else
+    # if resource.representante_legal.temporal?
+    #   flash[:warning]= 'Debes cambiar tu clave para activar tu cuenta'
+    #   redirect_to cambio_contrasena_session_user_path
+    #   return
+    # else
       set_flash_message(:notice, :signed_in) if is_flashing_format?
       redirect_to root_path
       return
-    end
+    # end
 
   end
 
